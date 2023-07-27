@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalSyle } from './styles/GlobalStyled.ts';
 import theme from './styles/Theme.ts';
 import App from './App.tsx';
-import './styles/variables.css';
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
