@@ -33,9 +33,21 @@ a{
   font-weight: inherit;
 }
 .spacing {
-  width: min(80vmax, 95%);
-  max-width: 1440px;
+  width: min(70vmax, 95%);
+  max-width: 1080px;
   margin: 0 auto;
 }
 
 
+.blueLight300{
+  background-color: #77A6B8;
+}
+.blueLight100 {
+background-color: #8FC2D6;
+}
+.blueLight500 {
+background-color: #4798B7;
+}
+.blueLight400 {
+background-color: #59AAD7;
+}
