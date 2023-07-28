@@ -1,14 +1,15 @@
 import Button from '@mui/material/Button';
-import styled from 'styled-components';
+import { styled } from '@mui/material/styles';
 
 interface CotainedButtonProps {
   text: string;
 }
 
-const CustomButton = styled(Button)`
-  border-radius: ${(props) => props.theme.border.primary} !important;
-  background-color: ${(props) => props.theme.light.blue600} !important;
-`;
+const CustomButton = styled(Button)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.primary.main,
+  padding: '0.7rem 1.8rem',
+}));
 
 export default function ContainedButton({ text }: CotainedButtonProps) {
   return (
@@ -17,3 +18,5 @@ export default function ContainedButton({ text }: CotainedButtonProps) {
     </CustomButton>
   );
 }
+
+// styled('div')(() => ({}))

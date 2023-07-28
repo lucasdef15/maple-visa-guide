@@ -1,21 +1,22 @@
-import styled from 'styled-components';
+import { styled } from '@mui/material/styles';
 import Slider from './slider/index';
-// import Carousel from './slider/Carousel';
 
-const MainContent = styled.main`
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  place-content: center;
-  margin-top: 3rem;
-  margin-bottom: 10rem;
-  & p {
-    color: ${(props) => props.theme.light.grey500};
-  }
-  & .hero-title {
-    margin-bottom: 3rem;
-  }
-`;
+const MainContent = styled('main')(({ theme }) => ({
+  textAlign: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  placeContent: 'center',
+  '& .hero-title': {
+    marginBlock: '3rem',
+  },
+  '& h1': {
+    fontSize: '48px',
+    color: theme.palette.primary.main,
+  },
+  '& p': {
+    color: theme.palette.text.secondary,
+  },
+}));
 
 export default function Hero() {
   return (
@@ -27,7 +28,6 @@ export default function Hero() {
           realidade!
         </p>
       </div>
-
       <Slider />
     </MainContent>
   );

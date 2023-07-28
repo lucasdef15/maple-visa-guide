@@ -1,23 +1,20 @@
-const theme = {
-  dark: {
-    primary: '#000',
-    text: '#fff',
-  },
-  light: {
-    primary: '#fff',
-    text: '#000',
-    blue600: '#01487c',
-    blue700: '#000088',
-    blue800: '#01244a',
+import { createTheme } from '@mui/material';
 
-    white100: '#fff',
-    white200: '#f7f7f7',
-
-    grey500: '#00000083',
+const Theme = createTheme({
+  palette: {
+    common: {
+      black: '#000',
+      white: '#fff',
+    },
+    primary: {
+      main: '#01244a',
+      light: '#01487c',
+      dark: '#01244a',
+    },
   },
-  border: {
-    primary: '25px',
+  shape: {
+    borderRadius: 25,
   },
-};
+});
 
-export default theme;
+export default Theme;
