@@ -3,21 +3,13 @@ import { styled } from '@mui/material/styles';
 import blog from '/assets/svgs/blog.svg';
 import experiencia from '/assets/svgs/experiencia.svg';
 import valiosa from '/assets/svgs/valiosa.svg';
-import Button from './Button';
+import Button from '../buttons/Button';
 import Video from './Video';
+import { Typography } from '@mui/material';
 
 const StyledSection = styled('div')(({ theme }) => ({
   marginBlock: '220px',
   counterReset: 'my-counter',
-
-  '& h2': {
-    fontSize: '48px',
-    fontWeight: 'bold',
-  },
-  '& p': {
-    fontSize: '18px',
-    color: theme.palette.primary.main,
-  },
 }));
 
 const StyledCard = styled('div')(({ theme }) => ({
@@ -60,8 +52,12 @@ export default function VideoSection() {
     <StyledSection className='spacing'>
       <Stack direction='row' spacing={2} justifyContent='space-between'>
         <Stack justifyContent='space-between'>
-          <h2>Apoio em Cada Etapa!</h2>
-          <p>Estamos aqui para ajudar você em cada etapa do proceso</p>
+          <Typography fontSize='48px' fontWeight='bold'>
+            Apoio em Cada Etapa!
+          </Typography>
+          <Typography fontSize='16px' color='text.secondary'>
+            Estamos aqui para ajudar você em cada etapa do proceso
+          </Typography>
           <ButtonWrapper>
             <Button text='Ver Mais' />
           </ButtonWrapper>
@@ -71,19 +67,25 @@ export default function VideoSection() {
             <StyledCard>
               <img src={experiencia} alt='experiencia' />
             </StyledCard>
-            <p style={{ marginTop: '10px' }}>Experiência única</p>
+            <Typography color='text.secondary' sx={{ marginTop: '5px' }}>
+              Experiência única
+            </Typography>
           </Stack>
           <Stack alignItems='center'>
             <StyledCard>
               <img src={valiosa} alt='valiosa' />
             </StyledCard>
-            <p style={{ marginTop: '10px' }}>Dicas valiosas</p>
+            <Typography color='text.secondary' sx={{ marginTop: '5px' }}>
+              Dicas valiosas
+            </Typography>
           </Stack>
           <Stack alignItems='center'>
             <StyledCard>
               <img src={blog} alt='blog' />
             </StyledCard>
-            <p style={{ marginTop: '10px' }}>Blog atualizado</p>
+            <Typography color='text.secondary' sx={{ marginTop: '5px' }}>
+              Blog atualizado
+            </Typography>
           </Stack>
         </Stack>
       </Stack>

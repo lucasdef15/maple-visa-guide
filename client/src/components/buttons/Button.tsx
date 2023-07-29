@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 
@@ -14,9 +15,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 export default function ContainedButton({ text }: CotainedButtonProps) {
   return (
     <CustomButton variant='contained' href='#contained-buttons'>
-      {text}
+      <Typography fontWeight='bold'>{text}</Typography>
     </CustomButton>
   );
 }
-
-// styled('div')(() => ({}))

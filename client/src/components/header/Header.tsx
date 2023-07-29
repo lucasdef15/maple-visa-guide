@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import logo from '/logo.svg';
 import BadgeAvatars from './BadgeAvatars';
-import ContainedButton from './Button';
+import ContainedButton from '../buttons/Button';
 import { NavLink } from 'react-router-dom';
 
 const HeaderStrip = styled('div')(({ theme }) => ({

@@ -7,13 +7,16 @@ const Theme = createTheme({
       white: '#fff',
     },
     primary: {
-      main: '#01244a',
+      main: '#000088',
       light: '#01487c',
       dark: '#01244a',
     },
   },
   shape: {
     borderRadius: 25,
+  },
+  typography: {
+    fontFamily: "'Candara', 'system-ui'",
   },
 });
 

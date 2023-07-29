@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import Slider from './slider/index';
+import Slider from '../slider/index';
 
 const MainContent = styled('main')(({ theme }) => ({
   textAlign: 'center',
