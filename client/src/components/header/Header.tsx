@@ -5,7 +5,7 @@ import ContainedButton from '../buttons/Button';
 import { NavLink } from 'react-router-dom';
 
 const HeaderStrip = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.light,
   textAlign: 'center',
   padding: '1rem',
   fontWeight: 700,

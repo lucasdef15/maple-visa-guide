@@ -52,7 +52,7 @@ export default function VideoSection() {
     <StyledSection className='spacing'>
       <Stack direction='row' spacing={2} justifyContent='space-between'>
         <Stack justifyContent='space-between'>
-          <Typography fontSize='48px' fontWeight='bold'>
+          <Typography fontSize='48px' fontWeight='bold' color='primary.dark'>
             Apoio em Cada Etapa!
           </Typography>
           <Typography fontSize='16px' color='text.secondary'>

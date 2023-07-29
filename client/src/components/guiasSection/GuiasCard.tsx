@@ -29,7 +29,7 @@ const CardHeader = styled('div')(({ theme }) => ({
     height: '50px',
   },
   '& svg': {
-    fill: theme.palette.primary.main,
+    fill: theme.palette.primary.dark,
     width: '50px',
     height: '50px',
   },
@@ -48,7 +48,7 @@ const CardItem = styled(Stack)(({ theme }) => ({
   '& .circle': {
     width: '20px',
     height: '20px',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.dark,
     borderRadius: '50%',
     display: 'grid',
     placeContent: 'center',
