@@ -10,7 +10,7 @@ const StyledAccordion = styled(Accordion)(({ theme }) => ({
   maxWidth: '846px',
   borderRadius: '10px',
   background: '#ffffff',
-  boxShadow: '5px 5px 0px 0px #008',
+  boxShadow: '5px 5px 0px 0px #01244a',
   color: theme.palette.primary.dark,
   overflow: 'hidden',
 }));

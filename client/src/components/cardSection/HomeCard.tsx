@@ -11,13 +11,12 @@ interface CardProps {
 }
 
 const SubTitleStyles = styled('span')(({ theme }) => ({
-  backgroundColor: '#ffffff47',
+  backgroundColor: '#bababa77',
   fontSize: '13px',
   width: 'fit-content',
   padding: '.1rem .5rem',
   borderRadius: theme.shape.borderRadius,
   fontWeight: 'light',
-  color: '#ffffffb0',
 }));
 
 const StyledCard = styled(Card)(() => ({
@@ -85,7 +84,9 @@ export default function HomeCard({
             <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>
               {artist}
             </Typography>
-            <SubTitleStyles>Senior Strategist</SubTitleStyles>
+            <SubTitleStyles style={{ color: `${color} !important` }}>
+              Senior Strategist
+            </SubTitleStyles>
           </Stack>
         </Stack>
       </StyledCard>

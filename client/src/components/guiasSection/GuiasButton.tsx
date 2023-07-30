@@ -9,7 +9,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   fontWeight: 'bold',
   backgroundColor: theme.palette.common.black,
   fontSize: '20px',
-  boxShadow: '5px 5px 0px 0px #008',
+  boxShadow: `5px 5px 0px 0px ${theme.palette.primary.dark}`,
 }));
 
 export default function GuiasButton() {

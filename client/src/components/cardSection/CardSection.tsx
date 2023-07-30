@@ -55,8 +55,8 @@ export default function CardSection() {
                 sx={{
                   fontWeight: '500',
                   fontSize: 16,
-                  letterSpacing: '.8px',
-                  lineHeight: '28px',
+                  letterSpacing: '.5px',
+                  lineHeight: '27px',
                   color: 'white',
                 }}
               >
@@ -68,7 +68,7 @@ export default function CardSection() {
           <HomeCard
             body={cardThreeBody}
             artist='Andreas Larry'
-            bgColor='#e9efffd1'
+            bgColor='#ecececd1'
             color='222222'
             size='404px'
             avatar={man1}
