@@ -6,7 +6,7 @@ import man1 from '/assets/imgs/man1.jpg';
 import { Stack, Card, CardContent, Typography } from '@mui/material';
 
 const StyledContainer = styled('div')(() => ({
-  marginBlock: '200px',
+  marginBottom: '200px',
 }));
 
 export default function CardSection() {

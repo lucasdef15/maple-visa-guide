@@ -7,8 +7,9 @@ import Button from '../buttons/Button';
 import Video from './Video';
 import { Typography } from '@mui/material';
 
-const StyledSection = styled('div')(({ theme }) => ({
-  marginBlock: '220px',
+const StyledSection = styled('div')(() => ({
+  marginBottom: '100px',
+  marginTop: '200px',
   counterReset: 'my-counter',
 }));
 
