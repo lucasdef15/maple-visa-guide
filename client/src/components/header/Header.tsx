@@ -3,6 +3,7 @@ import logo from '/logo.svg';
 import BadgeAvatars from './BadgeAvatars';
 import ContainedButton from '../buttons/Button';
 import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const HeaderStrip = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
@@ -24,8 +25,20 @@ const Logo = styled('div')(() => ({
 
 const HeaderStyle = styled('header')(({ theme }) => ({
   display: 'flex',
-  paddingBlock: '2rem',
+  justifyContent: 'center',
+  paddingBlock: '1.5rem',
+  background: '#f7f7f7ea',
+  boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.137)',
 
+  width: '100%',
+  position: 'sticky',
+  zIndex: '99999',
+  top: 0,
+  '& .header-wrapper': {
+    display: 'flex',
+    width: '100%',
+    maxWidth: '1080px',
+  },
   '& nav': {
     display: 'flex',
     justifyContent: 'space-between',
@@ -49,6 +62,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
     content: '""',
     position: 'absolute',
     width: '100%',
+
     opacity: 1,
     height: '1px',
     bottom: '-5px',
@@ -79,6 +93,27 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 }));
 
 export default function Header() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
+  const [showHeader, setShowHeader] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const position = window.scrollY || window.pageYOffset;
+      setScrollPosition(position);
+
+      setShowHeader(position < lastScrollPosition);
+      setLastScrollPosition(position);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    console.log(showHeader);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollPosition]);
+
   return (
     <>
       <HeaderStrip>
@@ -87,34 +122,41 @@ export default function Header() {
           Now?
         </p>
       </HeaderStrip>
-      <HeaderStyle className='spacing'>
-        <Logo>
-          <img src={logo} alt='logo' />
-        </Logo>
-        <nav>
-          <ul>
-            <li>
-              <NavLink to='/'>Home</NavLink>
-            </li>
-            <li>
-              <NavLink to='/sobre'>Sobre</NavLink>
-            </li>
-            <li>
-              <NavLink to='/contato'>Contato</NavLink>
-            </li>
-            <li>
-              <NavLink to='/assinantes'>Assinantes</NavLink>
-            </li>
-          </ul>
-          <ul>
-            <li className='not'>
-              <BadgeAvatars />
-            </li>
-            <li className='not'>
-              <ContainedButton text='Sign Up' />
-            </li>
-          </ul>
-        </nav>
+      <HeaderStyle
+        style={{
+          top: showHeader ? 0 : '-200px',
+          transition: 'top 0.3s',
+        }}
+      >
+        <div className='header-wrapper'>
+          <Logo>
+            <img src={logo} alt='logo' />
+          </Logo>
+          <nav>
+            <ul>
+              <li>
+                <NavLink to='/'>Home</NavLink>
+              </li>
+              <li>
+                <NavLink to='/sobre'>Sobre</NavLink>
+              </li>
+              <li>
+                <NavLink to='/contato'>Contato</NavLink>
+              </li>
+              <li>
+                <NavLink to='/assinantes'>Assinantes</NavLink>
+              </li>
+            </ul>
+            <ul>
+              <li className='not'>
+                <BadgeAvatars />
+              </li>
+              <li className='not'>
+                <ContainedButton text='Sign Up' />
+              </li>
+            </ul>
+          </nav>
+        </div>
       </HeaderStyle>
     </>
   );
