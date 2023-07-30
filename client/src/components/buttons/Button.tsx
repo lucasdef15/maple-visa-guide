@@ -8,8 +8,12 @@ interface CotainedButtonProps {
 
 const CustomButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.primary.main,
+  backgroundImage: 'linear-gradient(45deg, #000046 0%, #1CB5E0 90%)',
   padding: '0.7rem 1.8rem',
+  transition: 'background-image 1s ease-in-out',
+  '&:hover': {
+    backgroundImage: 'linear-gradient(60deg, #000046 0%, #1CB5E0 90%)',
+  },
 }));
 
 export default function ContainedButton({ text }: CotainedButtonProps) {

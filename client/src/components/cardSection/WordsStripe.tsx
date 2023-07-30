@@ -14,7 +14,7 @@ export default function WordsStripe() {
       justifyContent='space-between'
       alignItems='center'
       spacing={2}
-      sx={{ marginBlock: 5 }}
+      sx={{ marginBottom: 5 }}
     >
       <CardButtonStyle className='blueLight100'>Strategy</CardButtonStyle>
       <CardButtonStyle className='blueLight300'>Results</CardButtonStyle>

@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <VideoSection />
       <CardSection />
+      <VideoSection />
       <GuiasHeader />
       <GuiasSection />
       <FaqSection />

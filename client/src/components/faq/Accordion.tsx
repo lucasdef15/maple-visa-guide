@@ -9,7 +9,7 @@ import { Stack } from '@mui/material';
 const StyledAccordion = styled(Accordion)(({ theme }) => ({
   maxWidth: '846px',
   borderRadius: '10px',
-  background: '#EBEBF1',
+  background: '#ffffff',
   boxShadow: '5px 5px 0px 0px #008',
   color: theme.palette.primary.dark,
   overflow: 'hidden',

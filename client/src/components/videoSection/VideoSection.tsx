@@ -8,7 +8,7 @@ import Video from './Video';
 import { Typography } from '@mui/material';
 
 const StyledSection = styled('div')(() => ({
-  marginBottom: '100px',
+  marginBottom: '200px',
   marginTop: '200px',
   counterReset: 'my-counter',
 }));
