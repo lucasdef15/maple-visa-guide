@@ -4,15 +4,25 @@ import BadgeAvatars from './BadgeAvatars';
 import ContainedButton from '../buttons/Button';
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { AiFillPhone } from 'react-icons/ai';
+import { IoMdMail } from 'react-icons/io';
+import { Stack } from '@mui/material';
 
 const HeaderStrip = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   textAlign: 'center',
-  padding: '1rem',
+  padding: '.7rem',
   fontWeight: 700,
   fontSize: '18px',
-  '& p ': {
+  '& span': {
     color: theme.palette.common.white,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '18px',
+    '& svg': {
+      marginRight: '10px',
+    },
   },
 }));
 
@@ -116,10 +126,21 @@ export default function Header() {
   return (
     <>
       <HeaderStrip>
-        <p>
-          Come on quickly join our service, to maintain real estate. Register
-          Now?
-        </p>
+        <Stack
+          className='spacing'
+          direction='row'
+          alignItems='center'
+          spacing={5}
+        >
+          <span>
+            <AiFillPhone />
+            +1 (416) 900-8111
+          </span>
+          <span>
+            <IoMdMail />
+            info@newintercambio.com
+          </span>
+        </Stack>
       </HeaderStrip>
       <HeaderStyle
         style={{
