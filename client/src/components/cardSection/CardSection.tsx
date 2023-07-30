@@ -8,10 +8,10 @@ import { Stack, Card, CardContent, Typography } from '@mui/material';
 const StyledContainer = styled('div')(() => ({
   marginBlock: '200px',
   width: '100%',
-  height: '70vh',
+  height: '75vh',
   backgroundColor: '#08AEEA',
   backgroundImage:
-    ' linear-gradient(-90deg, #08AEEA 0%, #2AF598 100%); --mask:radial-gradient(24.60px at 50% 34.50px,#000 99%,#0000 101%) calc(50% - 30px) 0/60px 51% repeat-x,radial-gradient(24.60px at 50% -19.5px,#0000 99%,#000 101%) 50% 15px/60px calc(51% - 15px) repeat-x,radial-gradient(24.60px at 50% calc(100% - 34.50px),#000 99%,#0000 101%) calc(50% - 30px) 100%/60px 51% repeat-x,radial-gradient(24.60px at 50% calc(100% + 19.50px),#0000 99%,#000 101%) 50% calc(100% - 15px)/60px calc(51% - 15px) repeat-x;-webkit-mask: var(--mask);mask: var(--mask);',
+    ' linear-gradient(24deg, #01244A 0%, #005385 100%); --mask:radial-gradient(24.60px at 50% 34.50px,#000 99%,#0000 101%) calc(50% - 30px) 0/60px 51% repeat-x,radial-gradient(24.60px at 50% -19.5px,#0000 99%,#000 101%) 50% 15px/60px calc(51% - 15px) repeat-x,radial-gradient(24.60px at 50% calc(100% - 34.50px),#000 99%,#0000 101%) calc(50% - 30px) 100%/60px 51% repeat-x,radial-gradient(24.60px at 50% calc(100% + 19.50px),#0000 99%,#000 101%) 50% calc(100% - 15px)/60px calc(51% - 15px) repeat-x;-webkit-mask: var(--mask);mask: var(--mask);',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -35,8 +35,8 @@ export default function CardSection() {
           <HomeCard
             body={cardOneBody}
             artist='Chistine Lawson'
-            bgColor='#01487C'
-            color='white'
+            bgColor='#ffffffe8'
+            color='#222'
             size='324px'
             avatar={woman}
           />
@@ -44,11 +44,11 @@ export default function CardSection() {
             sx={{
               minHeight: '234px',
               maxWidth: '290px',
-              background: '#6a6ac9',
+              background: '#ffffffe8',
             }}
           >
             <CardContent>
-              <Typography fontSize='38px' color='white' fontWeight='bold'>
+              <Typography fontSize='38px' color='#222' fontWeight='bold'>
                 100%
               </Typography>
               <Typography
@@ -57,7 +57,7 @@ export default function CardSection() {
                   fontSize: 16,
                   letterSpacing: '.5px',
                   lineHeight: '27px',
-                  color: 'white',
+                  color: '#222',
                 }}
               >
                 As orientações detalhadas no guia garantem sucesso na
@@ -68,8 +68,8 @@ export default function CardSection() {
           <HomeCard
             body={cardThreeBody}
             artist='Andreas Larry'
-            bgColor='#ecececd1'
-            color='222222'
+            bgColor='#ffffffe8'
+            color='#222'
             size='404px'
             avatar={man1}
           />

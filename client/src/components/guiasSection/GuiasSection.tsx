@@ -8,8 +8,9 @@ import GuiasButton from './GuiasButton';
 
 const Spikes = styled('section')(() => ({
   position: 'relative',
-  backgroundColor: '#21D4FD',
-  backgroundImage: 'linear-gradient(19deg, #21D4FD 0%, #B721FF 100%)',
+  backgroundColor: '#01244A',
+  background:
+    'linear-gradient(to bottom right, #01244A 0%, #005385 50%) bottom right / 50% 50% no-repeat, linear-gradient(to bottom left, #01244A 0%, #005385 50%) bottom left / 50% 50% no-repeat, linear-gradient(to top left, #01244A 0%, #005385 50%) top left / 50% 50% no-repeat, linear-gradient(to top right, #01244A 0%, #005385 50%) top right / 50% 50% no-repeat;',
   marginBlock: '100px',
   height: '92vh',
   maxHeight: '750px',

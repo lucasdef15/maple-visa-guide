@@ -14,7 +14,7 @@ const StyledSection = styled('div')(() => ({
 }));
 
 const StyledCard = styled('div')(({ theme }) => ({
-  backgroundColor: '#00009926',
+  backgroundColor: '#00009914',
   borderRadius: theme.shape.borderRadius,
   width: '155px',
   height: '150px',

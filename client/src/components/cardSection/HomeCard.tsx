@@ -37,7 +37,7 @@ const StyledCard = styled(Card)(() => ({
     top: '30px',
     left: '5px',
     zIndex: -1,
-    color: '#ffffff26',
+    color: '#00000030',
     backgroundColor: '#ffffff0',
   },
 }));

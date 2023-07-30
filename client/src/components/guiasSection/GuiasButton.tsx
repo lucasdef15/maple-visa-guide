@@ -4,12 +4,16 @@ import { Button } from '@mui/material';
 const StyledButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   padding: '1rem 2rem',
-  color: 'white',
+  color: theme.palette.text.primary,
   textTransform: 'uppercase',
   fontWeight: 'bold',
-  backgroundColor: theme.palette.common.black,
+  backgroundColor: theme.palette.common.white,
   fontSize: '20px',
-  boxShadow: `5px 5px 0px 0px ${theme.palette.primary.dark}`,
+  boxShadow: `5px 5px 0px 0px rgba(215, 215, 255, 0.48)`,
+  '&:hover': {
+    backgroundColor: 'rgba(215, 215, 255, 0.48)',
+    color: 'white',
+  },
 }));
 
 export default function GuiasButton() {

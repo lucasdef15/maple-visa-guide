@@ -27,9 +27,8 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   paddingBlock: '1.5rem',
-  background: '#f7f7f7ea',
+  background: '#f7f7f7dd',
   boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.137)',
-
   width: '100%',
   position: 'sticky',
   zIndex: '99999',
@@ -62,7 +61,6 @@ const HeaderStyle = styled('header')(({ theme }) => ({
     content: '""',
     position: 'absolute',
     width: '100%',
-
     opacity: 1,
     height: '1px',
     bottom: '-5px',
@@ -70,6 +68,8 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   },
   '& li': {
     position: 'relative',
+    color: '#333333cf',
+    fontWeight: 'bold',
   },
   '& li::before': {
     content: '""',
@@ -107,7 +107,6 @@ export default function Header() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    console.log(showHeader);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
