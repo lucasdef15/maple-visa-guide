@@ -3,11 +3,12 @@ import logo from '/logo.svg';
 import BadgeAvatars from './BadgeAvatars';
 import ContainedButton from '../buttons/Button';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AiFillPhone } from 'react-icons/ai';
 import { IoMdMail } from 'react-icons/io';
 import { Stack } from '@mui/material';
 import MobileNavBar from './MobileNav/MobileNavBar';
+import MainContext from '../../contexts/MainContext';
 
 const HeaderStrip = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
@@ -42,13 +43,14 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.137)',
   width: '100%',
   position: 'sticky',
-  top: 0,
+  top: '0',
   '& nav': {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
     marginLeft: 'clamp(2rem, 5vw, 5rem)',
+    position: 'sticky',
 
     '& ul': {
       listStyle: 'none',
@@ -114,6 +116,8 @@ export default function Header() {
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
   const [showHeader, setShowHeader] = useState(true);
 
+  const { isOpen } = useContext(MainContext);
+
   useEffect(() => {
     const handleScroll = () => {
       const position = window.scrollY || window.pageYOffset;
@@ -135,8 +139,7 @@ export default function Header() {
       <Stack
         sx={{
           width: '100%',
-          // maxWidth: '1080px',
-          display: { xs: 'none', sm: 'flex' },
+          display: { xs: 'none', sm: 'block' },
         }}
       >
         <HeaderStrip>
@@ -159,7 +162,7 @@ export default function Header() {
         </HeaderStrip>
         <HeaderStyle
           style={{
-            top: showHeader ? 0 : '-200px',
+            top: showHeader ? 0 : isOpen ? 0 : '-200px',
             transition: 'top 0.3s',
           }}
         >
@@ -168,7 +171,12 @@ export default function Header() {
             justifyContent='space-between'
             alignItems='center'
             spacing={5}
-            sx={{ width: '100%', maxWidth: '1080px' }}
+            sx={{
+              width: '100%',
+              maxWidth: '1080px',
+              position: 'sticky',
+              top: 0,
+            }}
           >
             <Logo>
               <img src={logo} alt='logo' />
