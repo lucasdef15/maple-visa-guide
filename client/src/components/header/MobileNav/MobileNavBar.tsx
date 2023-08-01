@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 import { useDimensions } from './use-dimensions';
 import { MenuToggle } from './MenuToggle';
 import Navigation from './Navigation';
-import { useState, useEffect, useCallback } from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useCallback } from 'react';
+import { styled } from '@mui/material/styles';
 import MainContext from '../../../contexts/MainContext';
+import { Stack } from '@mui/material';
+import Logo from '../../logo/Logo';
 import './mobileNav.css';
 
 const sidebar = {
@@ -28,31 +30,27 @@ const sidebar = {
   },
 };
 
+const MobileNav = styled(Stack)(() => ({
+  width: '100%',
+  height: '15vh',
+  justifyContent: 'center',
+  paddingBlock: '1.5rem',
+  background: '#f7f7f7dd',
+  boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.137)',
+  transition: 'top 0.3s',
+  paddingInline: '1rem',
+  alignItems: 'start',
+  zIndex: 999,
+  position: 'fixed',
+  right: 0,
+  top: 0,
+}));
+
 export default function MobileNavBar() {
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
 
-  const [, setScrollPosition] = useState(0);
-  const [lastScrollPosition, setLastScrollPosition] = useState(0);
-  const [showHeader, setShowHeader] = useState(true);
-
-  const { isOpen, toggleOpen } = useContext(MainContext);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const position = window.scrollY || window.pageYOffset;
-      setScrollPosition(position);
-
-      setShowHeader(position < lastScrollPosition);
-      setLastScrollPosition(position);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [lastScrollPosition]);
+  const { isOpen, toggleOpen, showHeader } = useContext(MainContext);
 
   const handleBodyClick = useCallback(
     (event: Event) => {
@@ -79,20 +77,28 @@ export default function MobileNavBar() {
   }, [handleBodyClick]);
 
   return (
-    <motion.nav
-      style={{
-        top: showHeader ? 0 : isOpen ? 0 : '-200px',
-        transition: 'top 0.3s',
+    <MobileNav
+      sx={{
+        display: { xs: 'flex', sm: 'none' },
+        top: showHeader ? 0 : '-200px',
       }}
-      className='mobile-nav'
-      initial={false}
-      animate={isOpen ? 'open' : 'closed'}
-      custom={height}
-      ref={containerRef}
     >
-      <motion.div className='mobile-background' variants={sidebar} />
-      <Navigation isOpen={isOpen} />
-      <MenuToggle toggle={() => toggleOpen()} />
-    </motion.nav>
+      <Logo />
+      <motion.nav
+        style={{
+          top: showHeader ? 0 : isOpen ? 0 : '-200px',
+          transition: 'top 0.3s',
+        }}
+        className='mobile-nav'
+        initial={false}
+        animate={isOpen ? 'open' : 'closed'}
+        custom={height}
+        ref={containerRef}
+      >
+        <motion.div className='mobile-background' variants={sidebar} />
+        <Navigation isOpen={isOpen} />
+        <MenuToggle toggle={() => toggleOpen()} />
+      </motion.nav>
+    </MobileNav>
   );
 }

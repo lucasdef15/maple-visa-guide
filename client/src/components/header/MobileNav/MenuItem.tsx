@@ -70,7 +70,7 @@ export default function MenuItem() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <NavLink to='/assinantes'>Assinantes</NavLink>
+        <NavLink to='/assinantes'>Assinar</NavLink>
       </motion.li>
     </div>
   );
