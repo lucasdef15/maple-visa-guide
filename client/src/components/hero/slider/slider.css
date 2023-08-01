@@ -76,6 +76,26 @@
 @media(max-width:768px) {
     .slider-card{
         display: flex;
+        width: 170px;
+        height: 330px;
+        text-align: center;
+    }
+    .slider-card h4{
+        font-size: 35px;
+    }
+    .slider-card p{
+        font-size: .9rem;
+    }
+    .slider_container {
+        padding-inline: 1rem;
+    }
+    .slider_container img{
+        border-radius: 25px;
+    }
+}
+@media(max-width:558px) {
+    .slider-card{
+        display: flex;
         width: 130px;
         height: 300px;
         text-align: center;

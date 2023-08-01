@@ -10,7 +10,7 @@ import { Typography } from '@mui/material';
 const StyledSection = styled('div')(() => ({
   marginBlock: '200px',
   counterReset: 'my-counter',
-  '@media (max-width: 768px)': {
+  '@media (max-width: 1194px)': {
     textAlign: 'center',
     paddingBlock: '1rem',
     marginBlock: '50px',
@@ -25,6 +25,12 @@ const StyledCard = styled('div')(({ theme }) => ({
   position: 'relative',
   display: 'grid',
   placeContent: 'center',
+
+  '@media (max-width: 1194px)': {
+    textAlign: 'center',
+    width: '125px',
+    height: '120px',
+  },
   '@media (max-width: 768px)': {
     width: '100px',
     height: '95px',
@@ -63,13 +69,16 @@ const StyledCard = styled('div')(({ theme }) => ({
 
 const ButtonWrapper = styled('div')(() => ({
   marginBlock: '25px',
+  '@media (max-width: 1194px)': {
+    marginTop: '45px',
+  },
 }));
 
 export default function VideoSection() {
   return (
     <StyledSection className='spacing'>
       <Stack
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: 'column', md: 'column', lg: 'row' }}
         spacing={[10, 2]}
         justifyContent='space-between'
       >
@@ -99,9 +108,10 @@ export default function VideoSection() {
             zIndex: -1,
             whiteSpace: 'nowrap',
             fontSize: { xs: '13px', sm: '16px' },
+            mt: { sm: '30px !important', md: '' },
           }}
         >
-          <Stack alignItems='center'>
+          <Stack alignItems='center' sx={{}}>
             <StyledCard>
               <img src={experiencia} alt='experiencia' />
             </StyledCard>

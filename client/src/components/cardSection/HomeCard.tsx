@@ -25,8 +25,6 @@ const StyledCard = styled(Card)(() => ({
   flexDirection: 'column',
   justifyContent: 'space-between',
   zIndex: '-1',
-  //   alignItems: 'center',
-  zIndex: 1,
   '&::after': {
     content: `'"'`,
     fontSize: '160px',
@@ -54,14 +52,15 @@ export default function HomeCard({
   return (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
-      justifyContent={{ xs: 'center', sm: 'space-between' }}
+      justifyContent={{ xs: 'center', md: 'space-between' }}
       alignItems='center'
       spacing={2}
+      sx={{}}
     >
       <StyledCard
         sx={{
-          maxWidth: { xs: '90%', sm: size },
-          minHeight: '234px',
+          maxWidth: { xs: '90%', md: size },
+          minHeight: { xs: '234px', sm: 'auto', md: '234px' },
           padding: 3,
           bgcolor: bgColor,
           color: color,

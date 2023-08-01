@@ -17,10 +17,9 @@ const StyledContainer = styled('div')(() => ({
   alignItems: 'center',
   zIndex: '-1',
   position: 'relative',
-
-  '@media (max-width: 768px)': {
+  '@media (max-width: 1068px)': {
     height: 'auto',
-    paddingBlock: '100px',
+    paddingBlock: '150px',
     marginBlock: '150px',
   },
 }));
@@ -35,8 +34,8 @@ export default function CardSection() {
       <Stack sx={{ maxWidth: '1080px' }}>
         <WordsStripe />
         <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          justifyContent={{ xs: 'center', sm: 'space-between' }}
+          direction={{ xs: 'column', md: 'row' }}
+          justifyContent={{ xs: 'center', md: 'space-between' }}
           alignItems='center'
           spacing={[5, 2]}
         >
@@ -51,7 +50,7 @@ export default function CardSection() {
           <Card
             sx={{
               minHeight: '234px',
-              maxWidth: { xs: '90%', sm: '290px' },
+              maxWidth: { xs: '90%', md: '290px' },
               background: '#ffffffe8',
               display: 'grid',
               placeContent: 'center',
