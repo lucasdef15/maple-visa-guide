@@ -8,11 +8,14 @@ export default function GuiasHeader() {
       spacing={2}
       sx={{ textAlign: 'center', mb: 8 }}
     >
-      <Typography fontSize='48px' fontWeight='bold'>
-        Frequently Asked Questions
+      <Typography sx={{ fontSize: 'clamp(34px, 6vw, 48px)' }} fontWeight='bold'>
+        Perguntas Frequentes
       </Typography>
-      <Typography fontSize={16} color='text.secondary'>
-        Your Queries. Answered!
+      <Typography
+        sx={{ fontSize: 'clamp(15px, 1.5vw, 16px)' }}
+        color='text.secondary'
+      >
+        Perguntas Respondidas!
       </Typography>
     </Stack>
   );

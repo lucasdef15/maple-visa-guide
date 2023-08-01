@@ -15,6 +15,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Candara', system-ui;
+  /* background-color: rgba(255, 0, 0, 0.123); */
 }
 body{
     overflow-x: hidden;
@@ -22,9 +23,7 @@ body{
     background-color: #F7F7F7;
 }
 img{
-    display: block;
     width: 100%;
-    position: relative;
 }
 a{
   text-decoration: none;

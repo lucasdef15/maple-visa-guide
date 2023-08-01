@@ -9,8 +9,7 @@ import GuiasButton from './GuiasButton';
 const Spikes = styled('section')(() => ({
   position: 'relative',
   backgroundColor: '#01244A',
-  background:
-    'linear-gradient(to bottom right, #01244A 0%, #005385 50%) bottom right / 50% 50% no-repeat, linear-gradient(to bottom left, #01244A 0%, #005385 50%) bottom left / 50% 50% no-repeat, linear-gradient(to top left, #01244A 0%, #005385 50%) top left / 50% 50% no-repeat, linear-gradient(to top right, #01244A 0%, #005385 50%) top right / 50% 50% no-repeat;',
+  background: 'linear-gradient(24deg, #01244A 0%, #005385 100%); ',
   marginBlock: '100px',
   height: '92vh',
   maxHeight: '750px',
@@ -20,6 +19,13 @@ const Spikes = styled('section')(() => ({
   justifyContent: 'center',
   alignItems: 'center',
   gap: '25px',
+  zIndex: -1,
+  '@media (max-width: 768px)': {
+    height: 'auto',
+    maxHeight: 'none',
+    paddingBlock: '100px',
+    gap: '80px',
+  },
 
   '&::before, &::after': {
     '--spike-width': '50px',
@@ -67,10 +73,10 @@ export default function GuiasSection() {
   return (
     <Spikes>
       <Stack
-        direction='row'
+        direction={{ xs: 'column', sm: 'row' }}
         justifyContent='center'
         alignItems='end'
-        spacing={3}
+        spacing={[10, 3]}
       >
         <GuiasCard
           icon={<Gi3DStairs />}

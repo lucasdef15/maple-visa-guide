@@ -1,34 +1,55 @@
 import { styled } from '@mui/material/styles';
 import Slider from './slider/index';
+import { Typography, Stack } from '@mui/material';
 
-const MainContent = styled('main')(({ theme }) => ({
-  textAlign: 'center',
+const MainContent = styled(Stack)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  placeContent: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  textAlign: 'center',
+  '@media (max-width: 768px)': {
+    textAlign: 'center',
+  },
+  '& .hero-wrapper': {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '1080px',
+  },
   '& .hero-title': {
     marginBlock: '3rem',
+    '@media (max-width: 768px)': {
+      paddingInline: '1rem',
+    },
   },
   '& h1': {
-    fontSize: '48px',
+    fontSize: 'clamp(34px, 6vw, 48px)',
     color: theme.palette.primary.dark,
+    fontWeight: 'bold',
   },
   '& p': {
     color: theme.palette.text.secondary,
+    fontSize: 'clamp(15px, 1.5vw, 16px)',
+    lineHeight: '20px',
   },
 }));
 
 export default function Hero() {
   return (
-    <MainContent className='spacing'>
-      <div className='hero-title'>
-        <h1>Bem-vindo ao Maple Visa Guide!</h1>
-        <p>
-          Conte conosco para tornar seu sonho de viajar para o exterior uma
-          realidade!
-        </p>
+    <MainContent className='spacing' sx={{ mt: { xs: '100px', sm: '0' } }}>
+      <div className='hero-wrapper'>
+        <div className='hero-title'>
+          <Typography variant='h1' sx={{ mb: { xs: '20px', sm: '0' } }}>
+            Bem-vindo ao Maple Visa Guide!
+          </Typography>
+          <p>
+            Conte conosco para tornar seu sonho de viajar para o exterior uma
+            realidade!
+          </p>
+        </div>
+        <Slider />
       </div>
-      <Slider />
     </MainContent>
   );
 }

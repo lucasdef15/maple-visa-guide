@@ -13,11 +13,18 @@ const StyledFooter = styled('footer')(() => ({
   overflow: 'hidden',
   background:
     'radial-gradient(circle,rgba(0, 0, 136, 0.842) 10%, #01244aef 90%)',
+
+  '@media (max-width: 768px)': {
+    height: '70vh',
+  },
   '& .bgImg': {
     position: 'absolute',
     mixBlendMode: 'multiply',
     filter: 'brightness(0.1)',
     zIndex: '-1',
+    '@media (max-width: 768px)': {
+      scale: '3',
+    },
   },
 }));
 const StyledLogo = styled('div')(() => ({
@@ -72,7 +79,11 @@ export default function Footer() {
               </a>
             </StyledIconsContainer>
           </StyledLogo>
-          <Stack direction='row' spacing={5} sx={{ textAlign: 'right' }}>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={5}
+            sx={{ textAlign: 'right' }}
+          >
             <div>
               <Typography
                 variant='h5'
@@ -87,7 +98,10 @@ export default function Footer() {
               </Typography>
               <Stack
                 spacing={0.7}
-                sx={{ opacity: '.9', fontWeight: '500', fontSize: '15px' }}
+                sx={{
+                  opacity: '.9',
+                  fontWeight: '500',
+                }}
               >
                 <a href='#'>IOS & Android</a>
                 <a href='#'>Watch a Demo</a>
@@ -124,18 +138,22 @@ export default function Footer() {
           justifyContent='space-between'
           alignItems='center'
           spacing={2}
-          style={{
+          sx={{
             opacity: 0.7,
             padding: '2rem 0',
             borderTop: '1px solid #e1e1e16f',
             position: 'absolute',
             width: '100%',
-            bottom: '52px',
+            bottom: { xs: '-100px', sm: '52px' },
+            fontSize: { xs: '13px', sm: '16px' },
           }}
         >
           <small>2023 MapleCompany, Inc. All Rights rreserved.</small>
-          <Stack direction='row' spacing={2} sx={{ fontSize: '15px' }}>
-            <a href='#'>Legal</a>
+          <Stack
+            direction='row'
+            spacing={2}
+            sx={{ fontSize: { xs: '13px', sm: '15px' } }}
+          >
             <a href='#'>Privacy</a>
             <a href='#'>Terms</a>
           </Stack>

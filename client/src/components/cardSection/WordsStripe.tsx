@@ -15,7 +15,11 @@ export default function WordsStripe() {
       justifyContent='space-between'
       alignItems='center'
       spacing={2}
-      sx={{ marginBottom: 5 }}
+      sx={{
+        marginBottom: 5,
+        flexWrap: 'wrap',
+        display: { xs: 'none', sm: 'flex' },
+      }}
     >
       <CardButtonStyle>Strategy</CardButtonStyle>
       <CardButtonStyle>Results</CardButtonStyle>

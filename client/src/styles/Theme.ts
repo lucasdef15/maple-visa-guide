@@ -11,12 +11,24 @@ const Theme = createTheme({
       light: '#01487c',
       dark: '#01244a',
     },
+    secondary: {
+      main: '#01244a',
+    },
   },
   shape: {
     borderRadius: 25,
   },
   typography: {
     fontFamily: "'Candara', 'system-ui'",
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 700,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
   },
 });
 

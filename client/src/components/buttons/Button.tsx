@@ -14,6 +14,8 @@ const CustomButton = styled(Button)(({ theme }) => ({
   '&:hover': {
     backgroundImage: 'linear-gradient(60deg, #000046 0%, #1CB5E0 90%)',
   },
+  position: 'static',
+  // zIndex: -1,
 }));
 
 export default function ContainedButton({ text }: CotainedButtonProps) {

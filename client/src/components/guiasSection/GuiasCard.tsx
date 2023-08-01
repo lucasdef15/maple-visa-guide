@@ -9,6 +9,7 @@ const StyledCard = styled(Stack)(({ theme }) => ({
   padding: '30px',
   borderRadius: theme.shape.borderRadius,
   boxShadow: `7px 7px 0px 0px rgba(215, 215, 255, 0.48)`,
+  zIndex: -1,
 }));
 
 const CardHeader = styled('div')(({ theme }) => ({

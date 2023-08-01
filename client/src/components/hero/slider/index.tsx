@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { images } from './imgData';
+import { useContext } from 'react';
+import MainContext from '../../../contexts/MainContext';
 import './slider.css';
 
 export default function Slider() {
   const [position, setPosition] = useState(0);
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
+  const { isOpen } = useContext(MainContext);
 
   const handleClick = (index: number) => {
     setActiveButtonIndex(index);
@@ -26,7 +30,10 @@ export default function Slider() {
   }, [position]);
 
   return (
-    <div className='slider_row spacing'>
+    <div
+      className='slider_row spacing'
+      style={{ overflow: 'hidden', zIndex: isOpen ? -1 : 'auto' }}
+    >
       {images.map((image, index) => (
         <motion.div
           className='slider_container'
@@ -46,7 +53,7 @@ export default function Slider() {
           <img src={image} alt='image' />
         </motion.div>
       ))}
-      <div className='buttons'>
+      <div className='buttons' style={{ zIndex: isOpen ? -1 : 'auto' }}>
         {images.map((item, index) => {
           return (
             <button

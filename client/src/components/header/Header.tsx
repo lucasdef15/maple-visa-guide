@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { AiFillPhone } from 'react-icons/ai';
 import { IoMdMail } from 'react-icons/io';
 import { Stack } from '@mui/material';
+import MobileNavBar from './MobileNav/MobileNavBar';
 
 const HeaderStrip = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
@@ -19,7 +20,7 @@ const HeaderStrip = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: '18px',
+    fontSize: 'clamp(16px, 2vw, 18px)',
     '& svg': {
       marginRight: '10px',
     },
@@ -41,13 +42,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.137)',
   width: '100%',
   position: 'sticky',
-  zIndex: '99999',
   top: 0,
-  '& .header-wrapper': {
-    display: 'flex',
-    width: '100%',
-    maxWidth: '1080px',
-  },
   '& nav': {
     display: 'flex',
     justifyContent: 'space-between',
@@ -102,8 +97,20 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   },
 }));
 
+const MobileNav = styled(Stack)(() => ({
+  width: '100%',
+  height: '15vh',
+  justifyContent: 'center',
+  paddingBlock: '1.5rem',
+  background: '#f7f7f7dd',
+  boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.137)',
+  position: 'fixed',
+  right: 0,
+  top: 0,
+}));
+
 export default function Header() {
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [, setScrollPosition] = useState(0);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
   const [showHeader, setShowHeader] = useState(true);
 
@@ -125,59 +132,92 @@ export default function Header() {
 
   return (
     <>
-      <HeaderStrip>
-        <Stack
-          className='spacing'
-          direction='row'
-          alignItems='center'
-          spacing={5}
-        >
-          <span>
-            <AiFillPhone />
-            +1 (416) 900-8111
-          </span>
-          <span>
-            <IoMdMail />
-            info@newintercambio.com
-          </span>
-        </Stack>
-      </HeaderStrip>
-      <HeaderStyle
-        style={{
-          top: showHeader ? 0 : '-200px',
-          transition: 'top 0.3s',
+      <Stack
+        sx={{
+          width: '100%',
+          // maxWidth: '1080px',
+          display: { xs: 'none', sm: 'flex' },
         }}
       >
-        <div className='header-wrapper'>
-          <Logo>
-            <img src={logo} alt='logo' />
-          </Logo>
-          <nav>
-            <ul>
-              <li>
-                <NavLink to='/'>Home</NavLink>
-              </li>
-              <li>
-                <NavLink to='/sobre'>Sobre</NavLink>
-              </li>
-              <li>
-                <NavLink to='/contato'>Contato</NavLink>
-              </li>
-              <li>
-                <NavLink to='/assinantes'>Assinantes</NavLink>
-              </li>
-            </ul>
-            <ul>
-              <li className='not'>
-                <BadgeAvatars />
-              </li>
-              <li className='not'>
-                <ContainedButton text='Sign Up' />
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </HeaderStyle>
+        <HeaderStrip>
+          <Stack
+            className='spacing'
+            direction='row'
+            alignItems='center'
+            spacing={5}
+            sx={{ width: '100%' }}
+          >
+            <span>
+              <AiFillPhone />
+              +1 (416) 900-8111
+            </span>
+            <span>
+              <IoMdMail />
+              info@newintercambio.com
+            </span>
+          </Stack>
+        </HeaderStrip>
+        <HeaderStyle
+          style={{
+            top: showHeader ? 0 : '-200px',
+            transition: 'top 0.3s',
+          }}
+        >
+          <Stack
+            direction='row'
+            justifyContent='space-between'
+            alignItems='center'
+            spacing={5}
+            sx={{ width: '100%', maxWidth: '1080px' }}
+          >
+            <Logo>
+              <img src={logo} alt='logo' />
+            </Logo>
+            <nav>
+              <ul>
+                <li>
+                  <NavLink to='/'>Home</NavLink>
+                </li>
+                <li>
+                  <NavLink to='/sobre'>Sobre</NavLink>
+                </li>
+                <li>
+                  <NavLink to='/contato'>Contato</NavLink>
+                </li>
+                <li>
+                  <NavLink to='/assinantes'>Assinantes</NavLink>
+                </li>
+              </ul>
+              <ul>
+                <li className='not'>
+                  <BadgeAvatars />
+                </li>
+                <li className='not'>
+                  <ContainedButton text='Sign Up' />
+                </li>
+              </ul>
+            </nav>
+          </Stack>
+        </HeaderStyle>
+      </Stack>
+
+      <MobileNav
+        sx={{
+          display: { xs: 'flex', sm: 'none' },
+          top: showHeader ? 0 : '-200px',
+          transition: 'top 0.3s',
+          paddingInline: '1rem',
+          alignItems: 'start',
+          justifyContent: 'center',
+          width: '100%',
+          zIndex: 999,
+        }}
+      >
+        <Logo>
+          <img src={logo} alt='logo' />
+        </Logo>
+        <MobileNavBar />
+      </MobileNav>
     </>
   );
 }
