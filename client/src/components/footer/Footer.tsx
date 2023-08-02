@@ -11,8 +11,7 @@ const StyledFooter = styled('footer')(() => ({
   color: 'white',
   height: '50vh',
   overflow: 'hidden',
-  background:
-    'radial-gradient(circle,rgba(0, 0, 136, 0.842) 10%, #01244aef 90%)',
+  background: 'radial-gradient(circle,#005385 0%, #01244A 100%)',
 
   '@media (max-width: 768px)': {
     height: '70vh',
@@ -20,8 +19,8 @@ const StyledFooter = styled('footer')(() => ({
   '& .bgImg': {
     position: 'absolute',
     mixBlendMode: 'multiply',
-    filter: 'brightness(0.1)',
-    zIndex: '-1',
+    filter: 'brightness(1)',
+    zIndex: '2',
     '@media (max-width: 768px)': {
       scale: '3',
     },
@@ -53,7 +52,12 @@ export default function Footer() {
       <img className='bgImg' src={footerPic} />
       <Stack
         className='spacing'
-        sx={{ marginBlock: '50px', position: 'relative', height: '50vh' }}
+        sx={{
+          marginBlock: '50px',
+          position: 'relative',
+          height: '50vh',
+          zIndex: '5',
+        }}
       >
         <Stack
           direction='row'
