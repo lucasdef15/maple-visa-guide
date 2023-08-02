@@ -53,7 +53,7 @@ export default function CardSection() {
               maxWidth: { xs: '90%', md: '290px' },
               background: '#ffffffe8',
               display: 'grid',
-              placeContent: 'center',
+              placeContent: { xs: 'center', sm: 'start' },
             }}
           >
             <CardContent>

@@ -28,7 +28,7 @@ const StyledCard = styled(Card)(() => ({
   '&::after': {
     content: `'"'`,
     fontSize: '160px',
-    fontFamily: 'Secular One, sans-serif',
+    fontFamily: 'Secular One, sans-serif !important',
     transform: 'rotate(185deg)',
     position: 'absolute',
     width: '100px',
