@@ -15,7 +15,7 @@ const StyledAboutContent = styled('section')(() => ({
       scale: '1.1',
       float: 'right',
       shapeOutside:
-        'polygon(469px 479px, 44.9% 85.03%, 20.44% 79.70%, 19.37% 24.62%)',
+        'polygon(570px 523px, 31.65% 89.45%, 27.36% 79.87%, 24.93% 56.01%, 20.94% 34.98%, 17.33% 15.14%)',
       marginLeft: '5rem',
       marginBottom: '2rem',
       position: 'relative',
@@ -44,7 +44,7 @@ const AboutContentWrapper = styled('section')(({ theme }) => ({
     },
   },
   '& p': {
-    fontSize: 'clamp(20px, 3vw, 22px)',
+    fontSize: '20px',
     lineHeight: '35px',
     letterSpacing: '.5px',
     marginBottom: '1rem',

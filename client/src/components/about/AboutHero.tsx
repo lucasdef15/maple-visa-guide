@@ -17,7 +17,16 @@ const StyledHeroTitle = styled('section')(() => ({
   },
   '& h1': {
     fontSize: 'clamp(32px, 5vw, 48px)',
-    marginBottom: '1rem',
+    marginBottom: '1.5rem',
+    whiteSpace: 'nowrap',
+    lineHeight: '35px',
+    '@media (max-width: 800px)': {
+      lineHeight: '25px',
+    },
+  },
+  '& span': {
+    fontSize: 'clamp(32px, 5vw, 48px)',
+    fontWeight: 'bold',
   },
   '& p': {
     fontSize: 'clamp(16px, 2vw, 20px)',
@@ -25,10 +34,6 @@ const StyledHeroTitle = styled('section')(() => ({
   '& .about-wrapper': {
     width: '80%',
     maxWidth: '1080px',
-    '@media (min-width: 800px)': {
-      width: '45%',
-      minWidth: '360px',
-    },
   },
 }));
 
@@ -37,7 +42,8 @@ export default function AboutHero() {
     <StyledHero>
       <StyledHeroTitle className='spacing'>
         <div className='about-wrapper'>
-          <h1>Bem-Vindo ao Maple Visa Guide!</h1>
+          <span>Bem-Vindo ao</span>
+          <h1>Maple Visa Guide!</h1>
           <p>Seu Especialista na Imigração para o Canadá e os EUA!</p>
         </div>
       </StyledHeroTitle>
