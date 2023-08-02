@@ -77,6 +77,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 
 export default function DesktopNavBar() {
   const { showHeader, isOpen } = useContext(MainContext);
+
   return (
     <DesktopHeaderWrapper
       style={{
