@@ -13,6 +13,7 @@ const Theme = createTheme({
     },
     secondary: {
       main: '#01244a',
+      dark: '#004473',
     },
   },
   shape: {
