@@ -12,15 +12,14 @@ const Spikes = styled('section')(() => ({
   background: 'linear-gradient(24deg, #01244A 0%, #005385 100%); ',
   marginBlock: '100px',
   height: '100vh',
-  minHeight: '750px',
-  width: '100vw',
+  minHeight: '780px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '25px',
+  gap: '30px',
   zIndex: -1,
-  '@media (max-width: 768px)': {
+  '@media (max-width: 900px)': {
     height: 'auto',
     maxHeight: 'none',
     paddingBlock: '100px',
@@ -73,10 +72,10 @@ export default function GuiasSection() {
   return (
     <Spikes>
       <Stack
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: 'column', md: 'row' }}
         justifyContent='center'
         alignItems='end'
-        spacing={[10, 3]}
+        spacing={{ xs: 10, md: 2, lg: 3 }}
       >
         <GuiasCard
           icon={<Gi3DStairs />}
