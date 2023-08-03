@@ -32,7 +32,6 @@ const sidebar = {
 
 const MobileNav = styled(Stack)(() => ({
   width: '100%',
-  height: '15vh',
   justifyContent: 'center',
   paddingBlock: '1.5rem',
   background: '#f7f7f7dd',

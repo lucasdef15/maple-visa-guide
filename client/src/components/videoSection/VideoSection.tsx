@@ -79,7 +79,7 @@ export default function VideoSection() {
     <StyledSection className='spacing'>
       <Stack
         direction={{ xs: 'column', md: 'column', lg: 'row' }}
-        spacing={[10, 2]}
+        spacing={[5, 3]}
         justifyContent='space-between'
       >
         <Stack justifyContent='space-between'>
@@ -103,15 +103,14 @@ export default function VideoSection() {
         <Stack
           direction='row'
           justifyContent='center'
-          spacing={2}
+          spacing={3}
           sx={{
             zIndex: -1,
             whiteSpace: 'nowrap',
             fontSize: { xs: '13px', sm: '16px' },
-            mt: { sm: '30px !important', md: '' },
           }}
         >
-          <Stack alignItems='center' sx={{}}>
+          <Stack alignItems='center'>
             <StyledCard>
               <img src={experiencia} alt='experiencia' />
             </StyledCard>
