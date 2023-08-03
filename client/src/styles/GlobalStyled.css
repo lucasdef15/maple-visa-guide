@@ -17,6 +17,10 @@
   font-family: 'Candara', system-ui, sans-serif !important;
   letter-spacing: .5px !important;
 }
+#root{
+  position: relative;
+  z-index: 1;
+}
 body{
     overflow-x: hidden;
     color: #01244a;
