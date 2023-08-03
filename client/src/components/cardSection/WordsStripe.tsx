@@ -24,6 +24,7 @@ export default function WordsStripe() {
         marginBottom: 5,
         flexWrap: 'wrap',
         display: { xs: 'none', sm: 'flex' },
+        marginInline: { sm: '1rem', md: '0' },
       }}
     >
       <CardButtonStyle>Strategy</CardButtonStyle>
@@ -31,13 +32,17 @@ export default function WordsStripe() {
       <CardButtonStyle>Personality</CardButtonStyle>
       <CardButtonStyle>Empower</CardButtonStyle>
       <CardButtonStyle>Optimization</CardButtonStyle>
-      <CardButtonStyle sx={{ display: { xs: 'none', sm: 'block' } }}>
+      <CardButtonStyle
+        sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}
+      >
         Learning
       </CardButtonStyle>
-      <CardButtonStyle sx={{ display: { xs: 'none', sm: 'block' } }}>
+      <CardButtonStyle sx={{ display: { sm: 'none', md: 'block' } }}>
         Collaboration
       </CardButtonStyle>
-      <CardButtonStyle sx={{ display: { xs: 'none', sm: 'block' } }}>
+      <CardButtonStyle
+        sx={{ display: { xs: 'none', md: 'none', lg: 'block' } }}
+      >
         Support
       </CardButtonStyle>
       {/* <CardButtonStyle className='blueLight100'>Communication</CardButtonStyle> */}

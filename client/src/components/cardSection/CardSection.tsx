@@ -50,7 +50,8 @@ export default function CardSection() {
           <Card
             sx={{
               minHeight: '234px',
-              maxWidth: { xs: '90%', md: '290px' },
+              maxWidth: { xs: '50%', md: '290px' },
+              minWidth: { xs: '350px', md: 'auto' },
               background: '#ffffffe8',
               display: 'grid',
               placeContent: { xs: 'center', sm: 'start' },

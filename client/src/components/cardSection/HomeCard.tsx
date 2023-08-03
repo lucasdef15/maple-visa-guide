@@ -59,7 +59,8 @@ export default function HomeCard({
     >
       <StyledCard
         sx={{
-          maxWidth: { xs: '90%', md: size },
+          maxWidth: { xs: '50%', md: size },
+          minWidth: { xs: '350px', md: 'auto' },
           minHeight: { xs: '234px', sm: 'auto', md: '234px' },
           padding: 3,
           bgcolor: bgColor,
