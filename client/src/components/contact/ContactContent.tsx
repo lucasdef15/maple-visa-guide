@@ -28,7 +28,7 @@ export default function ContactContent() {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0,
-    delay: 100,
+    delay: 0,
   });
 
   return (
@@ -53,7 +53,6 @@ export default function ContactContent() {
               Contato
             </h1>
             <p
-              ref={ref}
               className={inView ? 'slideOut' : ''}
               style={{ opacity: 0, left: '-99px', position: 'relative' }}
             >
@@ -67,7 +66,6 @@ export default function ContactContent() {
         <div className='contactImage-wrapper'>
           <img
             loading='lazy'
-            ref={ref}
             className={inView ? 'slideOut' : ''}
             style={{ opacity: 0, left: '99px', position: 'relative' }}
             src={contactPic}
