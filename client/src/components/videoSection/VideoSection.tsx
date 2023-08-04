@@ -6,6 +6,7 @@ import valiosa from '/assets/svgs/valiosa.svg';
 import Button from '../buttons/Button';
 import Video from './Video';
 import { Typography } from '@mui/material';
+import { useInView } from 'react-intersection-observer';
 
 const StyledSection = styled('div')(() => ({
   marginBlock: '200px',
@@ -75,6 +76,11 @@ const ButtonWrapper = styled('div')(() => ({
 }));
 
 export default function VideoSection() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.5,
+    delay: 100,
+  });
   return (
     <StyledSection className='spacing'>
       <Stack
@@ -84,14 +90,27 @@ export default function VideoSection() {
       >
         <Stack justifyContent='space-between'>
           <Typography
-            sx={{ fontSize: 'clamp(34px, 6vw, 48px)' }}
+            className={inView ? 'slideOut' : ''}
+            sx={{
+              fontSize: 'clamp(34px, 6vw, 48px)',
+              opacity: 0,
+              left: '-99px',
+              position: 'relative',
+            }}
             fontWeight='bold'
             color='primary.dark'
           >
             Apoio em Cada Etapa!
           </Typography>
           <Typography
-            sx={{ fontSize: 'clamp(15px, 1.5vw, 16px)' }}
+            ref={ref}
+            className={inView ? 'slideOut' : ''}
+            sx={{
+              fontSize: 'clamp(15px, 1.5vw, 16px)',
+              opacity: 0,
+              left: '-99px',
+              position: 'relative',
+            }}
             color='text.secondary'
           >
             Estamos aqui para ajudar você em cada etapa do proceso

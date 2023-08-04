@@ -86,7 +86,7 @@ export default function GuiasSection() {
         <GuiasCard
           icon={<GiPassport />}
           title='GUIAS PRATICOS'
-          subTitle='Simplificando o Caminho para o Domínio'
+          subTitle='Simplificando o Caminho'
           items={card2}
         />
         <GuiasCard

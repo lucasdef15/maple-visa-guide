@@ -1,10 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from '@mui/material/styles';
-import './styles/GlobalStyled.css';
+import { DataProvider } from './contexts/MainContext.tsx';
+import ReactDOM from 'react-dom/client';
+import React from 'react';
 import theme from './styles/Theme.ts';
 import App from './App.tsx';
-import { DataProvider } from './contexts/MainContext.tsx';
+import './styles/Animations.css';
+import './styles/GlobalStyled.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

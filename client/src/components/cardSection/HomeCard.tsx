@@ -1,5 +1,6 @@
 import { Stack, Card, Typography, Avatar } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useInView } from 'react-intersection-observer';
 
 interface CardProps {
   body: string;
@@ -49,13 +50,18 @@ export default function HomeCard({
   size,
   avatar,
 }: CardProps) {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.5,
+    delay: 100,
+  });
+
   return (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
       justifyContent={{ xs: 'center', md: 'space-between' }}
       alignItems='center'
       spacing={2}
-      sx={{}}
     >
       <StyledCard
         sx={{
@@ -69,11 +75,16 @@ export default function HomeCard({
         }}
       >
         <Typography
+          ref={ref}
+          className={inView ? 'slideIn' : ''}
           sx={{
             fontWeight: '500',
             fontSize: 16,
             letterSpacing: '.8px',
             lineHeight: '28px',
+            opacity: 0,
+            left: '99px',
+            position: 'relative',
           }}
         >
           {body}

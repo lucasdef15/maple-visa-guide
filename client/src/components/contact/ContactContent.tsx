@@ -2,6 +2,7 @@ import { styled } from '@mui/material/styles';
 import { Stack } from '@mui/material';
 import ContactForm from './ContactForm';
 import contactPic from '/assets/svgs/contactPic.svg';
+import { useInView } from 'react-intersection-observer';
 
 const StyledContact = styled(Stack)(() => ({
   '& .contactImage-wrapper': {
@@ -24,6 +25,12 @@ const ContactTitle = styled('section')(({ theme }) => ({
 }));
 
 export default function ContactContent() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0,
+    delay: 100,
+  });
+
   return (
     <StyledContact
       className='spacing'
@@ -38,8 +45,18 @@ export default function ContactContent() {
       >
         <div className='contact-wrapper'>
           <ContactTitle>
-            <h1>Contato</h1>
-            <p>
+            <h1
+              ref={ref}
+              className={inView ? 'slideOut' : ''}
+              style={{ opacity: 0, left: '-99px', position: 'relative' }}
+            >
+              Contato
+            </h1>
+            <p
+              ref={ref}
+              className={inView ? 'slideOut' : ''}
+              style={{ opacity: 0, left: '-99px', position: 'relative' }}
+            >
               SEJA QUAL FOR A SUA DÚVIDA, COMENTÁRIO OU APENAS UM BATE-PAPO,
               VOCÊ PODE ENTRAR EM CONTATO CONOSCO ATRAVÉS DO FORMULÁRIO DE
               CONTATO NESTA PÁGINA, E-MAIL OU REDES SOCIAIS.
@@ -48,7 +65,13 @@ export default function ContactContent() {
           <ContactForm />
         </div>
         <div className='contactImage-wrapper'>
-          <img src={contactPic} alt='contact pic' />
+          <img
+            ref={ref}
+            className={inView ? 'slideOut' : ''}
+            style={{ opacity: 0, left: '99px', position: 'relative' }}
+            src={contactPic}
+            alt='contact pic'
+          />
         </div>
       </Stack>
     </StyledContact>

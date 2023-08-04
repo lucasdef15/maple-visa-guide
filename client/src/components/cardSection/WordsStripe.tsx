@@ -1,5 +1,6 @@
 import { Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useInView } from 'react-intersection-observer';
 
 const CardButtonStyle = styled(Stack)(({ theme }) => ({
   padding: '8px 20px',
@@ -14,6 +15,12 @@ const CardButtonStyle = styled(Stack)(({ theme }) => ({
 }));
 
 export default function WordsStripe() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.5,
+    delay: 100,
+  });
+
   return (
     <Stack
       direction='row'
@@ -27,26 +34,97 @@ export default function WordsStripe() {
         marginInline: { sm: '1rem', md: '0' },
       }}
     >
-      <CardButtonStyle>Strategy</CardButtonStyle>
-      <CardButtonStyle>Results</CardButtonStyle>
-      <CardButtonStyle>Personality</CardButtonStyle>
-      <CardButtonStyle>Empower</CardButtonStyle>
-      <CardButtonStyle>Optimization</CardButtonStyle>
       <CardButtonStyle
-        sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}
+        ref={ref}
+        className={inView ? 'fromTop' : ''}
+        sx={{
+          opacity: 0,
+          top: '-99px',
+          position: 'relative',
+        }}
+      >
+        Strategy
+      </CardButtonStyle>
+      <CardButtonStyle
+        ref={ref}
+        className={inView ? 'fromTop' : ''}
+        sx={{
+          opacity: 0,
+          top: '-99px',
+          position: 'relative',
+        }}
+      >
+        Results
+      </CardButtonStyle>
+      <CardButtonStyle
+        ref={ref}
+        className={inView ? 'fromTop' : ''}
+        sx={{
+          opacity: 0,
+          top: '-99px',
+          position: 'relative',
+        }}
+      >
+        Personality
+      </CardButtonStyle>
+      <CardButtonStyle
+        ref={ref}
+        className={inView ? 'fromTop' : ''}
+        sx={{
+          opacity: 0,
+          top: '-99px',
+          position: 'relative',
+        }}
+      >
+        Empower
+      </CardButtonStyle>
+      <CardButtonStyle
+        ref={ref}
+        className={inView ? 'fromTop' : ''}
+        sx={{
+          opacity: 0,
+          top: '-99px',
+          position: 'relative',
+        }}
+      >
+        Optimization
+      </CardButtonStyle>
+      <CardButtonStyle
+        ref={ref}
+        className={inView ? 'fromTop' : ''}
+        sx={{
+          display: { xs: 'none', sm: 'none', md: 'block' },
+          opacity: 0,
+          top: '-99px',
+          position: 'relative',
+        }}
       >
         Learning
       </CardButtonStyle>
-      <CardButtonStyle sx={{ display: { sm: 'none', md: 'block' } }}>
+      <CardButtonStyle
+        ref={ref}
+        className={inView ? 'fromTop' : ''}
+        sx={{
+          display: { sm: 'none', md: 'block' },
+          opacity: 0,
+          top: '-99px',
+          position: 'relative',
+        }}
+      >
         Collaboration
       </CardButtonStyle>
       <CardButtonStyle
-        sx={{ display: { xs: 'none', md: 'none', lg: 'block' } }}
+        ref={ref}
+        className={inView ? 'fromTop' : ''}
+        sx={{
+          display: { xs: 'none', md: 'none', lg: 'block' },
+          opacity: 0,
+          top: '-99px',
+          position: 'relative',
+        }}
       >
         Support
       </CardButtonStyle>
-      {/* <CardButtonStyle className='blueLight100'>Communication</CardButtonStyle> */}
-      {/* <CardButtonStyle className='blueLight400'>Experience</CardButtonStyle> */}
     </Stack>
   );
 }

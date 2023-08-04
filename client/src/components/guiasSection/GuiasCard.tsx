@@ -1,5 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useInView } from 'react-intersection-observer';
+
 import check from '/assets/svgs/check.svg';
 import scalator from '/assets/svgs/escalator.svg';
 
@@ -71,20 +73,48 @@ interface CardProps {
 }
 
 export default function GuiasCard({ icon, title, subTitle, items }: CardProps) {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.5,
+    delay: 100,
+  });
+
   return (
     <StyledCard>
-      <CardHeader>
+      <CardHeader
+        ref={ref}
+        className={inView ? 'slideIn' : ''}
+        sx={{ opacity: 0, left: '99px', position: 'relative' }}
+      >
         <span className='circle'>{icon || <img src={scalator} />}</span>
       </CardHeader>
       <CardTitle>
-        <Typography fontSize='20px' color='text.main' fontWeight='bold'>
+        <Typography
+          fontSize='20px'
+          color='text.main'
+          fontWeight='bold'
+          ref={ref}
+          className={inView ? 'slideIn' : ''}
+          sx={{ opacity: 0, left: '99px', position: 'relative' }}
+        >
           {title}
         </Typography>
-        <Typography fontSize='15px' color='text.secondary' fontWeight='bold'>
+        <Typography
+          fontSize='15px'
+          color='text.secondary'
+          fontWeight='bold'
+          ref={ref}
+          className={inView ? 'slideIn' : ''}
+          sx={{ opacity: 0, left: '99px', position: 'relative' }}
+        >
           {subTitle}
         </Typography>
       </CardTitle>
-      <CardBody>
+      <CardBody
+        ref={ref}
+        className={inView ? 'slideIn' : ''}
+        sx={{ opacity: 0, left: '99px', position: 'relative' }}
+      >
         {items.map((item, index) => (
           <CardItem key={index}>
             <span className='circle'>

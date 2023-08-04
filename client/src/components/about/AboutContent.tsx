@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
 import aboutArt from '/assets/imgs/aboutArt.png';
+import { useInView } from 'react-intersection-observer';
 
 const StyledAboutContent = styled('section')(() => ({
   width: '100%',
@@ -55,30 +56,63 @@ const AboutContentWrapper = styled('section')(({ theme }) => ({
 }));
 
 export default function AboutContent() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0,
+    delay: 0,
+  });
   return (
     <StyledAboutContent className='spacing'>
       <AboutContentWrapper>
-        <img className='about-image' src={aboutArt} alt='canada art' />
+        <img
+          ref={ref}
+          className={inView ? 'about-image slideOut' : 'about-image'}
+          style={{ opacity: 0, left: '99px', position: 'relative' }}
+          src={aboutArt}
+          alt='canada art'
+        />
         <div>
-          <h2>Sobre Nós</h2>
-          <p>
+          <h2
+            ref={ref}
+            className={inView ? 'slideOut' : ''}
+            style={{ opacity: 0, left: '-99px', position: 'relative' }}
+          >
+            Sobre Nós
+          </h2>
+          <p
+            ref={ref}
+            className={inView ? 'slideOut' : ''}
+            style={{ opacity: 0, left: '-99px', position: 'relative' }}
+          >
             Nossa missão é simplificar e tornar compreensível o processo de
             aplicação para o seu visto. Aqui, você encontrará todas as
             informações necessárias para compreender o funcionamento do processo
             e receber orientações detalhadas sobre o preenchimento dos
             formulários.
           </p>
-          <p>
+          <p
+            ref={ref}
+            className={inView ? 'slideOut' : ''}
+            style={{ opacity: 0, left: '-99px', position: 'relative' }}
+          >
             Além disso, oferecemos um guia passo a passo para que você saiba
             exatamente o que fazer e quais documentos apresentar para solicitar
             seu visto de forma independente, caso opte por esse caminho.
           </p>
-          <p>
+          <p
+            ref={ref}
+            className={inView ? 'slideOut' : ''}
+            style={{ opacity: 0, left: '-99px', position: 'relative' }}
+          >
             Estamos comprometidos em auxiliá-lo em cada etapa do processo,
             garantindo que sua experiência seja a mais tranquila e bem-sucedida
             possível.
           </p>
-          <p>
+          <p
+            ref={ref}
+            className={inView ? 'slideOut' : ''}
+            style={{ opacity: 0, left: '-99px', position: 'relative' }}
+          >
             Dê as boas-vindas ao Maple Visa Guide e conte conosco para tornar
             seu sonho de viajar para o exterior uma realidade!
           </p>

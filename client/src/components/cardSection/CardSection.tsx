@@ -3,7 +3,13 @@ import WordsStripe from './WordsStripe';
 import HomeCard from './HomeCard';
 import woman from '/assets/imgs/woman.jpg';
 import man1 from '/assets/imgs/man1.jpg';
+import { useInView } from 'react-intersection-observer';
 import { Stack, Card, CardContent, Typography } from '@mui/material';
+
+const cardOneBody =
+  'Simplificamos a aplicação do visto. Encontre informações e orientações detalhadas para entender o processo e preencher os formulários com facilidade.';
+const cardThreeBody =
+  'Garantimos seu sucesso! Conte com nossa ajuda em todas as etapas do processo para tornar sua experiência de solicitação de visto tranquila, bem-sucedida e sem preocupações.';
 
 const StyledContainer = styled('div')(() => ({
   marginBlock: '200px',
@@ -25,10 +31,11 @@ const StyledContainer = styled('div')(() => ({
 }));
 
 export default function CardSection() {
-  const cardOneBody =
-    'Simplificamos a aplicação do visto. Encontre informações e orientações detalhadas para entender o processo e preencher os formulários com facilidade.';
-  const cardThreeBody =
-    'Garantimos seu sucesso! Conte com nossa ajuda em todas as etapas do processo para tornar sua experiência de solicitação de visto tranquila, bem-sucedida e sem preocupações.';
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.5,
+  });
+
   return (
     <StyledContainer>
       <Stack sx={{ maxWidth: '1080px' }}>
@@ -57,7 +64,15 @@ export default function CardSection() {
               placeContent: { xs: 'center', sm: 'start' },
             }}
           >
-            <CardContent>
+            <CardContent
+              ref={ref}
+              className={inView ? 'slideOut' : ''}
+              sx={{
+                opacity: 0,
+                right: '99px',
+                position: 'relative',
+              }}
+            >
               <Typography fontSize='38px' color='#222' fontWeight='bold'>
                 100%
               </Typography>
