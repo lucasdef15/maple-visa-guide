@@ -8,6 +8,7 @@ import GuiasButton from './GuiasButton';
 
 const Spikes = styled('section')(() => ({
   position: 'relative',
+  overflow: 'hidden',
   backgroundColor: '#01244A',
   background: 'linear-gradient(24deg, #01244A 0%, #005385 100%); ',
   marginBlock: '100px',

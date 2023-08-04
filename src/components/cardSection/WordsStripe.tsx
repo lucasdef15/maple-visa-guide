@@ -46,7 +46,6 @@ export default function WordsStripe() {
         Strategy
       </CardButtonStyle>
       <CardButtonStyle
-        ref={ref}
         className={inView ? 'fromTop' : ''}
         sx={{
           opacity: 0,
@@ -57,7 +56,6 @@ export default function WordsStripe() {
         Results
       </CardButtonStyle>
       <CardButtonStyle
-        ref={ref}
         className={inView ? 'fromTop' : ''}
         sx={{
           opacity: 0,
@@ -68,7 +66,6 @@ export default function WordsStripe() {
         Personality
       </CardButtonStyle>
       <CardButtonStyle
-        ref={ref}
         className={inView ? 'fromTop' : ''}
         sx={{
           opacity: 0,
@@ -79,7 +76,6 @@ export default function WordsStripe() {
         Empower
       </CardButtonStyle>
       <CardButtonStyle
-        ref={ref}
         className={inView ? 'fromTop' : ''}
         sx={{
           opacity: 0,
@@ -90,7 +86,6 @@ export default function WordsStripe() {
         Optimization
       </CardButtonStyle>
       <CardButtonStyle
-        ref={ref}
         className={inView ? 'fromTop' : ''}
         sx={{
           display: { xs: 'none', sm: 'none', md: 'block' },
@@ -102,7 +97,6 @@ export default function WordsStripe() {
         Learning
       </CardButtonStyle>
       <CardButtonStyle
-        ref={ref}
         className={inView ? 'fromTop' : ''}
         sx={{
           display: { sm: 'none', md: 'block' },
@@ -114,7 +108,6 @@ export default function WordsStripe() {
         Collaboration
       </CardButtonStyle>
       <CardButtonStyle
-        ref={ref}
         className={inView ? 'fromTop' : ''}
         sx={{
           display: { xs: 'none', md: 'none', lg: 'block' },
