@@ -49,7 +49,7 @@ const StyledIconsContainer = styled(Stack)(() => ({
 export default function Footer() {
   return (
     <StyledFooter>
-      <img className='bgImg' src={footerPic} />
+      <img loading='lazy' className='bgImg' src={footerPic} />
       <Stack
         className='spacing'
         sx={{
@@ -66,7 +66,7 @@ export default function Footer() {
           spacing={2}
         >
           <StyledLogo>
-            <img src={whiteLogo} alt='' />
+            <img loading='lazy' src={whiteLogo} alt='' />
             <StyledIconsContainer
               direction='row'
               alignItems='center'

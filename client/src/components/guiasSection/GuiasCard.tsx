@@ -86,7 +86,9 @@ export default function GuiasCard({ icon, title, subTitle, items }: CardProps) {
         className={inView ? 'slideIn' : ''}
         sx={{ opacity: 0, left: '99px', position: 'relative' }}
       >
-        <span className='circle'>{icon || <img src={scalator} />}</span>
+        <span className='circle'>
+          {icon || <img loading='lazy' src={scalator} />}
+        </span>
       </CardHeader>
       <CardTitle>
         <Typography
@@ -118,7 +120,7 @@ export default function GuiasCard({ icon, title, subTitle, items }: CardProps) {
         {items.map((item, index) => (
           <CardItem key={index}>
             <span className='circle'>
-              <img src={check} alt='check' />
+              <img loading='lazy' src={check} alt='check' />
             </span>
             <p>{item}</p>
           </CardItem>

@@ -131,7 +131,7 @@ export default function VideoSection() {
         >
           <Stack alignItems='center'>
             <StyledCard>
-              <img src={experiencia} alt='experiencia' />
+              <img loading='lazy' src={experiencia} alt='experiencia' />
             </StyledCard>
             <Typography
               color='text.secondary'
@@ -142,7 +142,7 @@ export default function VideoSection() {
           </Stack>
           <Stack alignItems='center'>
             <StyledCard>
-              <img src={valiosa} alt='valiosa' />
+              <img loading='lazy' src={valiosa} alt='valiosa' />
             </StyledCard>
             <Typography
               color='text.secondary'
@@ -153,7 +153,7 @@ export default function VideoSection() {
           </Stack>
           <Stack alignItems='center'>
             <StyledCard>
-              <img src={blog} alt='blog' />
+              <img loading='lazy' src={blog} alt='blog' />
             </StyledCard>
             <Typography
               color='text.secondary'

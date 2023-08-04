@@ -50,7 +50,7 @@ export default function Slider() {
             damping: 30,
           }}
         >
-          <img src={image} alt='image' />
+          <img loading='lazy' src={image} alt='image' />
         </motion.div>
       ))}
       <div className='buttons' style={{ zIndex: isOpen ? -1 : 'auto' }}>

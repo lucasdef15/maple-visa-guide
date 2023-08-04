@@ -10,7 +10,7 @@ const LogoComponent = styled('div')(() => ({
 export default function Logo() {
   return (
     <LogoComponent>
-      <img src={logo} alt='logo' />
+      <img loading='lazy' src={logo} alt='logo' />
     </LogoComponent>
   );
 }

@@ -66,6 +66,7 @@ export default function ContactContent() {
         </div>
         <div className='contactImage-wrapper'>
           <img
+            loading='lazy'
             ref={ref}
             className={inView ? 'slideOut' : ''}
             style={{ opacity: 0, left: '99px', position: 'relative' }}

@@ -65,6 +65,7 @@ export default function AboutContent() {
     <StyledAboutContent className='spacing'>
       <AboutContentWrapper>
         <img
+          loading='lazy'
           ref={ref}
           className={inView ? 'about-image slideOut' : 'about-image'}
           style={{ opacity: 0, left: '99px', position: 'relative' }}
