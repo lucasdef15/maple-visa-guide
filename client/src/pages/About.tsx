@@ -1,14 +1,18 @@
-import { styled } from '@mui/material/styles';
 import AboutHero from '../components/about/AboutHero';
 import AboutContent from '../components/about/AboutContent';
-
-const StyledAbout = styled('div')(() => ({}));
+import { motion } from 'framer-motion';
+import { routesVariants } from '../animations/animations';
 
 export default function About() {
   return (
-    <StyledAbout>
+    <motion.div
+      variants={routesVariants}
+      initial='initial'
+      animate='visible'
+      exit='exit'
+    >
       <AboutHero />
       <AboutContent />
-    </StyledAbout>
+    </motion.div>
   );
 }

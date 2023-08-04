@@ -92,7 +92,6 @@ export default function AboutContent() {
             formulários.
           </p>
           <p
-            ref={ref}
             className={inView ? 'slideOut' : ''}
             style={{ opacity: 0, left: '-99px', position: 'relative' }}
           >
@@ -101,7 +100,6 @@ export default function AboutContent() {
             seu visto de forma independente, caso opte por esse caminho.
           </p>
           <p
-            ref={ref}
             className={inView ? 'slideOut' : ''}
             style={{ opacity: 0, left: '-99px', position: 'relative' }}
           >
@@ -110,7 +108,6 @@ export default function AboutContent() {
             possível.
           </p>
           <p
-            ref={ref}
             className={inView ? 'slideOut' : ''}
             style={{ opacity: 0, left: '-99px', position: 'relative' }}
           >

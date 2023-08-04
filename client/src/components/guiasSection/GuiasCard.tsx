@@ -75,7 +75,6 @@ interface CardProps {
 export default function GuiasCard({ icon, title, subTitle, items }: CardProps) {
   const { ref, inView } = useInView({
     triggerOnce: true,
-    threshold: 0.5,
     delay: 100,
   });
 
@@ -95,7 +94,6 @@ export default function GuiasCard({ icon, title, subTitle, items }: CardProps) {
           fontSize='20px'
           color='text.main'
           fontWeight='bold'
-          ref={ref}
           className={inView ? 'slideIn' : ''}
           sx={{ opacity: 0, left: '99px', position: 'relative' }}
         >
@@ -105,7 +103,6 @@ export default function GuiasCard({ icon, title, subTitle, items }: CardProps) {
           fontSize='15px'
           color='text.secondary'
           fontWeight='bold'
-          ref={ref}
           className={inView ? 'slideIn' : ''}
           sx={{ opacity: 0, left: '99px', position: 'relative' }}
         >
@@ -113,7 +110,6 @@ export default function GuiasCard({ icon, title, subTitle, items }: CardProps) {
         </Typography>
       </CardTitle>
       <CardBody
-        ref={ref}
         className={inView ? 'slideIn' : ''}
         sx={{ opacity: 0, left: '99px', position: 'relative' }}
       >
