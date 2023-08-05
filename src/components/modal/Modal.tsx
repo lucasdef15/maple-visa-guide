@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -7,6 +6,8 @@ import { Stack, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import signupSVG from '/assets/svgs/signup.svg';
 import loginSVG from '/assets/svgs/login.svg';
+import axios from 'axios';
+import { useState } from 'react';
 
 const StyledInput = styled(TextField)(() => ({
   '& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input': {
@@ -49,9 +50,71 @@ interface ModalProps {
 }
 
 export default function ModalComponent({ text, variant, color }: ModalProps) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setName('');
+    setEmail('');
+    setPassword('');
+  };
+
+  const handleClick = async () => {
+    let data: any;
+
+    setNameError('');
+    setEmailError('');
+    setPasswordError('');
+
+    if (text === 'Signup') {
+      const { data: signUpData } = await axios.post(
+        'http://localhost:8080/auth/signup',
+        {
+          name,
+          email,
+          password,
+        }
+      );
+      data = signUpData;
+      console.log(data);
+    } else {
+      const { data: logInData } = await axios.post(
+        'http://localhost:8080/auth/login',
+        {
+          email,
+          password,
+        }
+      );
+      data = logInData;
+    }
+
+    //check each error
+    if (data.errors.length) {
+      const errorMessage = data.errors[0].msg.toLowerCase();
+      if (errorMessage.includes('name')) {
+        setNameError(data.errors[0].msg);
+      } else if (
+        errorMessage.includes('email') ||
+        errorMessage.includes('user')
+      ) {
+        setEmailError(data.errors[0].msg);
+      } else if (
+        errorMessage.includes('credentials') ||
+        errorMessage.includes('password')
+      ) {
+        setPasswordError(data.errors[0].msg);
+      }
+    }
+  };
 
   return (
     <>
@@ -104,22 +167,34 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                   ''
                 ) : (
                   <StyledInput
+                    error={nameError ? true : false}
+                    helperText={nameError ? nameError : ''}
                     id='outlined-password-input'
                     label='Nome'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     type='text'
                   />
                 )}
                 <StyledInput
+                  error={emailError ? true : false}
+                  helperText={emailError ? emailError : ''}
                   id='outlined-password-input'
                   label='E-Mail'
                   type='email'
-                  autoComplete='current-password'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  // autoComplete='current-password'
                 />
                 <StyledInput
+                  error={passwordError ? true : false}
+                  helperText={passwordError ? passwordError : ''}
                   id='outlined-password-input'
                   label='Senha'
                   type='password'
-                  autoComplete='current-password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  // autoComplete='current-password'
                 />
               </Stack>
               <Stack
@@ -132,6 +207,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                   variant='contained'
                   color='secondary'
                   sx={{ textTransform: 'initial' }}
+                  onClick={handleClick}
                 >
                   {text}
                 </Button>
