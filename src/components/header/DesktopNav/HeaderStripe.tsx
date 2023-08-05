@@ -9,6 +9,9 @@ const HeaderStripeComponent = styled('div')(({ theme }) => ({
   padding: '.7rem',
   fontWeight: 700,
   fontSize: '18px',
+  '@media (max-width: 1100px)': {
+    paddingInline: '1rem',
+  },
   '& span': {
     color: theme.palette.common.white,
     display: 'flex',

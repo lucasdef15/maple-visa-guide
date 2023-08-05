@@ -3,8 +3,9 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import MainContext from '../../../contexts/MainContext';
 import Logo from '../../logo/Logo';
-import BadgeAvatars from '../BadgeAvatars';
-import ContainedButton from '../../buttons/Button';
+import ModalComponent from '../../modal/Modal';
+// import BadgeAvatars from '../BadgeAvatars';
+// import ContainedButton from '../../buttons/Button';
 
 const DesktopHeaderWrapper = styled('div')(() => ({
   position: 'sticky',
@@ -21,18 +22,21 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   background: '#f7f7f7dd',
   boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.137)',
   width: '100%',
+  '@media (max-width: 1100px)': {
+    paddingInline: '1rem',
+  },
   '& nav': {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    marginLeft: 'clamp(2rem, 5vw, 5rem)',
+    marginLeft: 'clamp(1rem, 3vw, 3rem)',
 
     '& ul': {
       listStyle: 'none',
       display: 'flex',
       alignItems: 'center',
-      gap: '30px',
+      gap: '15px',
       fontSize: '1rem',
       color: theme.palette.text.secondary,
     },
@@ -114,11 +118,25 @@ export default function DesktopNavBar() {
             </ul>
             <ul>
               <li className='not'>
+                <ModalComponent
+                  text='Signup'
+                  variant='outlined'
+                  color='secondary'
+                />
+              </li>
+              <li className='not'>
+                <ModalComponent
+                  text='Login'
+                  variant='contained'
+                  color='secondary'
+                />
+              </li>
+              {/* <li className='not'>
                 <BadgeAvatars />
               </li>
               <li className='not'>
                 <ContainedButton text='Sign Up' />
-              </li>
+              </li> */}
             </ul>
           </nav>
         </div>
