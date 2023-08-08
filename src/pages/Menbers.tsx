@@ -8,6 +8,7 @@ export default function Menbers() {
       initial='initial'
       animate='visible'
       exit='exit'
+      style={{ position: 'relative', zIndex: -1 }}
     >
       <h1>Assinantes</h1>
     </motion.div>

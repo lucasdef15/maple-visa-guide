@@ -26,6 +26,7 @@ export default function MenbersPlan() {
       justifyContent='center'
       alignItems='center'
       spacing={2}
+      style={{ position: 'relative', zIndex: -1 }}
     >
       {prices &&
         prices.map((price) => (

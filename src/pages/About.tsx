@@ -10,6 +10,7 @@ export default function About() {
       initial='initial'
       animate='visible'
       exit='exit'
+      style={{ position: 'relative', zIndex: -1 }}
     >
       <AboutHero />
       <AboutContent />

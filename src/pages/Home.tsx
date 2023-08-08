@@ -14,6 +14,7 @@ export default function Home() {
       initial='initial'
       animate='visible'
       exit='exit'
+      style={{ position: 'relative', zIndex: -1 }}
     >
       <Hero />
       <CardSection />

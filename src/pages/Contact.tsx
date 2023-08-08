@@ -9,6 +9,7 @@ export default function Contact() {
       initial='initial'
       animate='visible'
       exit='exit'
+      style={{ position: 'relative', zIndex: -1 }}
     >
       <ContactContent />
     </motion.div>
