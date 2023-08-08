@@ -4,8 +4,10 @@ import { NavLink } from 'react-router-dom';
 import MainContext from '../../../contexts/MainContext';
 import Logo from '../../logo/Logo';
 import ModalComponent from '../../modal/Modal';
-// import BadgeAvatars from '../BadgeAvatars';
-// import ContainedButton from '../../buttons/Button';
+import BadgeAvatars from '../BadgeAvatars';
+import { UserContext } from '../../../contexts/UserContext';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const DesktopHeaderWrapper = styled('div')(() => ({
   position: 'sticky',
@@ -36,7 +38,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
       listStyle: 'none',
       display: 'flex',
       alignItems: 'center',
-      gap: '15px',
+      gap: '35px',
       fontSize: '1rem',
       color: theme.palette.text.secondary,
     },
@@ -81,6 +83,16 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 
 export default function DesktopNavBar() {
   const { showHeader, isOpen } = useContext(MainContext);
+  const [userState, setUserState] = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setUserState({ data: null, loading: false, error: null });
+    localStorage.removeItem('token');
+
+    navigate('/');
+  };
 
   return (
     <DesktopHeaderWrapper
@@ -112,31 +124,46 @@ export default function DesktopNavBar() {
               <li>
                 <NavLink to='/contato'>Contato</NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink to='/assinantes'>Assinar</NavLink>
-              </li>
+              </li> */}
             </ul>
             <ul>
-              <li className='not'>
-                <ModalComponent
-                  text='Signup'
-                  variant='outlined'
-                  color='secondary'
-                />
-              </li>
-              <li className='not'>
-                <ModalComponent
-                  text='Login'
-                  variant='contained'
-                  color='secondary'
-                />
-              </li>
-              {/* <li className='not'>
-                <BadgeAvatars />
-              </li>
-              <li className='not'>
-                <ContainedButton text='Sign Up' />
-              </li> */}
+              {!userState.data && (
+                <>
+                  <li className='not'>
+                    <ModalComponent
+                      text='Signup'
+                      variant='outlined'
+                      color='secondary'
+                    />
+                  </li>
+                  <li className='not'>
+                    <ModalComponent
+                      text='Login'
+                      variant='contained'
+                      color='secondary'
+                    />
+                  </li>
+                </>
+              )}
+              {userState.data && (
+                <>
+                  <li className='not' style={{ marginRight: '20px' }}>
+                    <BadgeAvatars />
+                  </li>
+                  <li className='not'>
+                    <Button
+                      sx={{ textTransform: 'unset' }}
+                      variant='contained'
+                      color='secondary'
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Button>
+                  </li>
+                </>
+              )}
             </ul>
           </nav>
         </div>

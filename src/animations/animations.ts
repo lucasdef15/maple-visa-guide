@@ -1,6 +1,8 @@
 export const routesVariants = {
   initial: {
     opacity: 0,
+    position: 'relative',
+    zIndex: -1,
   },
   visible: {
     opacity: 1,

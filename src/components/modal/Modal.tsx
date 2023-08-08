@@ -7,7 +7,9 @@ import { styled } from '@mui/material/styles';
 import signupSVG from '/assets/svgs/signup.svg';
 import loginSVG from '/assets/svgs/login.svg';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
 
 const StyledInput = styled(TextField)(() => ({
   '& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input': {
@@ -58,6 +60,9 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+  const navigate = useNavigate();
+  const [, setUserState] = useContext(UserContext);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -69,7 +74,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
   };
 
   const handleClick = async () => {
-    let data: any;
+    let response: any;
 
     setNameError('');
     setEmailError('');
@@ -84,8 +89,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
           password,
         }
       );
-      data = signUpData;
-      console.log(data);
+      response = signUpData;
     } else {
       const { data: logInData } = await axios.post(
         'http://localhost:8080/auth/login',
@@ -94,26 +98,43 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
           password,
         }
       );
-      data = logInData;
+      response = logInData;
     }
 
     //check each error
-    if (data.errors.length) {
-      const errorMessage = data.errors[0].msg.toLowerCase();
+    if (response.errors.length) {
+      const errorMessage = response.errors[0].msg.toLowerCase();
       if (errorMessage.includes('name')) {
-        setNameError(data.errors[0].msg);
+        return setNameError(response.errors[0].msg);
       } else if (
         errorMessage.includes('email') ||
         errorMessage.includes('user')
       ) {
-        setEmailError(data.errors[0].msg);
+        return setEmailError(response.errors[0].msg);
       } else if (
         errorMessage.includes('credentials') ||
         errorMessage.includes('password')
       ) {
-        setPasswordError(data.errors[0].msg);
+        return setPasswordError(response.errors[0].msg);
       }
     }
+
+    setUserState({
+      data: {
+        id: response.data.user.id,
+        name: response.data.user.name,
+        email: response.data.user.email,
+        stripeCustomerId: response.data.stripeCustomerId,
+      },
+      loading: false,
+      error: null,
+    });
+    localStorage.setItem('token', response.data.token);
+    axios.defaults.headers.common[
+      'authorization'
+    ] = `Bearer ${response.data.token}`;
+    setOpen(false);
+    navigate('/membros');
   };
 
   return (
