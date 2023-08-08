@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import footerPic from '/assets/imgs/footerPic.png';
-import whiteLogo from '/logoWhite.svg';
+import Logo from '../logo/Logo';
 import { AiFillInstagram } from 'react-icons/ai';
 import { FaFacebook } from 'react-icons/fa';
 import { BsTwitter } from 'react-icons/bs';
@@ -12,10 +12,6 @@ const StyledFooter = styled('footer')(() => ({
   height: '50vh',
   overflow: 'hidden',
   background: 'radial-gradient(circle,#005385 0%, #01244A 100%)',
-
-  '@media (max-width: 768px)': {
-    height: '70vh',
-  },
   '& .bgImg': {
     position: 'absolute',
     mixBlendMode: 'multiply',
@@ -26,23 +22,24 @@ const StyledFooter = styled('footer')(() => ({
     },
   },
 }));
-const StyledLogo = styled('div')(() => ({
-  '& img': {
-    width: '105px',
-    paddingBlock: '.5rem',
-  },
-  '& div': {
-    // backgroundColor: '#dfdfdf',
-    paddingBlock: '1rem',
-    borderTop: '2px solid #e5e5fcc3',
-    display: 'flex',
-    width: '170%',
+const StyledLogo = styled('a')(() => ({
+  width: '15%',
+  minWidth: '150px',
+  '& svg': {
+    width: '100%',
   },
 }));
 const StyledIconsContainer = styled(Stack)(() => ({
   '& svg': {
     width: '25px',
     height: '25px',
+  },
+  '& a': {
+    color: '#ffffffa2',
+    transition: 'color 250ms linear',
+  },
+  '& a:hover': {
+    color: '#ffffff',
   },
 }));
 
@@ -55,111 +52,92 @@ export default function Footer() {
         sx={{
           marginBlock: '50px',
           position: 'relative',
-          height: '50vh',
+          height: { xs: '69%', sm: '100%' },
+          width: '100%',
           zIndex: '5',
         }}
       >
-        <Stack
-          direction='row'
-          justifyContent='space-between'
-          alignItems='flex-start'
-          spacing={2}
-        >
-          <StyledLogo>
-            <img loading='lazy' src={whiteLogo} alt='' />
-            <StyledIconsContainer
-              direction='row'
-              alignItems='center'
-              spacing={1.5}
-            >
-              <a href='#'>
-                <AiFillInstagram />
-              </a>
-              <a href='#'>
-                <FaFacebook />
-              </a>
-              <a href='#'>
-                <BsTwitter />
-              </a>
-            </StyledIconsContainer>
-          </StyledLogo>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={5}
-            sx={{ textAlign: 'right' }}
-          >
-            <div>
-              <Typography
-                variant='h5'
-                component='h6'
-                sx={{
-                  borderBottom: '2px solid #5353F3',
-                  paddingBottom: '5px',
-                  marginBottom: '15px',
-                }}
-              >
-                Blog
-              </Typography>
-              <Stack
-                spacing={0.7}
-                sx={{
-                  opacity: '.9',
-                  fontWeight: '500',
-                }}
-              >
-                <a href='#'>IOS & Android</a>
-                <a href='#'>Watch a Demo</a>
-                <a href='#'>Customer</a>
-                <a href='#'>API</a>
-              </Stack>
-            </div>
-            <div>
-              <Typography
-                variant='h5'
-                component='h6'
-                sx={{
-                  borderBottom: '2px solid #5353F3',
-                  paddingBottom: '5px',
-                  marginBottom: '15px',
-                }}
-              >
-                Resources
-              </Typography>
-              <Stack
-                spacing={0.7}
-                sx={{ opacity: '.9', fontWeight: '500', fontSize: '15px' }}
-              >
-                <a href='#'>IOS & Android</a>
-                <a href='#'>Watch a Demo</a>
-                <a href='#'>Customer</a>
-                <a href='#'>API</a>
-              </Stack>
-            </div>
-          </Stack>
-        </Stack>
-        <Stack
-          direction='row'
-          justifyContent='space-between'
-          alignItems='center'
-          spacing={2}
-          sx={{
-            opacity: 0.7,
-            padding: '2rem 0',
-            borderTop: '1px solid #e1e1e16f',
-            position: 'absolute',
-            width: '100%',
-            bottom: { xs: '-100px', sm: '52px' },
-            fontSize: { xs: '13px', sm: '16px' },
-          }}
-        >
-          <small>2023 MapleCompany, Inc. All Rights rreserved.</small>
+        <Stack sx={{ width: '100%', maxWidth: '1080px' }}>
           <Stack
             direction='row'
+            justifyContent='space-between'
+            alignItems='flex-start'
             spacing={2}
-            sx={{ fontSize: { xs: '13px', sm: '15px' } }}
+            sx={{ marginInline: '1rem' }}
           >
-            <a href='#'>Privacy</a>
-            <a href='#'>Terms</a>
+            <StyledLogo href='#'>
+              <Logo color='#fff' />
+            </StyledLogo>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={5}
+              sx={{ textAlign: 'right' }}
+            >
+              <div>
+                <Typography
+                  variant='h5'
+                  component='h6'
+                  sx={{
+                    borderBottom: '2px solid #5353F3',
+                    paddingBottom: '5px',
+                    marginBottom: '15px',
+                  }}
+                >
+                  Blog
+                </Typography>
+                <Stack
+                  spacing={0.7}
+                  sx={{
+                    opacity: '.9',
+                    fontWeight: '500',
+                  }}
+                >
+                  <a href='#'>IOS & Android</a>
+                  <a href='#'>Watch a Demo</a>
+                  <a href='#'>Customer</a>
+                  <a href='#'>API</a>
+                </Stack>
+              </div>
+            </Stack>
+          </Stack>
+          <Stack
+            direction='row'
+            justifyContent='space-between'
+            alignItems='center'
+            spacing={2}
+            sx={{
+              padding: '2rem 1rem',
+              borderTop: '1px solid #e1e1e16f',
+              position: 'absolute',
+              width: '100%',
+              bottom: { xs: '-100px', sm: '52px' },
+              fontSize: { xs: '13px', sm: '16px' },
+            }}
+          >
+            <small style={{ opacity: 0.7 }}>
+              2023 MapleCompany, Inc. All Rights rreserved.
+            </small>
+            <Stack
+              direction='row'
+              spacing={2}
+              sx={{ fontSize: { xs: '13px', sm: '15px' } }}
+            >
+              <StyledIconsContainer
+                direction='row'
+                alignItems='center'
+                spacing={1.5}
+              >
+                <a href='#'>
+                  <AiFillInstagram />
+                </a>
+                <a href='#'>
+                  <FaFacebook />
+                </a>
+                <a href='#'>
+                  <BsTwitter />
+                </a>
+              </StyledIconsContainer>
+            </Stack>
           </Stack>
         </Stack>
       </Stack>

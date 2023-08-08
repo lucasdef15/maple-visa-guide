@@ -2,7 +2,9 @@ import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import BadgeAvatars from '../BadgeAvatars';
 import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
+import { Typography, Stack } from '@mui/material';
+import { useContext } from 'react';
+import { UserContext } from '../../../contexts/UserContext';
 
 const variants = {
   open: {
@@ -34,12 +36,21 @@ const StyledLi = styled('li')(() => ({
 }));
 
 export default function MenuItem() {
+  const { user } = useContext(UserContext);
+
   return (
-    <div className='ul-wrapper' style={{ transition: '.5s' }}>
-      <StyledLi>
-        <BadgeAvatars />
-        <Typography sx={{ mt: 1, fontWeight: 'bold' }}>Jim Person</Typography>
-      </StyledLi>
+    <Stack
+      className='ul-wrapper'
+      sx={{ transition: '.5s', mt: user.data ? 0 : 20 }}
+    >
+      {user.data && (
+        <StyledLi>
+          <BadgeAvatars />
+          <Typography sx={{ mt: 1, fontWeight: 'bold' }}>
+            {user.data.name}
+          </Typography>
+        </StyledLi>
+      )}
 
       <motion.li
         variants={variants}
@@ -64,14 +75,6 @@ export default function MenuItem() {
       >
         <NavLink to='/contato'>Contato</NavLink>
       </motion.li>
-
-      <motion.li
-        variants={variants}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <NavLink to='/assinantes'>Assinar</NavLink>
-      </motion.li>
-    </div>
+    </Stack>
   );
 }

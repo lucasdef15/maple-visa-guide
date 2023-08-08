@@ -3,9 +3,9 @@ import { UserContext } from '../contexts/UserContext';
 import { Outlet, Navigate } from 'react-router-dom';
 
 export const ProtectedRoute = () => {
-  const [state] = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  if (state.loading) return <div>Loading...</div>;
+  if (user.loading) return <div>Loading...</div>;
 
-  return state.data ? <Outlet /> : <Navigate to='/' />;
+  return user.data ? <Outlet /> : <Navigate to='/' />;
 };

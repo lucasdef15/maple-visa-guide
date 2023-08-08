@@ -43,6 +43,10 @@ const MobileNav = styled(Stack)(() => ({
   position: 'fixed',
   right: 0,
   top: 0,
+
+  '& svg': {
+    maxWidth: '150px',
+  },
 }));
 
 export default function MobileNavBar() {
@@ -82,7 +86,7 @@ export default function MobileNavBar() {
         top: showHeader ? 0 : '-200px',
       }}
     >
-      <Logo />
+      <Logo color='#07264E' />
       <motion.nav
         style={{
           top: showHeader ? 0 : isOpen ? 0 : '-200px',

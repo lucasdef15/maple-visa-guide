@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import { NavigateFunction } from 'react-router-dom';
 import axios from 'axios';
 
 interface User {
@@ -12,15 +13,23 @@ interface User {
   loading: boolean;
 }
 
+interface UserContextValue {
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+  handleLogout: (navigate: NavigateFunction) => void;
+}
+
 const initialState: User = {
   data: null,
   loading: true,
   error: null,
 };
 
-const UserContext = createContext<
-  [User, React.Dispatch<React.SetStateAction<User>>]
->([initialState, () => {}]);
+const UserContext = createContext<UserContextValue>({
+  user: initialState,
+  setUser: () => {},
+  handleLogout: () => {},
+});
 
 const UserProvider = ({ children }: any) => {
   const [user, setUser] = useState<User>(initialState);
@@ -67,10 +76,21 @@ const UserProvider = ({ children }: any) => {
     }
   }, [token]);
 
+  const handleLogout = (navigate: NavigateFunction) => {
+    setUser({ data: null, loading: false, error: null });
+    localStorage.removeItem('token');
+
+    navigate('/');
+  };
+
+  const contextValue: UserContextValue = {
+    user,
+    setUser,
+    handleLogout,
+  };
+
   return (
-    <UserContext.Provider value={[user, setUser]}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };
 

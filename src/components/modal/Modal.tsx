@@ -26,7 +26,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: { xs: '90%', sm: '55%', md: '100%' },
-  height: { xs: '55%', md: '70%' },
+  height: { xs: 'auto', md: '70%' },
   maxWidth: '950px',
   bgcolor: 'background.paper',
   border: '1px solid #00000075',
@@ -61,7 +61,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
   const [passwordError, setPasswordError] = useState('');
 
   const navigate = useNavigate();
-  const [, setUserState] = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const handleOpen = () => {
     setOpen(true);
@@ -119,7 +119,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
       }
     }
 
-    setUserState({
+    setUser({
       data: {
         id: response.data.user.id,
         name: response.data.user.name,
@@ -140,6 +140,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
   return (
     <>
       <Button
+        className='signinBtn'
         variant={variant}
         color={color}
         onClick={handleOpen}
@@ -225,20 +226,13 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                 sx={{ mt: 2, width: '80%' }}
               >
                 <Button
+                  className='signinBtn'
                   variant='contained'
                   color='secondary'
                   sx={{ textTransform: 'initial' }}
                   onClick={handleClick}
                 >
                   {text}
-                </Button>
-                <Button
-                  variant='outlined'
-                  color='secondary'
-                  onClick={handleClose}
-                  sx={{ textTransform: 'initial' }}
-                >
-                  Close
                 </Button>
               </Stack>
             </Stack>

@@ -6,7 +6,7 @@ import Logo from '../../logo/Logo';
 import ModalComponent from '../../modal/Modal';
 import BadgeAvatars from '../BadgeAvatars';
 import { UserContext } from '../../../contexts/UserContext';
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const DesktopHeaderWrapper = styled('div')(() => ({
@@ -27,20 +27,30 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   '@media (max-width: 1100px)': {
     paddingInline: '1rem',
   },
+  '& svg': {
+    width: '15%',
+    minWidth: '150px',
+  },
   '& nav': {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    marginLeft: 'clamp(1rem, 3vw, 3rem)',
 
-    '& ul': {
+    '& ul:not(.notGap)': {
       listStyle: 'none',
       display: 'flex',
       alignItems: 'center',
-      gap: '35px',
+      gap: '45px',
       fontSize: '1rem',
       color: theme.palette.text.secondary,
+    },
+    '& .notGap': {
+      listStyle: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '25px',
+      fontSize: '1rem',
     },
   },
   '& .active': {
@@ -83,16 +93,9 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 
 export default function DesktopNavBar() {
   const { showHeader, isOpen } = useContext(MainContext);
-  const [userState, setUserState] = useContext(UserContext);
+  const { user, handleLogout } = useContext(UserContext);
 
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    setUserState({ data: null, loading: false, error: null });
-    localStorage.removeItem('token');
-
-    navigate('/');
-  };
 
   return (
     <DesktopHeaderWrapper
@@ -102,17 +105,18 @@ export default function DesktopNavBar() {
       }}
     >
       <HeaderStyle>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: '20px',
+        <Stack
+          flexDirection='row'
+          justifyContent='space-between'
+          alignItems='center'
+          useFlexGap
+          spacing={7}
+          sx={{
             width: '100%',
             maxWidth: '1080px',
           }}
         >
-          <Logo />
+          <Logo color='#07264E' />
           <nav>
             <ul>
               <li>
@@ -124,12 +128,9 @@ export default function DesktopNavBar() {
               <li>
                 <NavLink to='/contato'>Contato</NavLink>
               </li>
-              {/* <li>
-                <NavLink to='/assinantes'>Assinar</NavLink>
-              </li> */}
             </ul>
-            <ul>
-              {!userState.data && (
+            <ul className='notGap'>
+              {!user.data && (
                 <>
                   <li className='not'>
                     <ModalComponent
@@ -147,9 +148,9 @@ export default function DesktopNavBar() {
                   </li>
                 </>
               )}
-              {userState.data && (
+              {user.data && (
                 <>
-                  <li className='not' style={{ marginRight: '20px' }}>
+                  <li className='not'>
                     <BadgeAvatars />
                   </li>
                   <li className='not'>
@@ -157,7 +158,7 @@ export default function DesktopNavBar() {
                       sx={{ textTransform: 'unset' }}
                       variant='contained'
                       color='secondary'
-                      onClick={handleLogout}
+                      onClick={() => handleLogout(navigate)}
                     >
                       Logout
                     </Button>
@@ -166,7 +167,7 @@ export default function DesktopNavBar() {
               )}
             </ul>
           </nav>
-        </div>
+        </Stack>
       </HeaderStyle>
     </DesktopHeaderWrapper>
   );
