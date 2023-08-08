@@ -75,6 +75,16 @@ export default function MenuItem() {
       >
         <NavLink to='/contato'>Contato</NavLink>
       </motion.li>
+
+      {user.data && (
+        <motion.li
+          variants={variants}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <NavLink to='/Membros'>Membros</NavLink>
+        </motion.li>
+      )}
     </Stack>
   );
 }

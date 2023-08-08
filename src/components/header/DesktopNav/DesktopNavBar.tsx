@@ -128,6 +128,11 @@ export default function DesktopNavBar() {
               <li>
                 <NavLink to='/contato'>Contato</NavLink>
               </li>
+              {user.data && (
+                <li>
+                  <NavLink to='/membros'>Membros</NavLink>
+                </li>
+              )}
             </ul>
             <ul className='notGap'>
               {!user.data && (

@@ -5,9 +5,10 @@ import axios from 'axios';
 import { Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArticlesCard from '../components/cards/ArticlesCard';
+import Loader from '../components/loaders/Loader';
 
 export interface Article {
-  id: string;
+  id?: string;
   title: string;
   imageUrl: string;
   content: string;
@@ -17,19 +18,28 @@ const ArticleStyles = {
   minHeight: 'calc(100vh - 100px)',
 };
 
-export default function Menbers() {
+export default function Members() {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchArticles();
   }, []);
-  const fetchArticles = async () => {
-    const { data: response } = await axios.get(
-      'http://localhost:8080/articles'
-    );
 
-    setArticles(response.articles);
+  const fetchArticles = async () => {
+    try {
+      const { data: response } = await axios.get(
+        'http://localhost:8080/articles'
+      );
+
+      setArticles(response.articles);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+      setLoading(false);
+    }
   };
+
   return (
     <motion.div
       variants={routesVariants}
@@ -38,38 +48,38 @@ export default function Menbers() {
       exit='exit'
       style={{ position: 'relative', zIndex: -1 }}
     >
-      {articles?.length ? (
-        <Stack
-          sx={ArticleStyles}
-          direction='row'
-          justifyContent='center'
-          alignItems='center'
-          flexWrap='wrap'
-          spacing={2}
-        >
-          {articles.map((article) => (
+      <Stack
+        sx={ArticleStyles}
+        direction='row'
+        justifyContent='center'
+        alignItems='center'
+        flexWrap='wrap'
+        spacing={2}
+      >
+        {loading ? (
+          <Loader />
+        ) : articles.length ? (
+          articles.map((article) => (
             <ArticlesCard
-              id={article.id}
               key={article.id}
               title={article.title}
               imageUrl={article.imageUrl}
               content={article.content}
             />
-          ))}
-        </Stack>
-      ) : (
-        <Stack
-          sx={ArticleStyles}
-          direction='column'
-          justifyContent='center'
-          alignItems='center'
-          flexWrap='wrap'
-          spacing={2}
-        >
-          <p>You don't have a plan</p>
-          <Link to='/membros-plano'>Comprar Plano</Link>
-        </Stack>
-      )}
+          ))
+        ) : (
+          <Stack
+            direction='column'
+            justifyContent='center'
+            alignItems='center'
+            flexWrap='wrap'
+            spacing={2}
+          >
+            <p>You don't have a plan</p>
+            <Link to='/membros-plano'>Comprar Plano</Link>
+          </Stack>
+        )}
+      </Stack>
     </motion.div>
   );
 }
