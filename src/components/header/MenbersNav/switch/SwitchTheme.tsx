@@ -49,12 +49,12 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function SwitchTheme() {
+export default function SwitchTheme({ openMenu }: any) {
   return (
     <Stack direction='row' alignItems={'center'} justifyContent={'center'}>
-      <Typography>Light</Typography>
+      {openMenu && <Typography>Light</Typography>}
       <MaterialUISwitch sx={{ m: 1 }} defaultChecked />
-      <Typography>Dark</Typography>
+      {openMenu && <Typography>Dark</Typography>}
     </Stack>
   );
 }

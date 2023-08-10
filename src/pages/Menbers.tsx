@@ -15,7 +15,13 @@ export interface Article {
 }
 
 const ArticleStyles = {
-  minHeight: 'calc(100vh - 100px)',
+  minHeight: '100vh',
+  width: '100%',
+};
+
+const menbersContainer = {
+  height: '100%',
+  width: '100%',
 };
 
 export default function Members() {
@@ -29,7 +35,6 @@ export default function Members() {
   const fetchpost = async () => {
     try {
       const { data: response } = await axios.get('http://localhost:8080/posts');
-      console.log(response);
       setPost(response);
       setLoading(false);
     } catch (error) {
@@ -44,7 +49,7 @@ export default function Members() {
       initial='initial'
       animate='visible'
       exit='exit'
-      style={{ position: 'relative', zIndex: 0, background: 'lime' }}
+      style={menbersContainer}
     >
       <Stack
         sx={ArticleStyles}

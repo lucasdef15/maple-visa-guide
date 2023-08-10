@@ -7,13 +7,10 @@ import { BsWechat } from 'react-icons/bs';
 import SwitchTheme from './switch/SwitchTheme';
 import CollapsibleMenu from './CollapsibleMenu/CollapsibleMenu';
 import HeaderMenu from './HeaderMenu/HeaderMenu';
+import { useContext } from 'react';
+import { motion } from 'framer-motion';
+import MainContext from '../../../contexts/MainContext';
 
-const styledHeader = {
-  backgroundColor: '#090E14',
-  width: '18%',
-  minWidth: '250px',
-  color: '#fff',
-};
 const StyledLi = styled(Stack)(() => ({
   '&:not(.not)': {
     padding: '.7rem .5rem',
@@ -28,11 +25,27 @@ const StyledLi = styled(Stack)(() => ({
   },
 }));
 
+export interface MenbersNavProps {
+  openMenu: boolean;
+}
+
 export default function MenbersNav() {
+  const { openMenu, setOpenMenu } = useContext(MainContext);
+
   return (
-    <Stack component='header' sx={styledHeader}>
+    <motion.div
+      style={{
+        position: 'fixed',
+        backgroundColor: '#090E14',
+        height: '100vh',
+        color: '#fff',
+      }}
+      initial={{ width: '5%' }}
+      animate={{ width: openMenu ? '275px' : '76px' }}
+      exit={{ width: '275px' }}
+    >
       <Stack component={'nav'} sx={{ height: '100%' }}>
-        <HeaderMenu />
+        <HeaderMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />
         <Stack justifyContent={'space-between'} sx={{ height: '100%' }}>
           <Stack
             sx={{
@@ -44,25 +57,31 @@ export default function MenbersNav() {
             useFlexGap
             spacing={1}
           >
-            <StyledLi direction='row' alignItems='center' spacing={2}>
-              <BiSolidDashboard />
-              <NavLink to='/dashboard'>Dashboard</NavLink>
-            </StyledLi>
-            <CollapsibleMenu />
-            <StyledLi direction='row' alignItems='center' spacing={2}>
-              <BsWechat />
-              <NavLink to='/chat'>Chat</NavLink>
-            </StyledLi>
-            <StyledLi direction='row' alignItems='center' spacing={2}>
-              <AiFillHome />
-              <NavLink to='/'>Pagina Inicial</NavLink>
-            </StyledLi>
+            <NavLink to='dashboard'>
+              <StyledLi direction='row' alignItems='center' spacing={2}>
+                <BiSolidDashboard />
+                {openMenu && <span>Dashboard</span>}
+              </StyledLi>
+            </NavLink>
+            <CollapsibleMenu openMenu={openMenu} />
+            <NavLink to='chat'>
+              <StyledLi direction='row' alignItems='center' spacing={2}>
+                <BsWechat />
+                {openMenu && <span>Chat</span>}
+              </StyledLi>
+            </NavLink>
+            <NavLink to='/'>
+              <StyledLi direction='row' alignItems='center' spacing={2}>
+                <AiFillHome />
+                {openMenu && <span>Pagina Inicial</span>}
+              </StyledLi>
+            </NavLink>
           </Stack>
           <Stack>
-            <SwitchTheme />
+            <SwitchTheme openMenu={openMenu} />
           </Stack>
         </Stack>
       </Stack>
-    </Stack>
+    </motion.div>
   );
 }

@@ -31,7 +31,7 @@ const menuItem = {
   },
 };
 
-export default function CollapsibleMenu() {
+export default function CollapsibleMenu({ openMenu }: any) {
   const [openGuias, setOpenGuias] = useState(false);
 
   const handleOpen = () => {
@@ -51,13 +51,13 @@ export default function CollapsibleMenu() {
       >
         <Stack direction='row' alignItems='center' spacing={2}>
           <RiBook3Fill />
-          <span>Guias</span>
+          {openMenu && <span>Guias</span>}
         </Stack>
         <motion.div
           style={{ cursor: 'pointer' }}
           animate={{
             rotate: openGuias ? -180 : 0,
-            y: openGuias ? -2 : 0,
+            y: openGuias ? -2 : openMenu ? 0 : 3.5,
           }}
         >
           <MdKeyboardArrowDown />
@@ -75,44 +75,55 @@ export default function CollapsibleMenu() {
               flexDirection: 'column',
               gap: '.3rem',
               position: 'relative',
+              background: '#090E14',
+              width: '240px',
+              borderRadius: '5px',
             }}
           >
-            <Stack
-              direction='row'
-              alignItems='center'
-              spacing={2}
-              sx={menuItem}
-            >
-              <GoDotFill />
-              <NavLink to='/guias'>Todos</NavLink>
-            </Stack>
-            <Stack
-              direction='row'
-              alignItems='center'
-              spacing={2}
-              sx={menuItem}
-            >
-              <GoDotFill />
-              <NavLink to='/guias'>Manuais</NavLink>
-            </Stack>
-            <Stack
-              direction='row'
-              alignItems='center'
-              spacing={2}
-              sx={menuItem}
-            >
-              <GoDotFill />
-              <NavLink to='/guias'>Primeiros Passos</NavLink>
-            </Stack>
-            <Stack
-              direction='row'
-              alignItems='center'
-              spacing={2}
-              sx={menuItem}
-            >
-              <GoDotFill />
-              <NavLink to='/guias'>Tipos de Vistos</NavLink>
-            </Stack>
+            <NavLink to='/guias'>
+              <Stack
+                direction='row'
+                alignItems='center'
+                spacing={2}
+                sx={menuItem}
+              >
+                <GoDotFill />
+                <span>Todos</span>
+              </Stack>
+            </NavLink>
+            <NavLink to='/guias'>
+              <Stack
+                direction='row'
+                alignItems='center'
+                spacing={2}
+                sx={menuItem}
+              >
+                <GoDotFill />
+                <span>Manuais</span>
+              </Stack>
+            </NavLink>
+            <NavLink to='/guias'>
+              <Stack
+                direction='row'
+                alignItems='center'
+                spacing={2}
+                sx={menuItem}
+              >
+                <GoDotFill />
+                <span>Primeiros Passos</span>
+              </Stack>
+            </NavLink>
+            <NavLink to='/guias'>
+              <Stack
+                direction='row'
+                alignItems='center'
+                spacing={2}
+                sx={menuItem}
+              >
+                <GoDotFill />
+                <span>Tipos de Vistos</span>
+              </Stack>
+            </NavLink>
           </motion.ul>
         ) : null}
       </AnimatePresence>
