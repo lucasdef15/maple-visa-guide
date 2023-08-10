@@ -10,8 +10,8 @@ import Loader from '../components/loaders/Loader';
 export interface Article {
   id?: string;
   title: string;
-  imageUrl: string;
-  content: string;
+  img: string;
+  desc: string;
 }
 
 const ArticleStyles = {
@@ -19,23 +19,21 @@ const ArticleStyles = {
 };
 
 export default function Members() {
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [posts, setPost] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchArticles();
+    fetchpost();
   }, []);
 
-  const fetchArticles = async () => {
+  const fetchpost = async () => {
     try {
-      const { data: response } = await axios.get(
-        'http://localhost:8080/articles'
-      );
-
-      setArticles(response.articles);
+      const { data: response } = await axios.get('http://localhost:8080/posts');
+      console.log(response);
+      setPost(response);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching articles:', error);
+      console.error('Error fetching post:', error);
       setLoading(false);
     }
   };
@@ -46,7 +44,7 @@ export default function Members() {
       initial='initial'
       animate='visible'
       exit='exit'
-      style={{ position: 'relative', zIndex: -1 }}
+      style={{ position: 'relative', zIndex: 0, background: 'lime' }}
     >
       <Stack
         sx={ArticleStyles}
@@ -58,13 +56,13 @@ export default function Members() {
       >
         {loading ? (
           <Loader />
-        ) : articles.length ? (
-          articles.map((article) => (
+        ) : posts.length ? (
+          posts.map((post) => (
             <ArticlesCard
-              key={article.id}
-              title={article.title}
-              imageUrl={article.imageUrl}
-              content={article.content}
+              key={post.id}
+              title={post.title}
+              img={post.img}
+              desc={post.desc}
             />
           ))
         ) : (
@@ -76,7 +74,7 @@ export default function Members() {
             spacing={2}
           >
             <p>You don't have a plan</p>
-            <Link to='/membros-plano'>Comprar Plano</Link>
+            <Link to='/plano'>Comprar Plano</Link>
           </Stack>
         )}
       </Stack>

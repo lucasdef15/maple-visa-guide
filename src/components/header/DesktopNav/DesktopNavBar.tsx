@@ -95,6 +95,8 @@ export default function DesktopNavBar() {
   const { showHeader, isOpen } = useContext(MainContext);
   const { user, handleLogout } = useContext(UserContext);
 
+  console.log(user);
+
   const navigate = useNavigate();
 
   return (
@@ -130,7 +132,7 @@ export default function DesktopNavBar() {
               </li>
               {user.data && (
                 <li>
-                  <NavLink to='/membros'>Membros</NavLink>
+                  <NavLink to='/plano'>Assinar</NavLink>
                 </li>
               )}
             </ul>

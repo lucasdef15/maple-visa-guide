@@ -75,11 +75,9 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
 
   const handleClick = async () => {
     let response: any;
-
     setNameError('');
     setEmailError('');
     setPasswordError('');
-
     if (text === 'Signup') {
       const { data: signUpData } = await axios.post(
         'http://localhost:8080/auth/signup',
@@ -100,7 +98,6 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
       );
       response = logInData;
     }
-
     //check each error
     if (response.errors.length) {
       const errorMessage = response.errors[0].msg.toLowerCase();
@@ -118,7 +115,6 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
         return setPasswordError(response.errors[0].msg);
       }
     }
-
     setUser({
       data: {
         id: response.data.user.id,
@@ -134,7 +130,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
       'authorization'
     ] = `Bearer ${response.data.token}`;
     setOpen(false);
-    navigate('/membros');
+    navigate('/plano');
   };
 
   return (
@@ -206,7 +202,6 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                   type='email'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  // autoComplete='current-password'
                 />
                 <StyledInput
                   error={passwordError ? true : false}
@@ -216,7 +211,6 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                   type='password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  // autoComplete='current-password'
                 />
               </Stack>
               <Stack

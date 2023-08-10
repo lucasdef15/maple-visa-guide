@@ -13,37 +13,75 @@ const LazyMenbersPlan = lazy(() => import('../pages/MenbersPlan'));
 
 // Layouts
 const LazyRootLayout = lazy(() => import('../layouts/RootLayout'));
+const LazyMenbersLayout = lazy(() => import('../layouts/MenbersLayout'));
+const LazyPaymentLayout = lazy(() => import('../layouts/PaymentLayout'));
 
 export default function AnimatedRoutes() {
   return (
     <AnimatePresence>
-      <Routes location={location} key={location.pathname}>
-        <Route path='/' element={<LazyRootLayout />}>
-          <Route
-            index
-            element={
-              <Suspense fallback={<Loader />}>
-                <LazyHome />
-              </Suspense>
-            }
-          />
-          <Route
-            path='sobre'
-            element={
-              <Suspense fallback={<Loader />}>
-                <LazyAbout />
-              </Suspense>
-            }
-          />
-          <Route
-            path='contato'
-            element={
-              <Suspense fallback={<Loader />}>
-                <LazyContact />
-              </Suspense>
-            }
-          />
-          <Route path='membros' element={<ProtectedRoute />}>
+      <Suspense fallback={<Loader />}>
+        {/* layout 01 */}
+        <Routes location={location} key={location.pathname}>
+          <Route path='/' element={<LazyRootLayout />}>
+            <Route
+              index
+              element={
+                <Suspense fallback={<Loader />}>
+                  <LazyHome />
+                </Suspense>
+              }
+            />
+            <Route
+              path='sobre'
+              element={
+                <Suspense fallback={<Loader />}>
+                  <LazyAbout />
+                </Suspense>
+              }
+            />
+            <Route
+              path='contato'
+              element={
+                <Suspense fallback={<Loader />}>
+                  <LazyContact />
+                </Suspense>
+              }
+            />
+          </Route>
+          {/* layout 02 */}
+          <Route path='/plano' element={<ProtectedRoute />}>
+            <Route path='' element={<LazyPaymentLayout />}>
+              <Route
+                index
+                element={
+                  <Suspense fallback={<Loader />}>
+                    <LazyMenbersPlan />
+                  </Suspense>
+                }
+              />
+            </Route>
+          </Route>
+          {/* layout 03 */}
+          <Route path='/guias' element={<ProtectedRoute />}>
+            <Route path='posts' element={<LazyMenbersLayout />}>
+              <Route
+                index
+                element={
+                  <Suspense fallback={<Loader />}>
+                    <LazyMenbers />
+                  </Suspense>
+                }
+              />
+            </Route>
+          </Route>
+        </Routes>
+      </Suspense>
+    </AnimatePresence>
+  );
+}
+
+{
+  /* <Route path='membros' element={<ProtectedRoute />}>
             <Route
               index
               element={
@@ -62,9 +100,5 @@ export default function AnimatedRoutes() {
                 </Suspense>
               }
             />
-          </Route>
-        </Route>
-      </Routes>
-    </AnimatePresence>
-  );
+          </Route> */
 }

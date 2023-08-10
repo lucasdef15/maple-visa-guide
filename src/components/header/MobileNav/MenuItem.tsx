@@ -82,7 +82,7 @@ export default function MenuItem() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
-          <NavLink to='/Membros'>Membros</NavLink>
+          <NavLink to='/plano'>Assinar</NavLink>
         </motion.li>
       )}
     </Stack>
