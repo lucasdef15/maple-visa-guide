@@ -7,6 +7,7 @@ import { useContext } from 'react';
 
 const styledLayout = {
   zIndex: -1,
+  position: 'relative',
   minHeight: '100vh',
 };
 
@@ -16,6 +17,8 @@ export default function MenbersLayout() {
   const styledContainer = {
     width: 'calc(100%)',
     marginLeft: openMenu ? '275px' : '76px',
+    zIndex: -1,
+    position: 'relative',
   };
   return (
     <Stack sx={styledLayout} direction='row'>

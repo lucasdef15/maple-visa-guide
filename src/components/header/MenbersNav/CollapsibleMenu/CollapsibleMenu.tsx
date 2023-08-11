@@ -76,11 +76,11 @@ export default function CollapsibleMenu({ openMenu }: any) {
               gap: '.3rem',
               position: 'relative',
               background: '#090E14',
-              width: '240px',
+              width: '243px',
               borderRadius: '5px',
             }}
           >
-            <NavLink to='/guias'>
+            <NavLink to='guias' onClick={() => setOpenGuias(!openGuias)}>
               <Stack
                 direction='row'
                 alignItems='center'
@@ -91,7 +91,7 @@ export default function CollapsibleMenu({ openMenu }: any) {
                 <span>Todos</span>
               </Stack>
             </NavLink>
-            <NavLink to='/guias'>
+            <NavLink to='?cat=manuais' onClick={() => setOpenGuias(!openGuias)}>
               <Stack
                 direction='row'
                 alignItems='center'
@@ -102,7 +102,10 @@ export default function CollapsibleMenu({ openMenu }: any) {
                 <span>Manuais</span>
               </Stack>
             </NavLink>
-            <NavLink to='/guias'>
+            <NavLink
+              to='?cat=primeiros+passos'
+              onClick={() => setOpenGuias(!openGuias)}
+            >
               <Stack
                 direction='row'
                 alignItems='center'
@@ -113,7 +116,10 @@ export default function CollapsibleMenu({ openMenu }: any) {
                 <span>Primeiros Passos</span>
               </Stack>
             </NavLink>
-            <NavLink to='/guias'>
+            <NavLink
+              to='?cat=tipos+de+vistos'
+              onClick={() => setOpenGuias(!openGuias)}
+            >
               <Stack
                 direction='row'
                 alignItems='center'

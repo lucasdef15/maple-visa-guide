@@ -16,12 +16,10 @@ export interface Article {
 
 const ArticleStyles = {
   minHeight: '100vh',
+  marginBlock: '50px',
   width: '100%',
-};
-
-const menbersContainer = {
-  height: '100%',
-  width: '100%',
+  zIndex: -1,
+  position: 'relative',
 };
 
 export default function Members() {
@@ -49,7 +47,12 @@ export default function Members() {
       initial='initial'
       animate='visible'
       exit='exit'
-      style={menbersContainer}
+      style={{
+        height: '100%',
+        width: '100%',
+        zIndex: '-1',
+        position: 'relative',
+      }}
     >
       <Stack
         sx={ArticleStyles}
@@ -57,7 +60,8 @@ export default function Members() {
         justifyContent='center'
         alignItems='center'
         flexWrap='wrap'
-        spacing={2}
+        useFlexGap
+        spacing={4}
       >
         {loading ? (
           <Loader />
@@ -65,6 +69,7 @@ export default function Members() {
           posts.map((post) => (
             <ArticlesCard
               key={post.id}
+              id={post.id}
               title={post.title}
               img={post.img}
               desc={post.desc}

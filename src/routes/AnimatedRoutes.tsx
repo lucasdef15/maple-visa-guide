@@ -8,8 +8,13 @@ import { ProtectedRoute } from './ProtectedRoute';
 const LazyHome = lazy(() => import('../pages/Home'));
 const LazyAbout = lazy(() => import('../pages/About'));
 const LazyContact = lazy(() => import('../pages/Contact'));
-const LazyMenbers = lazy(() => import('../pages/Menbers'));
+const LazyGuias = lazy(() => import('../pages/Guias'));
 const LazyMenbersPlan = lazy(() => import('../pages/MenbersPlan'));
+const LazyForum = lazy(() => import('../pages/Forum'));
+const LazyDashboard = lazy(() => import('../pages/Dashboard'));
+const LazyPostPage = lazy(() => import('../pages/PostPage'));
+const LazyWrite = lazy(() => import('../pages/Write'));
+const LazyEdit = lazy(() => import('../pages/Edit'));
 
 // Layouts
 const LazyRootLayout = lazy(() => import('../layouts/RootLayout'));
@@ -62,13 +67,53 @@ export default function AnimatedRoutes() {
             </Route>
           </Route>
           {/* layout 03 */}
-          <Route path='/guias' element={<ProtectedRoute />}>
-            <Route path='posts' element={<LazyMenbersLayout />}>
+          <Route path='/membros' element={<ProtectedRoute />}>
+            <Route element={<LazyMenbersLayout />}>
               <Route
-                index
+                path='dashboard'
                 element={
                   <Suspense fallback={<Loader />}>
-                    <LazyMenbers />
+                    <LazyDashboard />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='forum'
+                element={
+                  <Suspense fallback={<Loader />}>
+                    <LazyForum />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='guias'
+                element={
+                  <Suspense fallback={<Loader />}>
+                    <LazyGuias />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='guias/:id'
+                element={
+                  <Suspense fallback={<Loader />}>
+                    <LazyPostPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='guias/write'
+                element={
+                  <Suspense fallback={<Loader />}>
+                    <LazyWrite />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='guias/edit/:id'
+                element={
+                  <Suspense fallback={<Loader />}>
+                    <LazyEdit />
                   </Suspense>
                 }
               />
@@ -78,27 +123,4 @@ export default function AnimatedRoutes() {
       </Suspense>
     </AnimatePresence>
   );
-}
-
-{
-  /* <Route path='membros' element={<ProtectedRoute />}>
-            <Route
-              index
-              element={
-                <Suspense fallback={<Loader />}>
-                  <LazyMenbers />
-                </Suspense>
-              }
-            />
-          </Route>
-          <Route path='membros-plano' element={<ProtectedRoute />}>
-            <Route
-              index
-              element={
-                <Suspense fallback={<Loader />}>
-                  <LazyMenbersPlan />
-                </Suspense>
-              }
-            />
-          </Route> */
 }

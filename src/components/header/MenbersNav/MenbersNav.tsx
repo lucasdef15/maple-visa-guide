@@ -64,7 +64,7 @@ export default function MenbersNav() {
               </StyledLi>
             </NavLink>
             <CollapsibleMenu openMenu={openMenu} />
-            <NavLink to='chat'>
+            <NavLink to='forum'>
               <StyledLi direction='row' alignItems='center' spacing={2}>
                 <BsWechat />
                 {openMenu && <span>Chat</span>}
