@@ -47,7 +47,7 @@ export default function HeaderMenu({ openMenu, setOpenMenu }: any) {
           animate={{
             rotate: openMenu ? 0 : 180,
             x: openMenu ? 0 : '-14px',
-            y: openMenu ? 0 : '-25px',
+            y: openMenu ? 0 : '56px',
           }}
         >
           <AiOutlineArrowLeft />
