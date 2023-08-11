@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Stack } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ReactQuill from 'react-quill';
 import { routesVariants } from '../animations/animations';
 import { motion } from 'framer-motion';
@@ -51,8 +53,19 @@ export default function Write() {
         spacing={3}
         sx={{ m: '3rem 2rem' }}
       >
-        <Stack className='content' flex={5}>
-          <input type='text' placeholder='Title' />
+        <Stack className='content' flex={7}>
+          <input
+            type='text'
+            placeholder='Title'
+            style={{
+              padding: '10px',
+              border: '1px solid lightgray',
+              borderRadius: '15px',
+              paddingLeft: '1.5rem',
+              marginBottom: '1rem',
+            }}
+          />
+
           <ReactQuill
             theme='snow'
             value={value}
@@ -61,9 +74,23 @@ export default function Write() {
             formats={formats}
           />
         </Stack>
-        <Stack className='menu' flex={2}>
-          <div className='item'>
-            <h2>Publish</h2>
+        <Stack
+          className='menu'
+          flex={2}
+          sx={{
+            '& .item': {
+              border: '1px solid lightgray',
+              padding: '1rem',
+              minHeight: '150px',
+              borderRadius: '15px',
+              marginBottom: '1rem',
+            },
+          }}
+        >
+          <Stack className='item' spacing={1}>
+            <Typography variant={'h5'} component={'h2'} fontWeight={'bold'}>
+              Publish
+            </Typography>
             <span>
               <b>Status</b> Draft
             </span>
@@ -71,26 +98,175 @@ export default function Write() {
               <b>Visibility</b> Public
             </span>
             <input style={{ display: 'none' }} type='file' id='file' />
-            <label htmlFor='file'>Upload Image</label>
-            <div className='buttons'>
-              <button>Save as a draft</button>
-              <button>update</button>
-            </div>
-          </div>
-          <div className='item'>
-            <h2>Category</h2>
-            <input type='radio' name='cat' value='art' id='art' />
-            <label htmlFor='art'>Art</label>
+            <label
+              htmlFor='file'
+              style={{ textDecoration: 'underline', cursor: 'pointer' }}
+            >
+              Upload Image
+            </label>
+            <Stack
+              direction={'row'}
+              justifyContent={'space-between'}
+              sx={{ pt: '15px' }}
+            >
+              <Button
+                variant='outlined'
+                sx={{ borderRadius: '10px', textTransform: 'unset' }}
+              >
+                Save as a draft
+              </Button>
+              <Button
+                variant='contained'
+                color='secondary'
+                sx={{ borderRadius: '10px', textTransform: 'unset' }}
+              >
+                update
+              </Button>
+            </Stack>
+          </Stack>
 
-            <input type='radio' name='cat' value='food' id='food' />
-            <label htmlFor='food'>food</label>
-
-            <input type='radio' name='cat' value='art' id='art' />
-            <label htmlFor='art'>Art</label>
-
-            <input type='radio' name='cat' value='art' id='art' />
-            <label htmlFor='art'>Art</label>
-          </div>
+          <Stack className='item' spacing={'2px'}>
+            <Typography
+              variant={'h5'}
+              component={'h2'}
+              fontWeight={'bold'}
+              sx={{ mb: '.5rem' }}
+            >
+              Category
+            </Typography>
+            <Stack
+              direction={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              spacing={2}
+            >
+              <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                <input
+                  type='radio'
+                  name='cat'
+                  value='art'
+                  id='art'
+                  style={{ cursor: 'pointer' }}
+                />
+                <label htmlFor='art' style={{ cursor: 'pointer' }}>
+                  Art
+                </label>
+              </Stack>
+              <IconButton
+                aria-label='delete'
+                size='small'
+                sx={{ '&:hover': { background: 'tomato' } }}
+              >
+                <DeleteIcon fontSize='inherit' />
+              </IconButton>
+            </Stack>
+            <Stack
+              direction={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              spacing={2}
+            >
+              <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                <input
+                  type='radio'
+                  name='cat'
+                  value='art'
+                  id='art'
+                  style={{ cursor: 'pointer' }}
+                />
+                <label htmlFor='art' style={{ cursor: 'pointer' }}>
+                  Art
+                </label>
+              </Stack>
+              <IconButton
+                aria-label='delete'
+                size='small'
+                sx={{ '&:hover': { background: 'tomato' } }}
+              >
+                <DeleteIcon fontSize='inherit' />
+              </IconButton>
+            </Stack>
+            <Stack
+              direction={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              spacing={2}
+            >
+              <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                <input
+                  type='radio'
+                  name='cat'
+                  value='art'
+                  id='art'
+                  style={{ cursor: 'pointer' }}
+                />
+                <label htmlFor='art' style={{ cursor: 'pointer' }}>
+                  Art
+                </label>
+              </Stack>
+              <IconButton
+                aria-label='delete'
+                size='small'
+                sx={{ '&:hover': { background: 'tomato' } }}
+              >
+                <DeleteIcon fontSize='inherit' />
+              </IconButton>
+            </Stack>
+            <Stack
+              direction={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              spacing={2}
+            >
+              <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                <input
+                  type='radio'
+                  name='cat'
+                  value='art'
+                  id='art'
+                  style={{ cursor: 'pointer' }}
+                />
+                <label htmlFor='art' style={{ cursor: 'pointer' }}>
+                  Art
+                </label>
+              </Stack>
+              <IconButton
+                aria-label='delete'
+                size='small'
+                sx={{ '&:hover': { background: 'tomato' } }}
+              >
+                <DeleteIcon fontSize='inherit' />
+              </IconButton>
+            </Stack>
+          </Stack>
+          <Stack className='item'>
+            <Typography
+              variant={'h5'}
+              component={'h2'}
+              fontWeight={'bold'}
+              sx={{ mb: '.5rem' }}
+            >
+              Add New Category
+            </Typography>
+            <input
+              type='text'
+              placeholder='Categoria'
+              style={{
+                padding: '10px',
+                border: '1px solid lightgray',
+                borderRadius: '15px',
+                paddingLeft: '1rem',
+                marginBottom: '1rem',
+              }}
+            />
+            <Button
+              variant='contained'
+              color='secondary'
+              sx={{ borderRadius: '10px', textTransform: 'unset' }}
+            >
+              Adicionar
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     </motion.div>

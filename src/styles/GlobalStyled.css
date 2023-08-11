@@ -41,15 +41,12 @@ a{
   max-width: 1080px;
   margin: 0 auto;
 }
-.blueLight300{
-  background-color: #77A6B8;
+.ql-container {
+  border-radius: 0 0 15px 15px !important;
+  background: rgb(255, 255, 255) !important;
+  height: 100vh !important;
 }
-.blueLight100 {
-background-color: #8FC2D6;
-}
-.blueLight500 {
-background-color: #4798B7;
-}
-.blueLight400 {
-background-color: #59AAD7;
+.ql-toolbar {
+  border-radius: 15px 15px 0 0 !important;
+  background: rgb(255, 255, 255) !important;
 }
