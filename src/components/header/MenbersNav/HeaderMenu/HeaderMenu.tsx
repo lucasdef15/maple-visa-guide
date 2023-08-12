@@ -3,6 +3,8 @@ import { Stack, Typography } from '@mui/material';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import AccountMenu from '../menu/AccountMenu';
 import { motion } from 'framer-motion';
+import { useContext } from 'react';
+import { UserContext } from '../../../../contexts/UserContext';
 
 const styledUserInfo = {
   backgroundColor: '#23262D',
@@ -17,6 +19,8 @@ const menu = {
 };
 
 export default function HeaderMenu({ openMenu, setOpenMenu }: any) {
+  const { user } = useContext(UserContext);
+
   return (
     <Stack
       sx={styledUserInfo}
@@ -28,7 +32,7 @@ export default function HeaderMenu({ openMenu, setOpenMenu }: any) {
       <BadgeAvatars />
       {openMenu && (
         <Stack>
-          <Typography sx={{ fontSize: '1rem' }}>Amelia Laurent</Typography>
+          <Typography sx={{ fontSize: '1rem' }}>{user?.data?.name}</Typography>
           <Typography
             sx={{
               fontSize: '.8rem',
@@ -36,7 +40,7 @@ export default function HeaderMenu({ openMenu, setOpenMenu }: any) {
               color: 'text.light',
             }}
           >
-            amelia@outlook.com
+            {user?.data?.email}
           </Typography>
         </Stack>
       )}
@@ -46,8 +50,8 @@ export default function HeaderMenu({ openMenu, setOpenMenu }: any) {
           onClick={() => setOpenMenu(!openMenu)}
           animate={{
             rotate: openMenu ? 0 : 180,
-            x: openMenu ? 0 : '-14px',
-            y: openMenu ? 0 : '56px',
+            x: openMenu ? 0 : '-45px',
+            y: openMenu ? 0 : 'calc(100vh - 110px)',
           }}
         >
           <AiOutlineArrowLeft />

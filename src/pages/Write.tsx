@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReactQuill from 'react-quill';
 import { routesVariants } from '../animations/animations';
 import { motion } from 'framer-motion';
+import { CategoryContext } from '../contexts/CategoryContext';
 import 'react-quill/dist/quill.snow.css';
 
 export default function Write() {
   const [value, setValue] = useState('');
+
+  const { categories } = useContext(CategoryContext);
 
   const modules = {
     toolbar: [
@@ -37,7 +40,6 @@ export default function Write() {
     'link',
     'image',
   ];
-  console.log(value);
   return (
     <motion.div
       variants={routesVariants}
@@ -134,110 +136,36 @@ export default function Write() {
             >
               Category
             </Typography>
-            <Stack
-              direction={'row'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              spacing={2}
-            >
-              <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                <input
-                  type='radio'
-                  name='cat'
-                  value='art'
-                  id='art'
-                  style={{ cursor: 'pointer' }}
-                />
-                <label htmlFor='art' style={{ cursor: 'pointer' }}>
-                  Art
-                </label>
-              </Stack>
-              <IconButton
-                aria-label='delete'
-                size='small'
-                sx={{ '&:hover': { background: 'tomato' } }}
-              >
-                <DeleteIcon fontSize='inherit' />
-              </IconButton>
-            </Stack>
-            <Stack
-              direction={'row'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              spacing={2}
-            >
-              <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                <input
-                  type='radio'
-                  name='cat'
-                  value='art'
-                  id='art'
-                  style={{ cursor: 'pointer' }}
-                />
-                <label htmlFor='art' style={{ cursor: 'pointer' }}>
-                  Art
-                </label>
-              </Stack>
-              <IconButton
-                aria-label='delete'
-                size='small'
-                sx={{ '&:hover': { background: 'tomato' } }}
-              >
-                <DeleteIcon fontSize='inherit' />
-              </IconButton>
-            </Stack>
-            <Stack
-              direction={'row'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              spacing={2}
-            >
-              <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                <input
-                  type='radio'
-                  name='cat'
-                  value='art'
-                  id='art'
-                  style={{ cursor: 'pointer' }}
-                />
-                <label htmlFor='art' style={{ cursor: 'pointer' }}>
-                  Art
-                </label>
-              </Stack>
-              <IconButton
-                aria-label='delete'
-                size='small'
-                sx={{ '&:hover': { background: 'tomato' } }}
-              >
-                <DeleteIcon fontSize='inherit' />
-              </IconButton>
-            </Stack>
-            <Stack
-              direction={'row'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              spacing={2}
-            >
-              <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                <input
-                  type='radio'
-                  name='cat'
-                  value='art'
-                  id='art'
-                  style={{ cursor: 'pointer' }}
-                />
-                <label htmlFor='art' style={{ cursor: 'pointer' }}>
-                  Art
-                </label>
-              </Stack>
-              <IconButton
-                aria-label='delete'
-                size='small'
-                sx={{ '&:hover': { background: 'tomato' } }}
-              >
-                <DeleteIcon fontSize='inherit' />
-              </IconButton>
-            </Stack>
+            {categories &&
+              categories.map((category: any) => (
+                <Stack
+                  key={category.catId}
+                  direction={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  spacing={2}
+                >
+                  <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                    <input
+                      type='radio'
+                      name='cat'
+                      value='art'
+                      id='art'
+                      style={{ cursor: 'pointer' }}
+                    />
+                    <label htmlFor='art' style={{ cursor: 'pointer' }}>
+                      {category.name}
+                    </label>
+                  </Stack>
+                  <IconButton
+                    aria-label='delete'
+                    size='small'
+                    sx={{ '&:hover': { background: 'tomato' } }}
+                  >
+                    <DeleteIcon fontSize='inherit' />
+                  </IconButton>
+                </Stack>
+              ))}
           </Stack>
           <Stack className='item'>
             <Typography

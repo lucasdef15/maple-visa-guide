@@ -49,7 +49,7 @@ export default function MenbersNav() {
         <Stack justifyContent={'space-between'} sx={{ height: '100%' }}>
           <Stack
             sx={{
-              mt: '1rem',
+              mt: '1.5rem',
               padding: '1rem',
               listStyle: 'none',
               fontSize: '18px',

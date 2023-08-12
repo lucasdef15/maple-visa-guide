@@ -79,15 +79,19 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     setEmailError('');
     setPasswordError('');
     if (text === 'Signup') {
-      const { data: signUpData } = await axios.post(
-        'http://localhost:8080/auth/signup',
-        {
-          name,
-          email,
-          password,
-        }
-      );
-      response = signUpData;
+      try {
+        const { data: signUpData } = await axios.post(
+          'http://localhost:8080/auth/signup',
+          {
+            name,
+            email,
+            password,
+          }
+        );
+        response = signUpData;
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       const { data: logInData } = await axios.post(
         'http://localhost:8080/auth/login',
@@ -118,6 +122,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     setUser({
       data: {
         id: response.data.user.id,
+        img: response.data.user.img,
         name: response.data.user.name,
         email: response.data.user.email,
         stripeCustomerId: response.data.stripeCustomerId,

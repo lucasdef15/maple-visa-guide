@@ -2,11 +2,12 @@ import { createContext, useState, useEffect } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 import axios from 'axios';
 
-interface User {
+export interface User {
   data: {
     id: string;
     email: string;
     name: string;
+    img: string;
     stripeCustomerId: string;
   } | null;
   error: string | null;
@@ -50,6 +51,7 @@ const UserProvider = ({ children }: any) => {
           id: response.data.user.id,
           name: response.data.user.name,
           email: response.data.user.email,
+          img: response.data.user.img,
           stripeCustomerId: response.data.user.stripeCustomerId,
         },
         loading: false,

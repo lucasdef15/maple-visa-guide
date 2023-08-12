@@ -7,14 +7,17 @@ import App from './App.tsx';
 import './styles/Animations.css';
 import './styles/GlobalStyled.css';
 import { UserProvider } from './contexts/UserContext.tsx';
+import { CategoryProvider } from './contexts/CategoryContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <DataProvider>
       <UserProvider>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
+        <CategoryProvider>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </CategoryProvider>
       </UserProvider>
     </DataProvider>
   </React.StrictMode>

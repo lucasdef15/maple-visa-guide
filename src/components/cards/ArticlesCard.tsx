@@ -10,12 +10,23 @@ import { useNavigate, Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { BiSolidMessageSquareEdit } from 'react-icons/bi';
+import axios from 'axios';
 
 export default function ArticlesCard({ title, img, desc, id }: Article) {
   const navigate = useNavigate();
+
   const handlePostClick = () => {
     navigate(`${id}`);
   };
+
+  const handleDelete = async () => {
+    // try {
+    //   await axios.delete(`http://localhost:8080/posts/${id}`);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
   return (
     <Card sx={{ maxWidth: 345, height: '398px', zIndex: -1 }}>
       <Stack
@@ -46,6 +57,7 @@ export default function ArticlesCard({ title, img, desc, id }: Article) {
           <Button onClick={handlePostClick}>Ler mais</Button>
           <IconButton
             aria-label='delete'
+            onClick={handleDelete}
             sx={{ '&:hover': { background: 'tomato' } }}
           >
             <DeleteIcon />

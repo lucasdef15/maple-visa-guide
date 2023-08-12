@@ -6,6 +6,7 @@ import { Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArticlesCard from '../components/cards/ArticlesCard';
 import Loader from '../components/loaders/Loader';
+import { useLocation } from 'react-router-dom';
 
 export interface Article {
   id?: string;
@@ -26,13 +27,13 @@ export default function Members() {
   const [posts, setPost] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchpost();
-  }, []);
+  const cat = useLocation().search;
 
   const fetchpost = async () => {
     try {
-      const { data: response } = await axios.get('http://localhost:8080/posts');
+      const { data: response } = await axios.get(
+        `http://localhost:8080/posts${cat}`
+      );
       setPost(response);
       setLoading(false);
     } catch (error) {
@@ -40,6 +41,10 @@ export default function Members() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchpost();
+  }, [cat]);
 
   return (
     <motion.div

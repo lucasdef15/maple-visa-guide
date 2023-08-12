@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import { Stack } from '@mui/material';
 import { RiBook3Fill } from 'react-icons/ri';
 import { GoDotFill } from 'react-icons/go';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CategoryContext } from '../../../../contexts/CategoryContext';
 
 const StyledMenu = styled(Stack)(() => ({
   position: 'relative',
@@ -33,6 +34,8 @@ const menuItem = {
 
 export default function CollapsibleMenu({ openMenu }: any) {
   const [openGuias, setOpenGuias] = useState(false);
+
+  const { categories } = useContext(CategoryContext);
 
   const handleOpen = () => {
     setOpenGuias(!openGuias);
@@ -91,45 +94,23 @@ export default function CollapsibleMenu({ openMenu }: any) {
                 <span>Todos</span>
               </Stack>
             </NavLink>
-            <NavLink to='?cat=manuais' onClick={() => setOpenGuias(!openGuias)}>
-              <Stack
-                direction='row'
-                alignItems='center'
-                spacing={2}
-                sx={menuItem}
-              >
-                <GoDotFill />
-                <span>Manuais</span>
-              </Stack>
-            </NavLink>
-            <NavLink
-              to='?cat=primeiros+passos'
-              onClick={() => setOpenGuias(!openGuias)}
-            >
-              <Stack
-                direction='row'
-                alignItems='center'
-                spacing={2}
-                sx={menuItem}
-              >
-                <GoDotFill />
-                <span>Primeiros Passos</span>
-              </Stack>
-            </NavLink>
-            <NavLink
-              to='?cat=tipos+de+vistos'
-              onClick={() => setOpenGuias(!openGuias)}
-            >
-              <Stack
-                direction='row'
-                alignItems='center'
-                spacing={2}
-                sx={menuItem}
-              >
-                <GoDotFill />
-                <span>Tipos de Vistos</span>
-              </Stack>
-            </NavLink>
+            {categories &&
+              categories.map((category) => (
+                <NavLink
+                  to={`/membros/guias?categoryID=${category.catId}`}
+                  onClick={() => setOpenGuias(!openGuias)}
+                >
+                  <Stack
+                    direction='row'
+                    alignItems='center'
+                    spacing={2}
+                    sx={menuItem}
+                  >
+                    <GoDotFill />
+                    <span>{category.name}</span>
+                  </Stack>
+                </NavLink>
+              ))}
           </motion.ul>
         ) : null}
       </AnimatePresence>

@@ -2,7 +2,8 @@ import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import avatarpic from '/assets/imgs/avatar.jpg';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -34,6 +35,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export default function BadgeAvatars() {
+  const { user } = useContext(UserContext);
+
+  // if (!user) {
+  //   return <div>Loading...</div>;
+  // }
+
   return (
     <Stack direction='row' spacing={2}>
       <StyledBadge
@@ -41,7 +48,11 @@ export default function BadgeAvatars() {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant='dot'
       >
-        <Avatar alt='Remy Sharp' src={avatarpic} />
+        {user?.data?.img ? (
+          <Avatar alt='Remy Sharp' src={user.data.img} />
+        ) : (
+          <Avatar>{user?.data?.name.slice(0, 1).toLocaleUpperCase()}</Avatar>
+        )}
       </StyledBadge>
     </Stack>
   );
