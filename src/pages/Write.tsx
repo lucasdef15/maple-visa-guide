@@ -23,7 +23,7 @@ export default function Write() {
   const [cat, setCat] = useState('');
   const [newCat, setNewCat] = useState('');
 
-  const { categories } = useContext(CategoryContext);
+  const { categories, setCategories } = useContext(CategoryContext);
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -44,16 +44,44 @@ export default function Write() {
     const fileName = await upload();
     const imgURL = `http://localhost:8080/uploads/${fileName}`;
 
+    const catId = categories.find((category) => category.name === cat);
+
     try {
       await axios.post('http://localhost:8080/posts', {
         title,
         desc: value,
-        categoryID: cat,
+        categoryID: catId?.categoryID,
         img: file ? imgURL : '',
         authorID: user?.data?.id,
         date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
       });
       navigate('/membros/guias');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addNewCategory = async () => {
+    if (!newCat) return;
+    try {
+      const response = await axios.post('http://localhost:8080/cats', {
+        name: newCat,
+      });
+      setCategories(response.data);
+      setNewCat('');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteCat = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:8080/cats/${id}`);
+      const newCategories = categories.filter(
+        (category) => category.categoryID !== id
+      );
+      setCategories(newCategories);
+      setNewCat('');
     } catch (error) {
       console.log(error);
     }
@@ -178,10 +206,10 @@ export default function Write() {
                   <Stack direction={'row'} alignItems={'center'} spacing={1}>
                     <input
                       type='radio'
-                      name='cat'
-                      value={cat}
-                      onChange={() => setCat(category.catId)}
-                      id={cat}
+                      name={category.name}
+                      value={category.name}
+                      onChange={(e) => setCat(e.target.value)}
+                      id={category.name}
                       style={{ cursor: 'pointer' }}
                     />
                     <label htmlFor={cat} style={{ cursor: 'pointer' }}>
@@ -190,6 +218,7 @@ export default function Write() {
                   </Stack>
                   <IconButton
                     aria-label='delete'
+                    onClick={() => handleDeleteCat(category.categoryID)}
                     size='small'
                     sx={{ '&:hover': { background: 'tomato' } }}
                   >
@@ -222,6 +251,7 @@ export default function Write() {
             />
             <Button
               variant='contained'
+              onClick={addNewCategory}
               color='secondary'
               sx={{ borderRadius: '10px', textTransform: 'unset' }}
             >

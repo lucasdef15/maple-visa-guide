@@ -2,7 +2,7 @@ import { Stack, Avatar, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { BiSolidMessageSquareEdit } from 'react-icons/bi';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import PostSideMenu from '../components/sideMenu/PostSideMenu';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -50,6 +50,7 @@ export default function PostPage() {
   });
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const postId = location.pathname.split('/')[3];
 
@@ -71,6 +72,7 @@ export default function PostPage() {
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:8080/posts/${post.id}`);
+      navigate('/membros/guias');
     } catch (error) {
       console.log(error);
     }

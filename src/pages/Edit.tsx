@@ -59,7 +59,7 @@ export default function Edit() {
   useEffect(() => {
     const setPostInfo = () => {
       const category = categories.find(
-        (category) => category.catId === postData.categoryID
+        (category) => category.categoryID === postData.categoryID
       );
       if (category) {
         setCat(category.name as string);
@@ -92,7 +92,7 @@ export default function Edit() {
       await axios.put(`http://localhost:8080/posts/${postId}`, {
         title,
         desc: value,
-        categoryID: catId?.catId,
+        categoryID: catId?.categoryID,
         img: file ? imgURL : postData.img,
         authorID: user?.data?.id,
         date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
@@ -104,25 +104,23 @@ export default function Edit() {
   };
 
   const addNewCategory = async () => {
+    if (!newCat) return;
     try {
       const response = await axios.post('http://localhost:8080/cats', {
         name: newCat,
       });
-      console.log(response.data);
-
       setCategories(response.data);
       setNewCat('');
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(cat);
 
   const handleDeleteCat = async (id: number) => {
     try {
       await axios.delete(`http://localhost:8080/cats/${id}`);
       const newCategories = categories.filter(
-        (category) => category.catId !== id
+        (category) => category.categoryID !== id
       );
       setCategories(newCategories);
       setNewCat('');
@@ -184,7 +182,7 @@ export default function Edit() {
         >
           <Stack className='item' spacing={1}>
             <Typography variant={'h5'} component={'h2'} fontWeight={'bold'}>
-              Edit
+              Editar Post
             </Typography>
             <span>
               <b>Status</b> Draft
@@ -224,7 +222,7 @@ export default function Edit() {
                 color='secondary'
                 sx={{ borderRadius: '10px', textTransform: 'unset' }}
               >
-                Update
+                Update Post
               </Button>
             </Stack>
           </Stack>
@@ -267,7 +265,7 @@ export default function Edit() {
                   <IconButton
                     aria-label='delete'
                     size='small'
-                    onClick={() => handleDeleteCat(category.catId)}
+                    onClick={() => handleDeleteCat(category.categoryID)}
                     sx={{ '&:hover': { background: 'tomato' } }}
                   >
                     <DeleteIcon fontSize='inherit' />
@@ -303,7 +301,7 @@ export default function Edit() {
               color='secondary'
               sx={{ borderRadius: '10px', textTransform: 'unset' }}
             >
-              Adicionar
+              Adicionar Categoria
             </Button>
           </Stack>
         </Stack>

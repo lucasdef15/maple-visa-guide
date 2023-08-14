@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 export interface Category {
-  catId: number | null;
+  categoryID: number | null;
   name: string | null;
 }
 
@@ -13,7 +13,7 @@ interface CategoryContextValue {
 
 const initialState: Category[] = [
   {
-    catId: null,
+    categoryID: null,
     name: null,
   },
 ];
