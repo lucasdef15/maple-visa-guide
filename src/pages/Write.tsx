@@ -15,6 +15,9 @@ import axios from 'axios';
 import moment from 'moment';
 import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { CategoryContextValue } from '../contexts/CategoryContext';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import DocumentEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 export default function Write() {
   const [value, setValue] = useState('');
@@ -23,10 +26,12 @@ export default function Write() {
   const [cat, setCat] = useState('');
   const [newCat, setNewCat] = useState('');
 
-  const { categories, setCategories } = useContext(CategoryContext);
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
+  const { categories, setCategories } = useContext(
+    CategoryContext
+  ) as CategoryContextValue;
 
   const upload = async () => {
     try {
@@ -44,7 +49,7 @@ export default function Write() {
     const fileName = await upload();
     const imgURL = `http://localhost:8080/uploads/${fileName}`;
 
-    const catId = categories.find((category) => category.name === cat);
+    const catId = categories.find((category: any) => category.name === cat);
 
     try {
       await axios.post('http://localhost:8080/posts', {
@@ -78,7 +83,7 @@ export default function Write() {
     try {
       await axios.delete(`http://localhost:8080/cats/${id}`);
       const newCategories = categories.filter(
-        (category) => category.categoryID !== id
+        (category: any) => category.categoryID !== id
       );
       setCategories(newCategories);
       setNewCat('');
@@ -197,7 +202,7 @@ export default function Write() {
             {categories &&
               categories.map((category: any) => (
                 <Stack
-                  key={category.catId}
+                  key={category.categoryID}
                   direction={'row'}
                   alignItems={'center'}
                   justifyContent={'space-between'}

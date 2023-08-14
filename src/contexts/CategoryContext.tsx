@@ -6,7 +6,7 @@ export interface Category {
   name: string | null;
 }
 
-interface CategoryContextValue {
+export interface CategoryContextValue {
   categories: Category[];
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
 }
