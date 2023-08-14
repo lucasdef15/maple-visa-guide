@@ -7,12 +7,14 @@ import { Link } from 'react-router-dom';
 import ArticlesCard from '../components/cards/ArticlesCard';
 import Loader from '../components/loaders/Loader';
 import { useLocation } from 'react-router-dom';
+import { uid } from 'uid';
 
 export interface Article {
   id?: string;
   title: string;
   img: string;
   desc: string;
+  handleDelete(id: string): void;
 }
 
 const ArticleStyles = {
@@ -39,6 +41,14 @@ export default function Members() {
     } catch (error) {
       console.error('Error fetching post:', error);
       setLoading(false);
+    }
+  };
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:8080/posts/${id}`);
+      setPost(posts.filter((post) => post.id !== id));
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -73,11 +83,12 @@ export default function Members() {
         ) : posts.length ? (
           posts.map((post) => (
             <ArticlesCard
-              key={post.id}
+              key={uid()}
               id={post.id}
               title={post.title}
               img={post.img}
               desc={post.desc}
+              handleDelete={handleDelete}
             />
           ))
         ) : (

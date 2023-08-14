@@ -1,4 +1,4 @@
-import { Stack, Avatar } from '@mui/material';
+import { Stack, Avatar, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { BiSolidMessageSquareEdit } from 'react-icons/bi';
@@ -11,7 +11,7 @@ import moment from 'moment';
 const styledContent = {
   '& .img-container': {
     width: '100%',
-    height: '300px',
+    height: '344px',
     objectFit: 'cover',
     '& img': {
       width: '100%',
@@ -26,7 +26,7 @@ const styledAuthorInfo = {
   marginTop: '1rem',
 };
 
-interface PostProps {
+export interface PostProps {
   name: string;
   img: string;
   userImg: string;
@@ -34,6 +34,7 @@ interface PostProps {
   title: string;
   desc: string;
   date: number;
+  categoryID: number;
 }
 
 export default function PostPage() {
@@ -45,6 +46,7 @@ export default function PostPage() {
     desc: '',
     date: 0,
     userImg: '',
+    categoryID: 0,
   });
 
   const location = useLocation();
@@ -67,16 +69,27 @@ export default function PostPage() {
   }, [postId]);
 
   const handleDelete = async () => {
-    // try {
-    //   await axios.delete(`http://localhost:8080/posts/${post.id}`);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await axios.delete(`http://localhost:8080/posts/${post.id}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <Stack direction={'row'} useFlexGap gap={'50px'} sx={{ margin: '2rem' }}>
-      <Stack className='content' flex={'5'} sx={styledContent}>
+    <Stack
+      direction={{ xs: 'column', lg: 'row' }}
+      useFlexGap
+      gap={'50px'}
+      sx={{ margin: { xs: '2rem', lg: '3rem' } }}
+    >
+      <Stack className='content' flex={'6'} sx={styledContent}>
+        <Typography
+          variant={'h4'}
+          sx={{ fontSize: 'clamp(20px, 5vw, 35px)', mb: '2rem' }}
+        >
+          {post.title}
+        </Typography>
         <div className='img-container'>
           <img src={post?.img} alt='' />
         </div>
@@ -98,7 +111,7 @@ export default function PostPage() {
             >
               <DeleteIcon />
             </IconButton>
-            <Link to={`/write?edit=${post.id}`}>
+            <Link to={`/membros/guias/edit/${postId}`}>
               <IconButton
                 aria-label='edit'
                 sx={{ '&:hover': { background: 'teal' } }}
@@ -112,16 +125,13 @@ export default function PostPage() {
           className='content'
           sx={{
             textAlign: 'justify',
-
-            '& h1': { my: 3 },
             '& p': { mb: 2, lineHeight: '30px' },
           }}
         >
-          <h1>{post.title}</h1>
-          <Stack>{post.desc}</Stack>
+          <Stack sx={{ my: 3 }}>{post.desc}</Stack>
         </Stack>
       </Stack>
-      <PostSideMenu />
+      <PostSideMenu categoryID={post.categoryID} title={post.title} />
     </Stack>
   );
 }

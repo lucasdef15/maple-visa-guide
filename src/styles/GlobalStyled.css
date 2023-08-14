@@ -50,3 +50,12 @@ a{
   border-radius: 15px 15px 0 0 !important;
   background: rgb(255, 255, 255) !important;
 }
+.content iframe {
+  width: 907px !important;
+  height: 510px !important;
+  border-radius: 15px;
+}
+.ql-tooltip, 
+.ql-editing {
+  left: 145px !important;
+}

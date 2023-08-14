@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-interface Category {
+export interface Category {
   catId: number | null;
   name: string | null;
 }

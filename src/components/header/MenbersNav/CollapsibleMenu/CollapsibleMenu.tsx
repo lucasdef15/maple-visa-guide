@@ -97,6 +97,7 @@ export default function CollapsibleMenu({ openMenu }: any) {
             {categories &&
               categories.map((category) => (
                 <NavLink
+                  key={category.catId}
                   to={`/membros/guias?categoryID=${category.catId}`}
                   onClick={() => setOpenGuias(!openGuias)}
                 >

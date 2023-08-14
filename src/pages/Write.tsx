@@ -6,40 +6,59 @@ import ReactQuill from 'react-quill';
 import { routesVariants } from '../animations/animations';
 import { motion } from 'framer-motion';
 import { CategoryContext } from '../contexts/CategoryContext';
+import EditorToolbar, {
+  modules,
+  formats,
+} from '../components/reactQuill/EditorToolBar';
 import 'react-quill/dist/quill.snow.css';
+import axios from 'axios';
+import moment from 'moment';
+import { UserContext } from '../contexts/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Write() {
   const [value, setValue] = useState('');
+  const [title, setTitle] = useState('');
+  const [file, setFile] = useState<File | null>(null);
+  const [cat, setCat] = useState('');
+  const [newCat, setNewCat] = useState('');
 
   const { categories } = useContext(CategoryContext);
+  const { user } = useContext(UserContext);
 
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [
-        { list: 'ordered' },
-        { list: 'bullet' },
-        { indent: '-1' },
-        { indent: '+1' },
-      ],
-      ['link', 'image'],
-      ['clean'],
-    ],
+  const navigate = useNavigate();
+
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file as Blob);
+      const res = await axios.post('http://localhost:8080/upload', formData);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const formats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'image',
-  ];
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const fileName = await upload();
+    const imgURL = `http://localhost:8080/uploads/${fileName}`;
+
+    try {
+      await axios.post('http://localhost:8080/posts', {
+        title,
+        desc: value,
+        categoryID: cat,
+        img: file ? imgURL : '',
+        authorID: user?.data?.id,
+        date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+      });
+      navigate('/membros/guias');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <motion.div
       variants={routesVariants}
@@ -50,7 +69,7 @@ export default function Write() {
     >
       <Stack
         className='add'
-        direction={'row'}
+        direction={{ xs: 'column', lg: 'row' }}
         useFlexGap
         spacing={3}
         sx={{ m: '3rem 2rem' }}
@@ -59,6 +78,8 @@ export default function Write() {
           <input
             type='text'
             placeholder='Title'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             style={{
               padding: '10px',
               border: '1px solid lightgray',
@@ -67,12 +88,12 @@ export default function Write() {
               marginBottom: '1rem',
             }}
           />
-
+          <EditorToolbar toolbarId={'t2'} />
           <ReactQuill
             theme='snow'
             value={value}
             onChange={setValue}
-            modules={modules}
+            modules={modules('t2')}
             formats={formats}
           />
         </Stack>
@@ -99,7 +120,14 @@ export default function Write() {
             <span>
               <b>Visibility</b> Public
             </span>
-            <input style={{ display: 'none' }} type='file' id='file' />
+            <input
+              style={{ display: 'none' }}
+              type='file'
+              id='file'
+              onChange={(e) =>
+                setFile(e.target.files ? e.target.files[0] : null)
+              }
+            />
             <label
               htmlFor='file'
               style={{ textDecoration: 'underline', cursor: 'pointer' }}
@@ -118,11 +146,13 @@ export default function Write() {
                 Save as a draft
               </Button>
               <Button
+                onClick={handleSubmit}
+                type='submit'
                 variant='contained'
                 color='secondary'
                 sx={{ borderRadius: '10px', textTransform: 'unset' }}
               >
-                update
+                Publish
               </Button>
             </Stack>
           </Stack>
@@ -149,11 +179,12 @@ export default function Write() {
                     <input
                       type='radio'
                       name='cat'
-                      value='art'
-                      id='art'
+                      value={cat}
+                      onChange={() => setCat(category.catId)}
+                      id={cat}
                       style={{ cursor: 'pointer' }}
                     />
-                    <label htmlFor='art' style={{ cursor: 'pointer' }}>
+                    <label htmlFor={cat} style={{ cursor: 'pointer' }}>
                       {category.name}
                     </label>
                   </Stack>
@@ -179,6 +210,8 @@ export default function Write() {
             <input
               type='text'
               placeholder='Categoria'
+              value={newCat}
+              onChange={(e) => setNewCat(e.target.value)}
               style={{
                 padding: '10px',
                 border: '1px solid lightgray',
