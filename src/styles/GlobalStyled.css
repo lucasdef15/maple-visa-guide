@@ -1,12 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Economica:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @font-face {
   font-family: 'Candara';
-  src: url('./fonts/Candara_Bold.tff') format('woff2');
+  src: url('/fonts/Candara_Bold.tff') format('woff2');
   font-weight: 700;
 }
 @font-face {
   font-family: 'Candara';
-  src: url('./fonts/Candara.tff') format('woff2');
+  src: url('/fonts/Candara.tff') format('woff2');
   font-weight: 500;
+}
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/Nexa-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/Nexa-Light.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaBlack.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaBlackItalic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaBoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaBook.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaBookItalic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaHeavy.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaHeavyItalic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaLight.otf') format('opentype');
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaLightItalic.otf') format('opentype');
+  font-weight: lighter;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaRegular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/Nexa-RegularItalic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaThin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaThinItalic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaXBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa/NexaXBoldItalic.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
 }
 *,
 *::after,
@@ -14,12 +140,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Candara', system-ui, sans-serif !important;
+  font-family: 'Candara', system-ui, sans-serif;
   letter-spacing: .5px !important;
 }
 #root{
   position: relative;
-  /* overflow-x: hidden; */
   z-index: 1;
 }
 body{
@@ -50,12 +175,17 @@ a{
   border-radius: 15px 15px 0 0 !important;
   background: rgb(255, 255, 255) !important;
 }
-.content iframe {
-  width: 907px !important;
-  height: 510px !important;
-  border-radius: 15px;
+.ck.ck-toolbar.ck-toolbar_grouping>.ck-toolbar__items {
+  flex-wrap: wrap !important;
 }
-.ql-tooltip, 
-.ql-editing {
-  left: 145px !important;
+.ck.ck-toolbar>.ck-toolbar__items {
+  flex-flow: wrap !important;
+  flex-wrap: wrap !important;
+
+}
+.ck-content {
+  min-height: 475px;
+}
+.ck-balloon-panel_position_border-side_right, .ck-powered-by-balloon {
+  display: none !important;
 }

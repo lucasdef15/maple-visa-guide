@@ -2,22 +2,16 @@ import { useState, useContext } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ReactQuill from 'react-quill';
 import { routesVariants } from '../animations/animations';
 import { motion } from 'framer-motion';
 import { CategoryContext } from '../contexts/CategoryContext';
-import EditorToolbar, {
-  modules,
-  formats,
-} from '../components/reactQuill/EditorToolBar';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import moment from 'moment';
 import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { CategoryContextValue } from '../contexts/CategoryContext';
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import DocumentEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import CKEditorComponent from '../components/CKEditorComponent/CKEditorComponent';
 
 export default function Write() {
   const [value, setValue] = useState('');
@@ -121,14 +115,7 @@ export default function Write() {
               marginBottom: '1rem',
             }}
           />
-          <EditorToolbar toolbarId={'t2'} />
-          <ReactQuill
-            theme='snow'
-            value={value}
-            onChange={setValue}
-            modules={modules('t2')}
-            formats={formats}
-          />
+          <CKEditorComponent setValue={setValue} />
         </Stack>
         <Stack
           className='menu'
