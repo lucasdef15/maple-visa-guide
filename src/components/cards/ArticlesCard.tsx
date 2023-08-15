@@ -20,6 +20,13 @@ export default function ArticlesCard({
 }: Article) {
   const navigate = useNavigate();
 
+  const getText = (html: any) => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent;
+  };
+
+  const content = getText(desc);
+
   return (
     <Card key={id} sx={{ maxWidth: 345, height: '398px', zIndex: -1 }}>
       <Stack
@@ -43,7 +50,9 @@ export default function ArticlesCard({
             {title.length > 38 ? `${title.slice(0, 38)}...` : title}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
-            {desc.length > 200 ? `${desc.slice(0, 200)}...` : desc}
+            {content?.length ?? ''.length > 200
+              ? `${content?.slice(0, 200)}...`
+              : content}
           </Typography>
         </CardContent>
         <CardActions sx={{ ml: 1 }}>

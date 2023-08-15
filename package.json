@@ -47,6 +47,7 @@
     "ckeditor5-custom-build": "file:ckeditor5",
     "framer-motion": "^10.13.1",
     "hero-slider": "^3.2.0",
+    "html-react-parser": "^4.2.1",
     "moment": "^2.29.4",
     "pako": "^2.1.0",
     "popmotion": "^11.0.5",

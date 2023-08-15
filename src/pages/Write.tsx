@@ -23,6 +23,7 @@ export default function Write() {
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
+
   const { categories, setCategories } = useContext(
     CategoryContext
   ) as CategoryContextValue;
@@ -38,8 +39,47 @@ export default function Write() {
     }
   };
 
+  const upload64 = async () => {
+    try {
+      const htmlString = value;
+
+      const regexPattern = /src="(data:image\/[^;]+;base64[^"]+)"/gi;
+
+      let matches;
+      const extractedMatches = [];
+
+      while ((matches = regexPattern.exec(htmlString)) !== null) {
+        extractedMatches.push(matches[1]);
+      }
+
+      let updatedHTML = value;
+
+      const updatedHTMLPromises = extractedMatches.map(async (match) => {
+        const res = await axios.post('http://localhost:8080/upload64', {
+          imageData: match,
+        });
+        const data = res.data;
+
+        const imgURL = `http://localhost:8080/uploads/${data.fileName}`;
+
+        return (updatedHTML = updatedHTML.replace(
+          data.base64ImageData,
+          imgURL
+        ));
+      });
+
+      const updatedHTMLArray = await Promise.all(updatedHTMLPromises);
+      return updatedHTMLArray[1];
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    const newContent = await upload64();
+
     const fileName = await upload();
     const imgURL = `http://localhost:8080/uploads/${fileName}`;
 
@@ -48,7 +88,7 @@ export default function Write() {
     try {
       await axios.post('http://localhost:8080/posts', {
         title,
-        desc: value,
+        desc: newContent,
         categoryID: catId?.categoryID,
         img: file ? imgURL : '',
         authorID: user?.data?.id,

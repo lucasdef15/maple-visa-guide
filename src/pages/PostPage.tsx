@@ -7,6 +7,7 @@ import PostSideMenu from '../components/sideMenu/PostSideMenu';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import Parser from 'html-react-parser';
 
 const styledContent = {
   '& .img-container': {
@@ -130,7 +131,7 @@ export default function PostPage() {
             '& p': { mb: 2, lineHeight: '30px' },
           }}
         >
-          <Stack sx={{ my: 3 }}>{post.desc}</Stack>
+          <Stack sx={{ my: 3 }}>{Parser(post.desc)}</Stack>
         </Stack>
       </Stack>
       <PostSideMenu categoryID={post.categoryID} title={post.title} />
