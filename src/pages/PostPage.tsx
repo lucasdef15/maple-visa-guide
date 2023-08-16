@@ -81,60 +81,76 @@ export default function PostPage() {
 
   return (
     <Stack
-      direction={{ xs: 'column', lg: 'row' }}
-      useFlexGap
-      gap={'50px'}
-      sx={{ margin: { xs: '2rem', lg: '3rem' } }}
+      direction={'row'}
+      justifyContent={'center'}
+      sx={{
+        width: 'calc(100% - 1rem)',
+      }}
     >
-      <Stack className='content' flex={'6'} sx={styledContent}>
-        <Typography
-          variant={'h4'}
-          sx={{ fontSize: 'clamp(20px, 5vw, 35px)', mb: '2rem' }}
-        >
-          {post.title}
-        </Typography>
-        <div className='img-container'>
-          <img src={post?.img} alt='' />
-        </div>
-        <Stack sx={styledAuthorInfo} direction={'row'} spacing={2}>
-          {post.userImg ? (
-            <Avatar alt={post.name} src={post.userImg} />
-          ) : (
-            <Avatar>{post.name.slice(0, 1).toLocaleUpperCase()}</Avatar>
-          )}
-          <div className='info'>
-            <h3>{post.name}</h3>
-            <p>Posted {moment(post.date).fromNow()}</p>
+      <Stack
+        direction={{ xs: 'column', lg: 'row' }}
+        useFlexGap
+        gap={'3vw'}
+        sx={{
+          margin: { xs: '2rem', lg: '3rem' },
+          width: '100%',
+          maxWidth: '1700px',
+        }}
+      >
+        <Stack className='content' flex={'6'} sx={styledContent}>
+          <Typography
+            variant={'h4'}
+            sx={{
+              fontSize: 'clamp(20px, 5vw, 35px)',
+              mb: '1.7rem',
+              fontWeight: 'bold',
+            }}
+          >
+            {post.title}
+          </Typography>
+          <div className='img-container'>
+            <img src={post?.img} alt='' />
           </div>
-          <Stack direction={'row'} spacing={1} alignItems={'center'}>
-            <IconButton
-              aria-label='delete'
-              onClick={handleDelete}
-              sx={{ '&:hover': { background: 'tomato' } }}
-            >
-              <DeleteIcon />
-            </IconButton>
-            <Link to={`/membros/guias/edit/${postId}`}>
+          <Stack sx={styledAuthorInfo} direction={'row'} spacing={2}>
+            {post.userImg ? (
+              <Avatar alt={post.name} src={post.userImg} />
+            ) : (
+              <Avatar>{post.name.slice(0, 1).toLocaleUpperCase()}</Avatar>
+            )}
+            <div className='info'>
+              <h3>{post.name}</h3>
+              <p>Posted {moment(post.date).fromNow()}</p>
+            </div>
+            <Stack direction={'row'} spacing={1} alignItems={'center'}>
               <IconButton
-                aria-label='edit'
-                sx={{ '&:hover': { background: 'teal' } }}
+                aria-label='delete'
+                onClick={handleDelete}
+                sx={{ '&:hover': { background: 'tomato' } }}
               >
-                <BiSolidMessageSquareEdit />
+                <DeleteIcon />
               </IconButton>
-            </Link>
+              <Link to={`/membros/guias/edit/${postId}`}>
+                <IconButton
+                  aria-label='edit'
+                  sx={{ '&:hover': { background: 'teal' } }}
+                >
+                  <BiSolidMessageSquareEdit />
+                </IconButton>
+              </Link>
+            </Stack>
           </Stack>
+          <div
+            className='content'
+            style={{
+              marginBlock: '3rem',
+              textAlign: 'justify',
+            }}
+          >
+            {Parser(post.desc)}
+          </div>
         </Stack>
-        <Stack
-          className='content'
-          sx={{
-            textAlign: 'justify',
-            '& p': { mb: 2, lineHeight: '30px' },
-          }}
-        >
-          <Stack sx={{ my: 3 }}>{Parser(post.desc)}</Stack>
-        </Stack>
+        <PostSideMenu categoryID={post.categoryID} title={post.title} />
       </Stack>
-      <PostSideMenu categoryID={post.categoryID} title={post.title} />
     </Stack>
   );
 }

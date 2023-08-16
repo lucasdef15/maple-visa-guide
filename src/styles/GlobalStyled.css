@@ -152,9 +152,6 @@ body{
     color: #01244a;
     background-color: #F7F7F7;
 }
-img{
-    width: 100%;
-}
 a{
   text-decoration: none;
   font-family: inherit;
@@ -166,26 +163,6 @@ a{
   max-width: 1080px;
   margin: 0 auto;
 }
-.ql-container {
-  border-radius: 0 0 15px 15px !important;
-  background: rgb(255, 255, 255) !important;
-  height: 100vh !important;
-}
-.ql-toolbar {
-  border-radius: 15px 15px 0 0 !important;
-  background: rgb(255, 255, 255) !important;
-}
-.ck.ck-toolbar.ck-toolbar_grouping>.ck-toolbar__items {
-  flex-wrap: wrap !important;
-}
-.ck.ck-toolbar>.ck-toolbar__items {
-  flex-flow: wrap !important;
-  flex-wrap: wrap !important;
-
-}
-.ck-content {
-  min-height: 475px;
-}
-.ck-balloon-panel_position_border-side_right, .ck-powered-by-balloon {
-  display: none !important;
+.content img {
+  margin-right: 1rem;
 }

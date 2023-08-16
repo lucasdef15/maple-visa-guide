@@ -11,7 +11,7 @@ import moment from 'moment';
 import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { CategoryContextValue } from '../contexts/CategoryContext';
-import CKEditorComponent from '../components/CKEditorComponent/CKEditorComponent';
+import TinyMCEditor from '../components/tinyMCEditor/TinyMCEditor';
 
 export default function Write() {
   const [value, setValue] = useState('');
@@ -85,10 +85,14 @@ export default function Write() {
 
     const catId = categories.find((category: any) => category.name === cat);
 
+    if (!cat) {
+      return alert(`Category can't be empty`);
+    }
+
     try {
       await axios.post('http://localhost:8080/posts', {
         title,
-        desc: newContent,
+        desc: newContent ?? value,
         categoryID: catId?.categoryID,
         img: file ? imgURL : '',
         authorID: user?.data?.id,
@@ -149,13 +153,14 @@ export default function Write() {
             onChange={(e) => setTitle(e.target.value)}
             style={{
               padding: '10px',
+              fontSize: '18px',
               border: '1px solid lightgray',
               borderRadius: '15px',
-              paddingLeft: '1.5rem',
+              paddingLeft: '1rem',
               marginBottom: '1rem',
             }}
           />
-          <CKEditorComponent setValue={setValue} />
+          <TinyMCEditor setValue={setValue} value={value} />
         </Stack>
         <Stack
           className='menu'
@@ -238,6 +243,7 @@ export default function Write() {
                   <Stack direction={'row'} alignItems={'center'} spacing={1}>
                     <input
                       type='radio'
+                      checked={cat === category.name}
                       name={category.name}
                       value={category.name}
                       onChange={(e) => setCat(e.target.value)}

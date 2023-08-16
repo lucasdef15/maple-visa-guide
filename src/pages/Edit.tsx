@@ -2,21 +2,16 @@ import { useState, useContext, useEffect } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ReactQuill from 'react-quill';
 import { routesVariants } from '../animations/animations';
 import { motion } from 'framer-motion';
 import { CategoryContext } from '../contexts/CategoryContext';
-import EditorToolbar, {
-  modules,
-  formats,
-} from '../components/reactQuill/EditorToolBar';
-import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import moment from 'moment';
 import { UserContext } from '../contexts/UserContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PostProps } from './PostPage';
 import { uid } from 'uid';
+import TinyMCEditor from '../components/tinyMCEditor/TinyMCEditor';
 
 export default function Edit() {
   const [postData, setPostData] = useState<PostProps>({
@@ -81,17 +76,60 @@ export default function Edit() {
     }
   };
 
+  const upload64 = async () => {
+    try {
+      const htmlString = value;
+
+      const regexPattern = /src="(data:image\/[^;]+;base64[^"]+)"/gi;
+
+      let matches;
+      const extractedMatches = [];
+
+      while ((matches = regexPattern.exec(htmlString)) !== null) {
+        extractedMatches.push(matches[1]);
+      }
+
+      let updatedHTML = value;
+
+      const updatedHTMLPromises = extractedMatches.map(async (match) => {
+        const res = await axios.post('http://localhost:8080/upload64', {
+          imageData: match,
+        });
+        const data = res.data;
+
+        const imgURL = `http://localhost:8080/uploads/${data.fileName}`;
+
+        return (updatedHTML = updatedHTML.replace(
+          data.base64ImageData,
+          imgURL
+        ));
+      });
+
+      const updatedHTMLArray = await Promise.all(updatedHTMLPromises);
+      return updatedHTMLArray[1];
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    const newContent = await upload64();
+
     const fileName = await upload();
     const imgURL = `http://localhost:8080/uploads/${fileName}`;
 
     const catId = categories.find((category) => category.name === cat);
 
+    if (!cat) {
+      return alert(`Category can't be empty`);
+    }
+
     try {
       await axios.put(`http://localhost:8080/posts/${postId}`, {
         title,
-        desc: value,
+        desc: newContent ?? value,
         categoryID: catId?.categoryID,
         img: file ? imgURL : postData.img,
         authorID: user?.data?.id,
@@ -158,14 +196,7 @@ export default function Edit() {
               marginBottom: '1rem',
             }}
           />
-          <EditorToolbar toolbarId={'t2'} />
-          <ReactQuill
-            theme='snow'
-            value={value}
-            onChange={setValue}
-            modules={modules('t2')}
-            formats={formats}
-          />
+          <TinyMCEditor setValue={setValue} value={value} />
         </Stack>
         <Stack
           className='menu'
