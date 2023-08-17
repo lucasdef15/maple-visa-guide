@@ -4,7 +4,7 @@ import MenbersPlanCard from '../components/cards/MenbersPlanCard';
 import { Stack } from '@mui/material';
 
 const ContainerStyles = {
-  minHeight: 'calc(100vh - 100px)',
+  minHeight: { xs: '100vh', sm: 'calc(100vh - 100px)' },
 };
 
 export default function MenbersPlan() {

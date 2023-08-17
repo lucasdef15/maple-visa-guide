@@ -1,12 +1,12 @@
-import { Stack } from '@mui/system';
+import { Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import blog from '/assets/svgs/blog.svg';
 import experiencia from '/assets/svgs/experiencia.svg';
 import valiosa from '/assets/svgs/valiosa.svg';
-import Button from '../buttons/Button';
 import Video from './Video';
 import { Typography } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
 
 const StyledSection = styled('div')(() => ({
   marginBlock: '200px',
@@ -116,7 +116,15 @@ export default function VideoSection() {
             Estamos aqui para ajudar você em cada etapa do proceso
           </Typography>
           <ButtonWrapper>
-            <Button text='Ver Mais' />
+            <Link to={'/plano'}>
+              <Button
+                variant={'contained'}
+                color={'secondary'}
+                sx={{ p: '.7rem 1.5rem' }}
+              >
+                Ver Mais
+              </Button>
+            </Link>
           </ButtonWrapper>
         </Stack>
         <Stack

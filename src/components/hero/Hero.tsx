@@ -8,6 +8,7 @@ const MainContent = styled(Stack)(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   width: '100%',
+  minHeight: 'calc(100vh - 250px)',
   textAlign: 'center',
   '@media (max-width: 768px)': {
     textAlign: 'center',

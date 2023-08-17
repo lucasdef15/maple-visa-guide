@@ -90,6 +90,9 @@ export default function Footer() {
                   sx={{
                     opacity: '.9',
                     fontWeight: '500',
+                    '& a': {
+                      width: 'auto !important',
+                    },
                   }}
                 >
                   <a href='#'>IOS & Android</a>
@@ -120,7 +123,10 @@ export default function Footer() {
             <Stack
               direction='row'
               spacing={2}
-              sx={{ fontSize: { xs: '13px', sm: '15px' } }}
+              sx={{
+                fontSize: { xs: '13px', sm: '15px' },
+                '& a': { width: 'max-content !important' },
+              }}
             >
               <StyledIconsContainer
                 direction='row'

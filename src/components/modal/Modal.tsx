@@ -152,7 +152,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
         variant={variant}
         color={color}
         onClick={handleOpen}
-        sx={{ textTransform: 'initial' }}
+        sx={{ textTransform: 'initial', p: '.55rem 1.3rem' }}
       >
         {text}
       </Button>
@@ -180,10 +180,16 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                 variant='h6'
                 component='h2'
                 fontSize='42px'
+                sx={{ letterSpacing: '2px !important' }}
               >
                 {text === 'Login' ? 'Fazer Login' : 'Criar uma Conta'}
               </Typography>
-              <Typography variant='h6' component='p' fontSize='16px'>
+              <Typography
+                variant='h6'
+                component='p'
+                fontSize='16px'
+                sx={{ letterSpacing: '2px !important' }}
+              >
                 {text === 'Login'
                   ? 'Login to your accont'
                   : 'Sign up now and unlock exclusive access'}
@@ -233,7 +239,12 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                   className='signinBtn'
                   variant='contained'
                   color='secondary'
-                  sx={{ textTransform: 'initial' }}
+                  sx={{
+                    textTransform: 'initial',
+                    p: '.55rem 1.3rem',
+                    fontSize: '1rem',
+                    letterSpacing: '2px !important',
+                  }}
                   onClick={handleClick}
                 >
                   {text}

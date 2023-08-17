@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import MainContext from '../../../contexts/MainContext';
 import Logo from '../../logo/Logo';
 import ModalComponent from '../../modal/Modal';
@@ -13,7 +13,7 @@ const DesktopHeaderWrapper = styled('div')(() => ({
   position: 'sticky',
   top: '0',
   zIndex: 999,
-  '@media (max-width: 700px)': {
+  '@media (max-width: 750px)': {
     display: 'none',
   },
 }));
@@ -41,7 +41,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
       listStyle: 'none',
       display: 'flex',
       alignItems: 'center',
-      gap: '45px',
+      gap: '6vmin',
       fontSize: '1rem',
       color: theme.palette.text.secondary,
     },
@@ -110,13 +110,15 @@ export default function DesktopNavBar() {
           justifyContent='space-between'
           alignItems='center'
           useFlexGap
-          spacing={7}
+          spacing={{ xs: 2, md: 3, lg: 6 }}
           sx={{
             width: '100%',
             maxWidth: '1080px',
           }}
         >
-          <Logo color='#07264E' />
+          <Link to={'/'}>
+            <Logo color='#07264E' />
+          </Link>
           <nav>
             <ul style={{ margin: 'unset' }}>
               <li>
@@ -164,7 +166,7 @@ export default function DesktopNavBar() {
                   </li>
                   <li className='not'>
                     <Button
-                      sx={{ textTransform: 'unset' }}
+                      sx={{ textTransform: 'unset', p: '.55rem 1.3rem' }}
                       variant='contained'
                       color='secondary'
                       onClick={() => handleLogout(navigate)}
