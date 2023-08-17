@@ -2,7 +2,6 @@ import { Route, Routes } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { lazy, Suspense } from 'react';
 import Loader from '../components/loaders/Loader';
-import { ProtectedRoute } from './ProtectedRoute';
 
 // Pages
 const LazyHome = lazy(() => import('../pages/Home'));
@@ -20,6 +19,10 @@ const LazyEdit = lazy(() => import('../pages/Edit'));
 const LazyRootLayout = lazy(() => import('../layouts/RootLayout'));
 const LazyMenbersLayout = lazy(() => import('../layouts/MenbersLayout'));
 const LazyPaymentLayout = lazy(() => import('../layouts/PaymentLayout'));
+
+// Protected Routes
+import { ProtectedRoute } from './ProtectedRoute';
+import { ProtectedMenbersRoute } from './ProtectedMenbersRoute';
 
 export default function AnimatedRoutes() {
   return (
@@ -68,55 +71,57 @@ export default function AnimatedRoutes() {
           </Route>
           {/* layout 03 */}
           <Route path='/membros' element={<ProtectedRoute />}>
-            <Route element={<LazyMenbersLayout />}>
-              <Route
-                path='dashboard'
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <LazyDashboard />
-                  </Suspense>
-                }
-              />
-              <Route
-                path='forum'
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <LazyForum />
-                  </Suspense>
-                }
-              />
-              <Route
-                path='guias'
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <LazyGuias />
-                  </Suspense>
-                }
-              />
-              <Route
-                path='guias/:id'
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <LazyPostPage />
-                  </Suspense>
-                }
-              />
-              <Route
-                path='guias/write'
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <LazyWrite />
-                  </Suspense>
-                }
-              />
-              <Route
-                path='guias/edit/:id'
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <LazyEdit />
-                  </Suspense>
-                }
-              />
+            <Route element={<ProtectedMenbersRoute />}>
+              <Route element={<LazyMenbersLayout />}>
+                <Route
+                  path='dashboard'
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <LazyDashboard />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path='forum'
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <LazyForum />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path='guias'
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <LazyGuias />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path='guias/:id'
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <LazyPostPage />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path='guias/write'
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <LazyWrite />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path='guias/edit/:id'
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <LazyEdit />
+                    </Suspense>
+                  }
+                />
+              </Route>
             </Route>
           </Route>
         </Routes>

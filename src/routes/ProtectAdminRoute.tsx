@@ -8,5 +8,5 @@ export const ProtectedRoute = () => {
 
   if (user.loading) return <Loader />;
 
-  return user.data ? <Outlet /> : <Navigate to='/' />;
+  return user.data?.isMember ? <Outlet /> : <Navigate to='/' />;
 };

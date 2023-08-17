@@ -19,18 +19,21 @@ export default function TinyMCEditor({ setValue, value }: any) {
     <>
       <Editor
         apiKey='jq6nhlye7vuu5gyay9xzxyx86nl3nswfxaet7cu6w5yyide1'
-        onInit={(evn, editor) => (editorRef.current = editor)}
-        initialValue={value}
+        onInit={(evt, editor) => {
+          editorRef.current = editor;
+        }}
+        value={value}
         init={{
-          height: 500,
+          height: 750,
           plugins:
-            'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+            'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
 
           menubar: 'file edit view insert format tools table help',
           toolbar:
             'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
           image_advtab: true,
           image_caption: true,
+          toolbar_sticky: true,
           quickbars_selection_toolbar:
             'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
           noneditable_class: 'mceNonEditable',
@@ -38,10 +41,8 @@ export default function TinyMCEditor({ setValue, value }: any) {
           contextmenu: 'link image table',
           content_style:
             'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-          setup: (editor) => {
-            editor.on('change', handleEditorChange);
-          },
         }}
+        onEditorChange={handleEditorChange}
       />
     </>
   );

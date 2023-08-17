@@ -82,7 +82,9 @@ export default function MenuItem() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
-          <NavLink to='/plano'>Assinar</NavLink>
+          <NavLink to={user.data?.isMember ? '/membros/guias' : '/plano'}>
+            {user.data?.isMember ? 'Membros' : 'Assinar'}
+          </NavLink>
         </motion.li>
       )}
     </Stack>

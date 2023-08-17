@@ -190,9 +190,10 @@ export default function Edit() {
             onChange={(e) => setTitle(e.target.value)}
             style={{
               padding: '10px',
+              fontSize: '18px',
               border: '1px solid lightgray',
-              borderRadius: '15px',
-              paddingLeft: '1.5rem',
+              borderRadius: '10px',
+              paddingLeft: '1rem',
               marginBottom: '1rem',
             }}
           />
@@ -241,17 +242,15 @@ export default function Edit() {
               sx={{ pt: '15px' }}
             >
               <Button
-                variant='outlined'
-                sx={{ borderRadius: '10px', textTransform: 'unset' }}
-              >
-                Save as a draft
-              </Button>
-              <Button
                 onClick={handleSubmit}
                 type='submit'
                 variant='contained'
                 color='secondary'
-                sx={{ borderRadius: '10px', textTransform: 'unset' }}
+                sx={{
+                  borderRadius: '10px',
+                  textTransform: 'unset',
+                  width: '100%',
+                }}
               >
                 Update Post
               </Button>
@@ -303,31 +302,21 @@ export default function Edit() {
                   </IconButton>
                 </Stack>
               ))}
-          </Stack>
-          <Stack className='item'>
-            <Typography
-              variant={'h5'}
-              component={'h2'}
-              fontWeight={'bold'}
-              sx={{ mb: '.5rem' }}
-            >
-              Add New Category
-            </Typography>
             <input
               type='text'
-              placeholder='Categoria'
+              placeholder='Adiconar Nova Categoria'
               value={newCat}
               onChange={(e) => setNewCat(e.target.value)}
               style={{
                 padding: '10px',
                 border: '1px solid lightgray',
-                borderRadius: '15px',
+                borderRadius: '10px',
                 paddingLeft: '1rem',
-                marginBottom: '1rem',
+                marginBlock: '.5rem',
               }}
             />
             <Button
-              variant='contained'
+              variant='outlined'
               onClick={addNewCategory}
               color='secondary'
               sx={{ borderRadius: '10px', textTransform: 'unset' }}

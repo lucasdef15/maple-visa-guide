@@ -4,10 +4,11 @@ import IconButton from '@mui/material/IconButton';
 import { BiSolidMessageSquareEdit } from 'react-icons/bi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import PostSideMenu from '../components/sideMenu/PostSideMenu';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import Parser from 'html-react-parser';
+import { UserContext } from '../contexts/UserContext';
 
 const styledContent = {
   '& .img-container': {
@@ -49,6 +50,8 @@ export default function PostPage() {
     userImg: '',
     categoryID: 0,
   });
+
+  const { isAdmin } = useContext(UserContext);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -121,23 +124,25 @@ export default function PostPage() {
               <h3>{post.name}</h3>
               <p>Posted {moment(post.date).fromNow()}</p>
             </div>
-            <Stack direction={'row'} spacing={1} alignItems={'center'}>
-              <IconButton
-                aria-label='delete'
-                onClick={handleDelete}
-                sx={{ '&:hover': { background: 'tomato' } }}
-              >
-                <DeleteIcon />
-              </IconButton>
-              <Link to={`/membros/guias/edit/${postId}`}>
+            {isAdmin && (
+              <Stack direction={'row'} spacing={1} alignItems={'center'}>
                 <IconButton
-                  aria-label='edit'
-                  sx={{ '&:hover': { background: 'teal' } }}
+                  aria-label='delete'
+                  onClick={handleDelete}
+                  sx={{ '&:hover': { background: 'tomato' } }}
                 >
-                  <BiSolidMessageSquareEdit />
+                  <DeleteIcon />
                 </IconButton>
-              </Link>
-            </Stack>
+                <Link to={`/membros/guias/edit/${postId}`}>
+                  <IconButton
+                    aria-label='edit'
+                    sx={{ '&:hover': { background: 'teal' } }}
+                  >
+                    <BiSolidMessageSquareEdit />
+                  </IconButton>
+                </Link>
+              </Stack>
+            )}
           </Stack>
           <div
             className='content'

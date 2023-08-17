@@ -3,7 +3,6 @@ import { routesVariants } from '../animations/animations';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Stack } from '@mui/material';
-import { Link } from 'react-router-dom';
 import ArticlesCard from '../components/cards/ArticlesCard';
 import Loader from '../components/loaders/Loader';
 import { useLocation } from 'react-router-dom';
@@ -23,6 +22,7 @@ const ArticleStyles = {
   width: '100%',
   zIndex: -1,
   position: 'relative',
+  maxWidth: '1700px',
 };
 
 export default function Members() {
@@ -67,13 +67,14 @@ export default function Members() {
         width: '100%',
         zIndex: '-1',
         position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
       <Stack
         sx={ArticleStyles}
         direction='row'
         justifyContent='center'
-        alignItems='center'
         flexWrap='wrap'
         useFlexGap
         spacing={4}
@@ -97,10 +98,8 @@ export default function Members() {
             justifyContent='center'
             alignItems='center'
             flexWrap='wrap'
-            spacing={2}
           >
-            <p>You don't have a plan</p>
-            <Link to='/plano'>Comprar Plano</Link>
+            <p>Nenhuma Publicação</p>
           </Stack>
         )}
       </Stack>

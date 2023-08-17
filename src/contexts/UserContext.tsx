@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import { NavigateFunction } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
 export interface User {
@@ -9,15 +10,21 @@ export interface User {
     name: string;
     img: string;
     stripeCustomerId: string;
+    isMember: boolean;
   } | null;
   error: string | null;
   loading: boolean;
+}
+interface DecodedToken {
+  role: string;
 }
 
 interface UserContextValue {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
   handleLogout: (navigate: NavigateFunction) => void;
+  isAdmin: boolean;
+  setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const initialState: User = {
@@ -30,10 +37,13 @@ const UserContext = createContext<UserContextValue>({
   user: initialState,
   setUser: () => {},
   handleLogout: () => {},
+  isAdmin: false,
+  setIsAdmin: () => {},
 });
 
 const UserProvider = ({ children }: any) => {
   const [user, setUser] = useState<User>(initialState);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const token = localStorage.getItem('token');
 
@@ -53,6 +63,7 @@ const UserProvider = ({ children }: any) => {
           email: response.data.user.email,
           img: response.data.user.img,
           stripeCustomerId: response.data.user.stripeCustomerId,
+          isMember: response.data.user.isMember,
         },
         loading: false,
         error: null,
@@ -89,7 +100,19 @@ const UserProvider = ({ children }: any) => {
     user,
     setUser,
     handleLogout,
+    isAdmin,
+    setIsAdmin,
   };
+  useEffect(() => {
+    try {
+      const decodedToken = jwt_decode(token as string) as DecodedToken;
+      const userRole = decodedToken.role;
+
+      userRole === 'admin' ? setIsAdmin(true) : setIsAdmin(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [token]);
 
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>

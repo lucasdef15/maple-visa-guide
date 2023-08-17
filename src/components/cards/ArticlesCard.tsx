@@ -10,6 +10,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { BiSolidMessageSquareEdit } from 'react-icons/bi';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
 export default function ArticlesCard({
   id,
@@ -18,6 +20,8 @@ export default function ArticlesCard({
   desc,
   handleDelete,
 }: Article) {
+  const { isAdmin } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const getText = (html: any) => {
@@ -57,21 +61,25 @@ export default function ArticlesCard({
         </CardContent>
         <CardActions sx={{ ml: 1 }}>
           <Button onClick={() => navigate(`${id}`)}>Ler mais</Button>
-          <IconButton
-            aria-label='delete'
-            onClick={() => handleDelete(id as string)}
-            sx={{ '&:hover': { background: 'tomato' } }}
-          >
-            <DeleteIcon />
-          </IconButton>
-          <Link to={`/membros/guias/edit/${id}`}>
-            <IconButton
-              aria-label='edit'
-              sx={{ '&:hover': { background: 'teal' } }}
-            >
-              <BiSolidMessageSquareEdit />
-            </IconButton>
-          </Link>
+          {isAdmin && (
+            <>
+              <IconButton
+                aria-label='delete'
+                onClick={() => handleDelete(id as string)}
+                sx={{ '&:hover': { background: 'tomato' } }}
+              >
+                <DeleteIcon />
+              </IconButton>
+              <Link to={`/membros/guias/edit/${id}`}>
+                <IconButton
+                  aria-label='edit'
+                  sx={{ '&:hover': { background: 'teal' } }}
+                >
+                  <BiSolidMessageSquareEdit />
+                </IconButton>
+              </Link>
+            </>
+          )}
         </CardActions>
       </Stack>
     </Card>

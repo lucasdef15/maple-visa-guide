@@ -5,7 +5,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { routesVariants } from '../animations/animations';
 import { motion } from 'framer-motion';
 import { CategoryContext } from '../contexts/CategoryContext';
-import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import moment from 'moment';
 import { UserContext } from '../contexts/UserContext';
@@ -145,7 +144,7 @@ export default function Write() {
         spacing={3}
         sx={{ m: '3rem 2rem' }}
       >
-        <Stack className='content' flex={7}>
+        <Stack className='content' flex={7} sx={{ mb: { xs: 0, lg: '15rem' } }}>
           <input
             type='text'
             placeholder='Title'
@@ -155,7 +154,7 @@ export default function Write() {
               padding: '10px',
               fontSize: '18px',
               border: '1px solid lightgray',
-              borderRadius: '15px',
+              borderRadius: '10px',
               paddingLeft: '1rem',
               marginBottom: '1rem',
             }}
@@ -199,23 +198,22 @@ export default function Write() {
             >
               Upload Image
             </label>
+            <span>{file?.name}</span>
             <Stack
               direction={'row'}
               justifyContent={'space-between'}
               sx={{ pt: '15px' }}
             >
               <Button
-                variant='outlined'
-                sx={{ borderRadius: '10px', textTransform: 'unset' }}
-              >
-                Save as a draft
-              </Button>
-              <Button
                 onClick={handleSubmit}
                 type='submit'
                 variant='contained'
                 color='secondary'
-                sx={{ borderRadius: '10px', textTransform: 'unset' }}
+                sx={{
+                  borderRadius: '10px',
+                  textTransform: 'unset',
+                  width: '100%',
+                }}
               >
                 Publish
               </Button>
@@ -229,7 +227,7 @@ export default function Write() {
               fontWeight={'bold'}
               sx={{ mb: '.5rem' }}
             >
-              Category
+              Categoria
             </Typography>
             {categories &&
               categories.map((category: any) => (
@@ -264,36 +262,26 @@ export default function Write() {
                   </IconButton>
                 </Stack>
               ))}
-          </Stack>
-          <Stack className='item'>
-            <Typography
-              variant={'h5'}
-              component={'h2'}
-              fontWeight={'bold'}
-              sx={{ mb: '.5rem' }}
-            >
-              Add New Category
-            </Typography>
             <input
               type='text'
-              placeholder='Categoria'
+              placeholder='Adiconar Nova Categoria'
               value={newCat}
               onChange={(e) => setNewCat(e.target.value)}
               style={{
                 padding: '10px',
                 border: '1px solid lightgray',
-                borderRadius: '15px',
+                borderRadius: '10px',
                 paddingLeft: '1rem',
-                marginBottom: '1rem',
+                marginBlock: '.5rem',
               }}
             />
             <Button
-              variant='contained'
+              variant='outlined'
               onClick={addNewCategory}
               color='secondary'
               sx={{ borderRadius: '10px', textTransform: 'unset' }}
             >
-              Adicionar
+              Adicionar Categoria
             </Button>
           </Stack>
         </Stack>

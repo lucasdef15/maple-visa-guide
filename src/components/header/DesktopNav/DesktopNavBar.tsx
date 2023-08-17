@@ -132,7 +132,11 @@ export default function DesktopNavBar() {
               </li>
               {user.data && (
                 <li>
-                  <NavLink to='/plano'>Assinar</NavLink>
+                  <NavLink
+                    to={user.data?.isMember ? '/membros/guias' : '/plano'}
+                  >
+                    {user.data?.isMember ? 'Membros' : 'Assinar'}
+                  </NavLink>
                 </li>
               )}
             </ul>

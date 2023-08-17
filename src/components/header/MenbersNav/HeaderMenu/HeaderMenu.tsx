@@ -35,12 +35,14 @@ export default function HeaderMenu({ openMenu, setOpenMenu }: any) {
           <Typography sx={{ fontSize: '1rem' }}>{user?.data?.name}</Typography>
           <Typography
             sx={{
-              fontSize: '.8rem',
+              fontSize: '.7rem',
               fontWeight: 'light',
               color: 'text.light',
             }}
           >
-            {user?.data?.email}
+            {user?.data?.email.length ?? ''.length > 20
+              ? user?.data?.email.slice(0, 21) + '...'
+              : user?.data?.email}
           </Typography>
         </Stack>
       )}

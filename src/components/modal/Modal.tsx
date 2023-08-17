@@ -61,7 +61,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
   const [passwordError, setPasswordError] = useState('');
 
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleOpen = () => {
     setOpen(true);
@@ -126,6 +126,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
         name: response.data.user.name,
         email: response.data.user.email,
         stripeCustomerId: response.data.stripeCustomerId,
+        isMember: response.data.isMember,
       },
       loading: false,
       error: null,
@@ -135,7 +136,12 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
       'authorization'
     ] = `Bearer ${response.data.token}`;
     setOpen(false);
-    navigate('/plano');
+
+    if (user.data?.isMember) {
+      navigate('/membros/guias');
+    } else {
+      navigate('/plano');
+    }
   };
 
   return (
@@ -192,7 +198,6 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                   <StyledInput
                     error={nameError ? true : false}
                     helperText={nameError ? nameError : ''}
-                    id='outlined-password-input'
                     label='Nome'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -202,7 +207,6 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                 <StyledInput
                   error={emailError ? true : false}
                   helperText={emailError ? emailError : ''}
-                  id='outlined-password-input'
                   label='E-Mail'
                   type='email'
                   value={email}
@@ -211,9 +215,9 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                 <StyledInput
                   error={passwordError ? true : false}
                   helperText={passwordError ? passwordError : ''}
-                  id='outlined-password-input'
                   label='Senha'
                   type='password'
+                  autoComplete='current-password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -249,6 +253,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
               <img
                 src={text === 'Signup' ? signupSVG : loginSVG}
                 alt='signup'
+                style={{ width: '100%' }}
               />
             </Stack>
           </Stack>
