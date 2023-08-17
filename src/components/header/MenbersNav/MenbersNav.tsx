@@ -58,20 +58,36 @@ export default function MenbersNav() {
             spacing={1}
           >
             <NavLink to='dashboard'>
-              <StyledLi direction='row' alignItems='center' spacing={2}>
+              <StyledLi
+                direction='row'
+                alignItems='center'
+                justifyContent={openMenu ? 'start' : 'center'}
+                spacing={2}
+                sx={{}}
+              >
                 <BiSolidDashboard />
                 {openMenu && <span>Dashboard</span>}
               </StyledLi>
             </NavLink>
             <CollapsibleMenu openMenu={openMenu} />
             <NavLink to='forum'>
-              <StyledLi direction='row' alignItems='center' spacing={2}>
+              <StyledLi
+                direction='row'
+                alignItems='center'
+                justifyContent={openMenu ? 'start' : 'center'}
+                spacing={2}
+              >
                 <BsWechat />
                 {openMenu && <span>Chat</span>}
               </StyledLi>
             </NavLink>
             <NavLink to='/'>
-              <StyledLi direction='row' alignItems='center' spacing={2}>
+              <StyledLi
+                direction='row'
+                alignItems='center'
+                justifyContent={openMenu ? 'start' : 'center'}
+                spacing={2}
+              >
                 <AiFillHome />
                 {openMenu && <span>Pagina Inicial</span>}
               </StyledLi>

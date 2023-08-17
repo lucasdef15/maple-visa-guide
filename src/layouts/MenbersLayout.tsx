@@ -4,6 +4,7 @@ import { Stack } from '@mui/material';
 import LayoutHeader from '../components/header/MenbersNav/LayoutHeader/LayoutHeader';
 import MainContext from '../contexts/MainContext';
 import { useContext } from 'react';
+import ScrollToTop from '../components/scroll/ScrollToTop';
 
 const styledLayout = {
   zIndex: -1,
@@ -21,12 +22,15 @@ export default function MenbersLayout() {
     position: 'relative',
   };
   return (
-    <Stack sx={styledLayout} direction='row'>
-      <MenbersNav />
-      <Stack sx={styledContainer}>
-        <LayoutHeader />
-        <Outlet />
+    <>
+      <ScrollToTop />
+      <Stack sx={styledLayout} direction='row'>
+        <MenbersNav />
+        <Stack sx={styledContainer}>
+          <LayoutHeader />
+          <Outlet />
+        </Stack>
       </Stack>
-    </Stack>
+    </>
   );
 }

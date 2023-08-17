@@ -100,7 +100,7 @@ export default function PostPage() {
           maxWidth: '1700px',
         }}
       >
-        <Stack className='content' flex={'6'} sx={styledContent}>
+        <Stack flex={'6'} sx={styledContent}>
           <Typography
             variant={'h4'}
             sx={{

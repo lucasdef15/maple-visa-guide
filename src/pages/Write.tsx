@@ -144,7 +144,7 @@ export default function Write() {
         spacing={3}
         sx={{ m: '3rem 2rem' }}
       >
-        <Stack className='content' flex={7} sx={{ mb: { xs: 0, lg: '15rem' } }}>
+        <Stack flex={7} sx={{ mb: { xs: 0, lg: '15rem' } }}>
           <input
             type='text'
             placeholder='Title'

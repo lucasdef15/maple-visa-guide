@@ -10,7 +10,7 @@ export interface User {
     name: string;
     img: string;
     stripeCustomerId: string;
-    isMember: boolean;
+    isMember: number;
   } | null;
   error: string | null;
   loading: boolean;
@@ -76,6 +76,8 @@ const UserProvider = ({ children }: any) => {
       });
     }
   };
+
+  // console.log(user);
 
   useEffect(() => {
     if (token) {

@@ -95,8 +95,6 @@ export default function DesktopNavBar() {
   const { showHeader, isOpen } = useContext(MainContext);
   const { user, handleLogout } = useContext(UserContext);
 
-  console.log(user);
-
   const navigate = useNavigate();
 
   return (
@@ -120,7 +118,7 @@ export default function DesktopNavBar() {
         >
           <Logo color='#07264E' />
           <nav>
-            <ul>
+            <ul style={{ margin: 'unset' }}>
               <li>
                 <NavLink to='/'>Home</NavLink>
               </li>
@@ -140,7 +138,7 @@ export default function DesktopNavBar() {
                 </li>
               )}
             </ul>
-            <ul className='notGap'>
+            <ul className='notGap' style={{ margin: 'unset' }}>
               {!user.data && (
                 <>
                   <li className='not'>

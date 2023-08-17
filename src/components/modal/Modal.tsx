@@ -27,6 +27,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: { xs: '90%', sm: '55%', md: '100%' },
   height: { xs: 'auto', md: '70%' },
+  maxHeight: '550px',
   maxWidth: '950px',
   bgcolor: 'background.paper',
   border: '1px solid #00000075',
@@ -61,7 +62,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
   const [passwordError, setPasswordError] = useState('');
 
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const handleOpen = () => {
     setOpen(true);
@@ -125,8 +126,8 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
         img: response.data.user.img,
         name: response.data.user.name,
         email: response.data.user.email,
-        stripeCustomerId: response.data.stripeCustomerId,
-        isMember: response.data.isMember,
+        stripeCustomerId: response.data.user.stripeCustomerId,
+        isMember: response.data.user.isMember,
       },
       loading: false,
       error: null,
@@ -137,7 +138,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     ] = `Bearer ${response.data.token}`;
     setOpen(false);
 
-    if (user.data?.isMember) {
+    if (response.data.user.isMember) {
       navigate('/membros/guias');
     } else {
       navigate('/plano');
