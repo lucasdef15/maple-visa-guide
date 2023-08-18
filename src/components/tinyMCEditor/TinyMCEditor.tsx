@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useContext, useEffect, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import { DarkModeContext } from '../../contexts/DarkModeContext';
 
 interface EditorRefType {
   getContent: () => string;
@@ -7,6 +8,14 @@ interface EditorRefType {
 
 export default function TinyMCEditor({ setValue, value }: any) {
   const editorRef = useRef<EditorRefType | null>(null);
+
+  const [editorKey, setEditorKey] = useState<string>('');
+
+  const { darkMode } = useContext(DarkModeContext);
+
+  useEffect(() => {
+    setEditorKey(Date.now().toString());
+  }, [darkMode]);
 
   const handleEditorChange = () => {
     if (editorRef.current) {
@@ -19,6 +28,7 @@ export default function TinyMCEditor({ setValue, value }: any) {
     <>
       <Editor
         apiKey='jq6nhlye7vuu5gyay9xzxyx86nl3nswfxaet7cu6w5yyide1'
+        key={editorKey}
         onInit={(evt, editor) => {
           editorRef.current = editor;
         }}
@@ -39,6 +49,8 @@ export default function TinyMCEditor({ setValue, value }: any) {
           noneditable_class: 'mceNonEditable',
           toolbar_mode: 'sliding',
           contextmenu: 'link image table',
+          skin: darkMode ? 'oxide-dark' : 'oxide',
+          content_css: darkMode ? 'dark' : 'default',
           content_style:
             'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
         }}

@@ -37,10 +37,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export default function BadgeAvatars() {
   const { user } = useContext(UserContext);
 
-  // if (!user) {
-  //   return <div>Loading...</div>;
-  // }
-
   return (
     <Stack direction='row' spacing={2}>
       <StyledBadge
@@ -51,7 +47,9 @@ export default function BadgeAvatars() {
         {user?.data?.img ? (
           <Avatar alt='Remy Sharp' src={user.data.img} />
         ) : (
-          <Avatar>{user?.data?.name.slice(0, 1).toLocaleUpperCase()}</Avatar>
+          <Avatar sx={{ color: '#fff' }}>
+            {user?.data?.name.slice(0, 1).toLocaleUpperCase()}
+          </Avatar>
         )}
       </StyledBadge>
     </Stack>

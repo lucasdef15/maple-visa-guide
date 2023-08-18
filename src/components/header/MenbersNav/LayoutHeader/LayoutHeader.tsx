@@ -5,29 +5,80 @@ import { Link, useLocation } from 'react-router-dom';
 import { useContext } from 'react';
 import { CategoryContext } from '../../../../contexts/CategoryContext';
 import { UserContext } from '../../../../contexts/UserContext';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 
-const headerStyle = {
-  background: '#ecececdd',
-  width: '100%',
-  maxWidth: '1700px',
-  '& .logo': {
-    width: '115px',
-  },
-};
+export interface PostProps {
+  name: string;
+  img: string;
+  userImg: string;
+  id: number;
+  title: string;
+  desc: string;
+  date: number;
+  categoryID: number;
+}
 
 export default function LayoutHeader() {
   const location = useLocation();
+  const [post, setPost] = useState<PostProps>({
+    name: '',
+    img: '',
+    id: 0,
+    title: '',
+    desc: '',
+    date: 0,
+    userImg: '',
+    categoryID: 0,
+  });
 
   const { categories } = useContext(CategoryContext);
   const { isAdmin } = useContext(UserContext);
+  const { darkMode } = useContext(DarkModeContext);
+
+  const headerStyle = {
+    background: darkMode ? '#222' : '#ecececdd',
+    width: '100%',
+    paddingInline: { xs: '1rem', lg: '2rem' },
+    maxWidth: '1700px',
+    '& .logo': {
+      width: '115px',
+    },
+  };
 
   const catId: number = Number(location.search.split('=')[1]);
 
   const category = categories.find((cat) => cat.categoryID === catId);
 
+  const postId = location.pathname.split('/')[3];
+
+  let PostCategory;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data: response } = await axios.get(
+          `http://localhost:8080/posts/${postId}`
+        );
+        setPost(response[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [postId]);
+
+  if (postId && post) {
+    PostCategory = categories.find((cat) => cat.categoryID === post.categoryID);
+  }
+
   const breadCrumbs = `${
     location.pathname.includes('guias') ? 'Guias' : ''
-  } \\ ${category?.name ?? 'Todos'}`;
+  } \\ ${
+    category?.name ? category?.name : PostCategory ? PostCategory.name : 'Todos'
+  }`;
 
   return (
     <Stack
@@ -35,11 +86,10 @@ export default function LayoutHeader() {
       sx={{
         width: '100%',
         padding: '1rem',
-        background: '#ecececdd',
+        background: darkMode ? '#222' : '#ecececdd',
         boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.103)',
       }}
-      direction={'row'}
-      justifyContent={'center'}
+      justifyContent={'space-between'}
     >
       <Stack
         sx={headerStyle}
@@ -52,7 +102,11 @@ export default function LayoutHeader() {
         <Stack>
           <Typography
             component={'h2'}
-            sx={{ fontSize: '28px', fontweight: 'bold' }}
+            sx={{
+              fontSize: '28px',
+              fontweight: 'bold',
+              color: darkMode ? '#fff' : '',
+            }}
           >
             {breadCrumbs}
           </Typography>
@@ -79,6 +133,7 @@ export default function LayoutHeader() {
                   py: '.5rem',
                   '&:hover': { background: 'limegreen' },
                   whiteSpace: 'nowrap',
+                  color: '#fff',
                 }}
               >
                 New post
@@ -86,7 +141,7 @@ export default function LayoutHeader() {
             </Link>
           )}
           <span className='logo'>
-            <Logo color={'#222'} />
+            <Logo color={darkMode ? '#fff' : '#222'} />
           </span>
         </Stack>
       </Stack>

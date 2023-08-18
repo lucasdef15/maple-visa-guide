@@ -7,6 +7,7 @@ import { GoDotFill } from 'react-icons/go';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CategoryContext } from '../../../../contexts/CategoryContext';
+import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 
 const StyledMenu = styled(Stack)(() => ({
   position: 'relative',
@@ -27,6 +28,7 @@ export default function CollapsibleMenu({ openMenu }: any) {
   const [openGuias, setOpenGuias] = useState(false);
 
   const { categories } = useContext(CategoryContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const handleOpen = () => {
     setOpenGuias(!openGuias);
@@ -35,7 +37,9 @@ export default function CollapsibleMenu({ openMenu }: any) {
   const handleBodyClick = useCallback(
     (event: Event) => {
       const targetElement = event.target as Element;
-      const isExcluded = targetElement.closest('.css-122iqe9-MuiStack-root');
+      const isExcluded = targetElement.closest(
+        '.css-122iqe9-MuiStack-root, .css-18mp3ih-MuiStack-root, .guiasName, .arrowGuiasAnimated'
+      );
 
       if (openGuias && !isExcluded) {
         setOpenGuias(!openGuias);
@@ -77,9 +81,10 @@ export default function CollapsibleMenu({ openMenu }: any) {
           }}
         >
           <RiBook3Fill />
-          {openMenu && <span>Guias</span>}
+          {openMenu && <span className='guiasName'>Guias</span>}
         </Stack>
         <motion.div
+          className='arrowGuiasAnimated'
           style={{ cursor: 'pointer' }}
           animate={{
             rotate: openGuias ? -180 : 0,
@@ -110,7 +115,11 @@ export default function CollapsibleMenu({ openMenu }: any) {
               flexDirection: 'column',
               gap: '.3rem',
               position: openMenu ? 'relative' : 'absolute',
-              background: openMenu ? '#090e14' : '#23262d',
+              background: openMenu
+                ? '#090e14'
+                : darkMode
+                ? '#121212'
+                : '#23262d',
               minWidth: '243px',
               borderRadius: '5px',
               margin: 0,
@@ -127,7 +136,11 @@ export default function CollapsibleMenu({ openMenu }: any) {
                   borderRadius: '5px',
                   cursor: 'poitner',
                   '&:hover': {
-                    background: openMenu ? '#23262D' : '#090e14',
+                    background: openMenu
+                      ? '#23262D'
+                      : darkMode
+                      ? '#252525'
+                      : '#090e14',
                   },
                 }}
               >
@@ -150,7 +163,11 @@ export default function CollapsibleMenu({ openMenu }: any) {
                       borderRadius: '5px',
                       cursor: 'poitner',
                       '&:hover': {
-                        background: openMenu ? '#23262D' : '#090e14',
+                        background: openMenu
+                          ? '#23262D'
+                          : darkMode
+                          ? '#252525'
+                          : '#090e14',
                       },
                     }}
                   >

@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PostProps } from './PostPage';
 import { uid } from 'uid';
 import TinyMCEditor from '../components/tinyMCEditor/TinyMCEditor';
+import { DarkModeContext } from '../contexts/DarkModeContext';
 
 export default function Edit() {
   const [postData, setPostData] = useState<PostProps>({
@@ -32,6 +33,7 @@ export default function Edit() {
 
   const { categories, setCategories } = useContext(CategoryContext);
   const { user } = useContext(UserContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const navigate = useNavigate();
 
@@ -189,6 +191,9 @@ export default function Edit() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             style={{
+              background: darkMode ? '#222f3e' : '#fff',
+              color: darkMode ? '#fff' : '',
+              borderColor: darkMode ? '#222' : '',
               padding: '10px',
               fontSize: '18px',
               border: '1px solid lightgray',
@@ -209,6 +214,7 @@ export default function Edit() {
               minHeight: '150px',
               borderRadius: '15px',
               marginBottom: '1rem',
+              color: darkMode ? '#fff' : '',
             },
           }}
         >
@@ -313,13 +319,21 @@ export default function Edit() {
                 borderRadius: '10px',
                 paddingLeft: '1rem',
                 marginBlock: '.5rem',
+                background: darkMode ? '#222f3e' : '',
+                borderColor: darkMode ? '#222f3e' : '',
+                color: darkMode ? '#fff' : '',
               }}
             />
             <Button
               variant='outlined'
               onClick={addNewCategory}
               color='secondary'
-              sx={{ borderRadius: '10px', textTransform: 'unset' }}
+              sx={{
+                borderRadius: '10px',
+                textTransform: 'unset',
+                color: darkMode ? '#fff' : '',
+                borderColor: darkMode ? '#fff' : '',
+              }}
             >
               Adicionar Categoria
             </Button>

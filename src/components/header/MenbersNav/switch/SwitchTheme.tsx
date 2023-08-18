@@ -1,6 +1,8 @@
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import { Typography, Stack } from '@mui/material';
+import { useContext } from 'react';
+import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 61,
@@ -50,10 +52,20 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function SwitchTheme({ openMenu }: any) {
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+
+  const handleDarkModeToggle = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
     <Stack direction='row' alignItems={'center'} justifyContent={'center'}>
       {openMenu && <Typography>Light</Typography>}
-      <MaterialUISwitch sx={{ m: 1 }} defaultChecked />
+      <MaterialUISwitch
+        sx={{ m: 1 }}
+        onChange={handleDarkModeToggle}
+        checked={darkMode}
+      />
       {openMenu && <Typography>Dark</Typography>}
     </Stack>
   );

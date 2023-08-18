@@ -9,6 +9,7 @@ import { UserContext } from '../../../../contexts/UserContext';
 const styledUserInfo = {
   backgroundColor: '#23262D',
   padding: '1rem',
+  minHeight: '96px',
 };
 
 const menu = {

@@ -5,15 +5,19 @@ import LayoutHeader from '../components/header/MenbersNav/LayoutHeader/LayoutHea
 import MainContext from '../contexts/MainContext';
 import { useContext } from 'react';
 import ScrollToTop from '../components/scroll/ScrollToTop';
-
-const styledLayout = {
-  zIndex: -1,
-  position: 'relative',
-  minHeight: '100vh',
-};
+import { DarkModeContext } from '../contexts/DarkModeContext';
 
 export default function MenbersLayout() {
   const { openMenu } = useContext(MainContext);
+
+  const { darkMode } = useContext(DarkModeContext);
+
+  const styledLayout = {
+    zIndex: -1,
+    position: 'relative',
+    minHeight: '100vh',
+    background: darkMode ? '#111' : 'unset',
+  };
 
   const styledContainer = {
     width: 'calc(100%)',

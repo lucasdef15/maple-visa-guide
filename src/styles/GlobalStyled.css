@@ -173,3 +173,6 @@ ul, ol{
 .tox-statusbar__branding {
   display: none;
 }
+.highlighted-span{
+  color: #111 !important
+}

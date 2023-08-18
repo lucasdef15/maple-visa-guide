@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import { BiSolidMessageSquareEdit } from 'react-icons/bi';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
+import { DarkModeContext } from '../../contexts/DarkModeContext';
 
 export default function ArticlesCard({
   id,
@@ -21,6 +22,7 @@ export default function ArticlesCard({
   handleDelete,
 }: Article) {
   const { isAdmin } = useContext(UserContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const navigate = useNavigate();
 
@@ -60,7 +62,12 @@ export default function ArticlesCard({
           </Typography>
         </CardContent>
         <CardActions sx={{ ml: 1 }}>
-          <Button onClick={() => navigate(`${id}`)}>Ler mais</Button>
+          <Button
+            onClick={() => navigate(`${id}`)}
+            sx={{ color: darkMode ? '#fff' : '' }}
+          >
+            Ler mais
+          </Button>
           {isAdmin && (
             <>
               <IconButton

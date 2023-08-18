@@ -9,6 +9,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Parser from 'html-react-parser';
 import { UserContext } from '../contexts/UserContext';
+import { DarkModeContext } from '../contexts/DarkModeContext';
 
 const styledContent = {
   '& .img-container': {
@@ -52,6 +53,7 @@ export default function PostPage() {
   });
 
   const { isAdmin } = useContext(UserContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -82,12 +84,33 @@ export default function PostPage() {
     }
   };
 
+  useEffect(() => {
+    const handleBackgroundColorSpans = () => {
+      const contentDiv = document.querySelector('.content');
+      if (contentDiv) {
+        const spanElements = contentDiv.getElementsByTagName('span');
+
+        for (const span of spanElements) {
+          const backgroundColor = window.getComputedStyle(span).backgroundColor;
+
+          span.classList.remove('highlighted-span');
+          if (backgroundColor !== 'rgba(0, 0, 0, 0)' && darkMode) {
+            span.classList.add('highlighted-span');
+          }
+        }
+      }
+    };
+
+    handleBackgroundColorSpans();
+  }, [darkMode]);
+
   return (
     <Stack
       direction={'row'}
       justifyContent={'center'}
       sx={{
         width: 'calc(100% - 1rem)',
+        color: darkMode ? '#fff' : '',
       }}
     >
       <Stack
@@ -118,7 +141,9 @@ export default function PostPage() {
             {post.userImg ? (
               <Avatar alt={post.name} src={post.userImg} />
             ) : (
-              <Avatar>{post.name.slice(0, 1).toLocaleUpperCase()}</Avatar>
+              <Avatar sx={{ color: '#fff' }}>
+                {post.name.slice(0, 1).toLocaleUpperCase()}
+              </Avatar>
             )}
             <div className='info'>
               <h3>{post.name}</h3>
