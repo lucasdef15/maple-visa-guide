@@ -59,7 +59,12 @@ export default function SwitchTheme({ openMenu }: any) {
   };
 
   return (
-    <Stack direction='row' alignItems={'center'} justifyContent={'center'}>
+    <Stack
+      direction='row'
+      alignItems={'center'}
+      justifyContent={'center'}
+      sx={{ color: '#fff' }}
+    >
       {openMenu && <Typography>Light</Typography>}
       <MaterialUISwitch
         sx={{ m: 1 }}

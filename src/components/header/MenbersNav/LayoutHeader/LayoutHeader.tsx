@@ -88,12 +88,13 @@ export default function LayoutHeader() {
         padding: '1rem',
         background: darkMode ? '#222' : '#ecececdd',
         boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.103)',
+        display: { xs: 'none', sm: 'flex' },
       }}
       justifyContent={'space-between'}
     >
       <Stack
         sx={headerStyle}
-        direction={{ xs: 'column', md: 'row' }}
+        direction={'row'}
         justifyContent={'space-between'}
         alignItems={'center'}
         useFlexGap
@@ -118,7 +119,7 @@ export default function LayoutHeader() {
           </Typography>
         </Stack>
         <Stack
-          direction={{ xs: 'column-reverse', md: 'row' }}
+          direction={'row'}
           spacing={{ xs: 2, md: 3.5 }}
           alignSelf={'end'}
           alignItems={'center'}

@@ -18,7 +18,7 @@ export interface Article {
 
 const ArticleStyles = {
   minHeight: '100vh',
-  marginBlock: '50px',
+  marginBlock: { xs: '200px', sm: '50px' },
   width: '100%',
   zIndex: -1,
   position: 'relative',

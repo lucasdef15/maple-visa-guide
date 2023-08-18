@@ -10,6 +10,7 @@ type MainContextValue = {
   setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  handleOpen(): void;
 };
 
 const MainContext = createContext<MainContextValue>({} as MainContextValue);
@@ -38,6 +39,11 @@ export function DataProvider({ children }: any) {
     };
   }, [lastScrollPosition]);
 
+  const handleOpen = () => {
+    toggleOpen();
+    setOpenMenu(true);
+  };
+
   return (
     <MainContext.Provider
       value={{
@@ -49,6 +55,7 @@ export function DataProvider({ children }: any) {
         setOpenMenu,
         openModal,
         setOpenModal,
+        handleOpen,
       }}
     >
       {children}

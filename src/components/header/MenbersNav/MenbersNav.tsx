@@ -34,6 +34,7 @@ export default function MenbersNav() {
 
   return (
     <motion.div
+      className='DesktopMenbersNavBar'
       style={{
         position: 'fixed',
         backgroundColor: '#090E14',

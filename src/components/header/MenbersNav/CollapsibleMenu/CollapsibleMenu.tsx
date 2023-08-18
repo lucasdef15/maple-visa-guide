@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CategoryContext } from '../../../../contexts/CategoryContext';
 import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 import Loader from '../../../loaders/Loader';
+import MainContext from '../../../../contexts/MainContext';
 
 const StyledMenu = styled(Stack)(() => ({
   position: 'relative',
@@ -30,6 +31,7 @@ export default function CollapsibleMenu({ openMenu }: any) {
 
   const { categories } = useContext(CategoryContext);
   const { darkMode } = useContext(DarkModeContext);
+  const { handleOpen: handleOpenMobileNav } = useContext(MainContext);
 
   const handleOpen = () => {
     setOpenGuias(!openGuias);
@@ -127,7 +129,7 @@ export default function CollapsibleMenu({ openMenu }: any) {
               padding: 0,
             }}
           >
-            <NavLink to='guias'>
+            <NavLink to='guias' onClick={handleOpenMobileNav}>
               <Stack
                 direction='row'
                 alignItems='center'
@@ -154,6 +156,7 @@ export default function CollapsibleMenu({ openMenu }: any) {
                 <NavLink
                   key={category.categoryID}
                   to={`/membros/guias?categoryID=${category.categoryID}`}
+                  onClick={handleOpenMobileNav}
                 >
                   <Stack
                     direction='row'

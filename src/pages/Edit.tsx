@@ -183,7 +183,7 @@ export default function Edit() {
         direction={{ xs: 'column', lg: 'row' }}
         useFlexGap
         spacing={3}
-        sx={{ m: '3rem 2rem' }}
+        sx={{ m: { xs: '11rem 1rem', sm: '3rem 2rem' } }}
       >
         <Stack className='content' flex={7}>
           <input

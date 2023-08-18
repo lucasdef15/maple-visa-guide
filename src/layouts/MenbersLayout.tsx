@@ -6,6 +6,7 @@ import MainContext from '../contexts/MainContext';
 import { useContext } from 'react';
 import ScrollToTop from '../components/scroll/ScrollToTop';
 import { DarkModeContext } from '../contexts/DarkModeContext';
+import MobileMenbersNavBar from '../components/header/MobileMenbersNav.tsx/MobileMenbersNavBar';
 
 export default function MenbersLayout() {
   const { openMenu } = useContext(MainContext);
@@ -20,8 +21,8 @@ export default function MenbersLayout() {
   };
 
   const styledContainer = {
-    width: 'calc(100%)',
-    marginLeft: openMenu ? '275px' : '76px',
+    width: '100%',
+    marginLeft: { xs: '', sm: openMenu ? '275px' : '76px' },
     zIndex: -1,
     position: 'relative',
   };
@@ -30,6 +31,7 @@ export default function MenbersLayout() {
       <ScrollToTop />
       <Stack sx={styledLayout} direction='row'>
         <MenbersNav />
+        <MobileMenbersNavBar />
         <Stack sx={styledContainer}>
           <LayoutHeader />
           <Outlet />

@@ -14,7 +14,7 @@ import { DarkModeContext } from '../contexts/DarkModeContext';
 const styledContent = {
   '& .img-container': {
     width: '100%',
-    height: '344px',
+    height: { xs: '230px', sm: '344px' },
     objectFit: 'cover',
     '& img': {
       width: '100%',
@@ -109,8 +109,9 @@ export default function PostPage() {
       direction={'row'}
       justifyContent={'center'}
       sx={{
-        width: 'calc(100% - 1rem)',
+        width: { xs: '100%', sm: 'calc(100% - 1rem)' },
         color: darkMode ? '#fff' : '',
+        pt: { xs: '170px' },
       }}
     >
       <Stack
@@ -118,7 +119,7 @@ export default function PostPage() {
         useFlexGap
         gap={'3vw'}
         sx={{
-          margin: { xs: '2rem', lg: '3rem' },
+          margin: { xs: '1rem', sm: '2rem', lg: '3rem' },
           width: '100%',
           maxWidth: '1700px',
         }}
@@ -127,7 +128,7 @@ export default function PostPage() {
           <Typography
             variant={'h4'}
             sx={{
-              fontSize: 'clamp(20px, 5vw, 35px)',
+              fontSize: 'clamp(18px, 5vw, 35px)',
               mb: '1.7rem',
               fontWeight: 'bold',
             }}

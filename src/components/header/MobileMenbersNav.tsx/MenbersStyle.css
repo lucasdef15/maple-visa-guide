@@ -5,10 +5,9 @@
     right: 0;
     top: 0;
     width: 290px;
-    /* color: white; */
-    color: rgb(32, 32, 32);
     font-size: 1.2rem;
     transition: .5s;
+    z-index: 2;
   }
   
   .mobile-background {
@@ -16,8 +15,8 @@
     inset: 0;
     width: 100%;
     height: calc(100vh + 80px) ;
-    background: #f7f7f7fc;
-    
+    background: #090e14;
+    z-index: -1;
   }
   
   .mobile-nav button:not(.signinBtn) {
@@ -25,8 +24,8 @@
     border: none;
     cursor: pointer;
     position: absolute;
-    top: 29px;
-    right: 25px;
+    top: 20px;
+    right: 14px;
     width: 50px;
     height: 50px;
     border-radius: 50%;

@@ -145,7 +145,7 @@ export default function Write() {
         direction={{ xs: 'column', lg: 'row' }}
         useFlexGap
         spacing={3}
-        sx={{ m: '3rem 2rem' }}
+        sx={{ m: { xs: '11rem 1rem', sm: '3rem 2rem' } }}
       >
         <Stack flex={7} sx={{ mb: { xs: 0, lg: '15rem' } }}>
           <input
