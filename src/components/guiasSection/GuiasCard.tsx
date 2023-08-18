@@ -1,8 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useInView } from 'react-intersection-observer';
-
-import check from '/assets/svgs/check.svg';
+import { AiFillCheckCircle } from 'react-icons/ai';
 import scalator from '/assets/svgs/escalator.svg';
 
 const StyledCard = styled(Stack)(({ theme }) => ({
@@ -40,22 +39,19 @@ const CardHeader = styled('div')(({ theme }) => ({
 
 const CardTitle = styled('div')(() => ({
   marginBlock: '15px',
+  textAlign: 'center',
 }));
 
-const CardItem = styled(Stack)(({ theme }) => ({
-  display: 'felx',
+const CardItem = styled(Stack)(() => ({
+  display: 'flex',
   flexDirection: 'row',
   justifyContent: 'start',
   alignItems: 'center',
   gap: '10px',
-  '& .circle': {
-    width: '20px',
-    height: '20px',
-    backgroundColor: theme.palette.primary.dark,
-    borderRadius: '50%',
-    display: 'grid',
-    placeContent: 'center',
-    flex: '0 0 20px',
+  '& svg': {
+    width: '17px',
+    height: '17px',
+    flex: '0 0 17px',
   },
 }));
 
@@ -115,10 +111,8 @@ export default function GuiasCard({ icon, title, subTitle, items }: CardProps) {
       >
         {items.map((item, index) => (
           <CardItem key={index}>
-            <span className='circle'>
-              <img loading='lazy' src={check} alt='check' />
-            </span>
-            <p>{item}</p>
+            <AiFillCheckCircle />
+            <span>{item}</span>
           </CardItem>
         ))}
       </CardBody>

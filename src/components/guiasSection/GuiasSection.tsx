@@ -5,6 +5,7 @@ import { GiPassport } from 'react-icons/gi';
 import { Stack } from '@mui/material';
 import GuiasCard from './GuiasCard';
 import GuiasButton from './GuiasButton';
+import ModalComponent from '../modal/Modal';
 
 const Spikes = styled('section')(() => ({
   position: 'relative',
@@ -70,6 +71,9 @@ export default function GuiasSection() {
     'Estudante',
     'Trabalho (Depende de Aluno de College)',
   ];
+
+  const token = localStorage.getItem('token');
+
   return (
     <Spikes>
       <Stack
@@ -97,7 +101,15 @@ export default function GuiasSection() {
           items={card3}
         />
       </Stack>
-      <GuiasButton />
+      {token ? (
+        <GuiasButton />
+      ) : (
+        <ModalComponent
+          text='Começar Agora'
+          variant='contained'
+          color='primary'
+        />
+      )}
     </Spikes>
   );
 }

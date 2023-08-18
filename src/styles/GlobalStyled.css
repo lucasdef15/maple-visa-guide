@@ -157,7 +157,6 @@ a{
   font-family: inherit;
   color: inherit;
   font-weight: inherit;
-  width: min-content;
 }
 .spacing {
   width: min(70vmax, 95%);

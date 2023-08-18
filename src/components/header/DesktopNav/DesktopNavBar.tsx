@@ -114,6 +114,9 @@ export default function DesktopNavBar() {
           sx={{
             width: '100%',
             maxWidth: '1080px',
+            '& a': {
+              width: 'min-content',
+            },
           }}
         >
           <Link to={'/'}>

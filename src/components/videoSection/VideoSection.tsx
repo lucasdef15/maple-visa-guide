@@ -7,6 +7,7 @@ import Video from './Video';
 import { Typography } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
+import ModalComponent from '../modal/Modal';
 
 const StyledSection = styled('div')(() => ({
   marginBlock: '200px',
@@ -81,6 +82,8 @@ export default function VideoSection() {
     threshold: 0.5,
     delay: 100,
   });
+  const token = localStorage.getItem('token');
+  console.log(token);
   return (
     <StyledSection className='spacing'>
       <Stack
@@ -116,15 +119,23 @@ export default function VideoSection() {
             Estamos aqui para ajudar você em cada etapa do proceso
           </Typography>
           <ButtonWrapper>
-            <Link to={'/plano'}>
-              <Button
-                variant={'contained'}
-                color={'secondary'}
-                sx={{ p: '.7rem 1.5rem' }}
-              >
-                Ver Mais
-              </Button>
-            </Link>
+            {token ? (
+              <Link to={'/plano'}>
+                <Button
+                  variant={'contained'}
+                  color={'secondary'}
+                  sx={{ p: '.55rem 1.3rem', textTransform: 'unset' }}
+                >
+                  Ver Mais
+                </Button>
+              </Link>
+            ) : (
+              <ModalComponent
+                text={'Ver Mais'}
+                variant='contained'
+                color='secondary'
+              />
+            )}
           </ButtonWrapper>
         </Stack>
         <Stack

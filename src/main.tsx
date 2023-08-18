@@ -8,15 +8,18 @@ import './styles/Animations.css';
 import './styles/GlobalStyled.css';
 import { UserProvider } from './contexts/UserContext.tsx';
 import { CategoryProvider } from './contexts/CategoryContext.tsx';
+import { ModalProvider } from './contexts/ModalContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <DataProvider>
       <UserProvider>
         <CategoryProvider>
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
+          <ModalProvider>
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </ModalProvider>
         </CategoryProvider>
       </UserProvider>
     </DataProvider>

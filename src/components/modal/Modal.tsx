@@ -79,7 +79,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     setNameError('');
     setEmailError('');
     setPasswordError('');
-    if (text === 'Signup') {
+    if (text === 'Signup' || text === 'Ver Mais' || text === 'Começar Agora') {
       try {
         const { data: signUpData } = await axios.post(
           'http://localhost:8080/auth/signup',
@@ -137,12 +137,31 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
       'authorization'
     ] = `Bearer ${response.data.token}`;
     setOpen(false);
-
     if (response.data.user.isMember) {
       navigate('/membros/guias');
     } else {
       navigate('/plano');
     }
+  };
+
+  const ordinaryStyle = {
+    textTransform: 'initial',
+    p: '.55rem 1.3rem',
+  };
+
+  const guiasStyle = {
+    borderRadius: '25px !important',
+    padding: '1rem 2rem !important',
+    color: '#01244a',
+    textTransform: 'uppercase !important',
+    fontWeight: 'bold !important',
+    backgroundColor: '#fff !important',
+    fontSize: '20px !important',
+    boxShadow: `5px 5px 0px 0px rgba(215, 215, 255, 0.48) !important`,
+    '&:hover': {
+      backgroundColor: 'rgba(215, 215, 255, 0.48) !important',
+      color: 'white !important',
+    },
   };
 
   return (
@@ -152,7 +171,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
         variant={variant}
         color={color}
         onClick={handleOpen}
-        sx={{ textTransform: 'initial', p: '.55rem 1.3rem' }}
+        sx={text === 'Começar Agora' ? guiasStyle : ordinaryStyle}
       >
         {text}
       </Button>
@@ -182,7 +201,11 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                 fontSize='42px'
                 sx={{ letterSpacing: '2px !important' }}
               >
-                {text === 'Login' ? 'Fazer Login' : 'Criar uma Conta'}
+                {text === 'Login'
+                  ? 'Fazer Login'
+                  : text === 'Ver Mais' || text === 'Começar Agora'
+                  ? 'Criar uma Conta'
+                  : 'Criar uma Conta'}
               </Typography>
               <Typography
                 variant='h6'
@@ -192,6 +215,8 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
               >
                 {text === 'Login'
                   ? 'Login to your accont'
+                  : text === 'Ver Mais' || text === 'Começar Agora'
+                  ? 'Sign up now and unlock exclusive access'
                   : 'Sign up now and unlock exclusive access'}
               </Typography>
               <Stack
@@ -247,7 +272,9 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                   }}
                   onClick={handleClick}
                 >
-                  {text}
+                  {text === 'Ver Mais' || text === 'Começar Agora'
+                    ? 'Signup'
+                    : text}
                 </Button>
               </Stack>
             </Stack>

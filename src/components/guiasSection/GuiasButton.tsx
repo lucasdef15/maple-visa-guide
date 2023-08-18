@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -17,5 +18,9 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function GuiasButton() {
-  return <StyledButton variant='contained'>explorar mais</StyledButton>;
+  return (
+    <Link to={'plano'} style={{ width: 'auto' }}>
+      <StyledButton variant='contained'>Começar Agora</StyledButton>
+    </Link>
+  );
 }
