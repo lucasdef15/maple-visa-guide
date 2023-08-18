@@ -111,7 +111,7 @@ export default function PostPage() {
       sx={{
         width: { xs: '100%', sm: 'calc(100% - 1rem)' },
         color: darkMode ? '#fff' : '',
-        pt: { xs: '170px' },
+        pt: { xs: '170px', sm: '2rem' },
       }}
     >
       <Stack
@@ -122,6 +122,7 @@ export default function PostPage() {
           margin: { xs: '1rem', sm: '2rem', lg: '3rem' },
           width: '100%',
           maxWidth: '1700px',
+          p: '1rem',
         }}
       >
         <Stack flex={'6'} sx={styledContent}>

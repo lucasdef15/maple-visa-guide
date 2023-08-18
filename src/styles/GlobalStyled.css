@@ -181,4 +181,8 @@ ul, ol{
   .DesktopMenbersNavBar{
     display: none !important;
   }
+  .content img {
+    margin: 0;
+    width: 100%;
+  }
 }
