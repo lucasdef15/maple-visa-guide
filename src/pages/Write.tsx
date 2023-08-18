@@ -11,6 +11,8 @@ import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { CategoryContextValue } from '../contexts/CategoryContext';
 import TinyMCEditor from '../components/tinyMCEditor/TinyMCEditor';
+import { DarkModeContext } from '../contexts/DarkModeContext';
+import Loader from '../components/loaders/Loader';
 
 export default function Write() {
   const [value, setValue] = useState('');
@@ -20,6 +22,7 @@ export default function Write() {
   const [newCat, setNewCat] = useState('');
 
   const { user } = useContext(UserContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const navigate = useNavigate();
 
@@ -151,6 +154,9 @@ export default function Write() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             style={{
+              background: darkMode ? '#222f3e' : '#fff',
+              color: darkMode ? '#fff' : '',
+              borderColor: darkMode ? '#222f3e' : '',
               padding: '10px',
               fontSize: '18px',
               border: '1px solid lightgray',
@@ -171,6 +177,7 @@ export default function Write() {
               minHeight: '150px',
               borderRadius: '15px',
               marginBottom: '1rem',
+              color: darkMode ? '#fff' : '',
             },
           }}
         >
@@ -229,7 +236,7 @@ export default function Write() {
             >
               Categoria
             </Typography>
-            {categories &&
+            {categories.length ? (
               categories.map((category: any) => (
                 <Stack
                   key={category.categoryID}
@@ -261,7 +268,10 @@ export default function Write() {
                     <DeleteIcon fontSize='inherit' />
                   </IconButton>
                 </Stack>
-              ))}
+              ))
+            ) : (
+              <Loader />
+            )}
             <input
               type='text'
               placeholder='Adiconar Nova Categoria'
@@ -273,13 +283,21 @@ export default function Write() {
                 borderRadius: '10px',
                 paddingLeft: '1rem',
                 marginBlock: '.5rem',
+                background: darkMode ? '#222f3e' : '',
+                borderColor: darkMode ? '#222f3e' : '',
+                color: darkMode ? '#fff' : '',
               }}
             />
             <Button
               variant='outlined'
               onClick={addNewCategory}
               color='secondary'
-              sx={{ borderRadius: '10px', textTransform: 'unset' }}
+              sx={{
+                borderRadius: '10px',
+                textTransform: 'unset',
+                color: darkMode ? '#fff' : '',
+                borderColor: darkMode ? '#fff' : '',
+              }}
             >
               Adicionar Categoria
             </Button>

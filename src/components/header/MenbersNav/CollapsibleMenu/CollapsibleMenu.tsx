@@ -8,6 +8,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CategoryContext } from '../../../../contexts/CategoryContext';
 import { DarkModeContext } from '../../../../contexts/DarkModeContext';
+import Loader from '../../../loaders/Loader';
 
 const StyledMenu = styled(Stack)(() => ({
   position: 'relative',
@@ -148,7 +149,7 @@ export default function CollapsibleMenu({ openMenu }: any) {
                 <span>Todos</span>
               </Stack>
             </NavLink>
-            {categories &&
+            {categories.length ? (
               categories.map((category) => (
                 <NavLink
                   key={category.categoryID}
@@ -175,7 +176,10 @@ export default function CollapsibleMenu({ openMenu }: any) {
                     <span>{category.name}</span>
                   </Stack>
                 </NavLink>
-              ))}
+              ))
+            ) : (
+              <Loader />
+            )}
           </motion.ul>
         ) : null}
       </AnimatePresence>

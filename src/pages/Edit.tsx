@@ -13,6 +13,7 @@ import { PostProps } from './PostPage';
 import { uid } from 'uid';
 import TinyMCEditor from '../components/tinyMCEditor/TinyMCEditor';
 import { DarkModeContext } from '../contexts/DarkModeContext';
+import Loader from '../components/loaders/Loader';
 
 export default function Edit() {
   const [postData, setPostData] = useState<PostProps>({
@@ -193,7 +194,7 @@ export default function Edit() {
             style={{
               background: darkMode ? '#222f3e' : '#fff',
               color: darkMode ? '#fff' : '',
-              borderColor: darkMode ? '#222' : '',
+              borderColor: darkMode ? '#222f3e' : '',
               padding: '10px',
               fontSize: '18px',
               border: '1px solid lightgray',
@@ -242,6 +243,7 @@ export default function Edit() {
             >
               Upload Image
             </label>
+            <span>{file?.name}</span>
             <Stack
               direction={'row'}
               justifyContent={'space-between'}
@@ -272,7 +274,7 @@ export default function Edit() {
             >
               Category
             </Typography>
-            {categories &&
+            {categories.length ? (
               categories.map((category: any) => (
                 <Stack
                   key={uid()}
@@ -307,7 +309,10 @@ export default function Edit() {
                     <DeleteIcon fontSize='inherit' />
                   </IconButton>
                 </Stack>
-              ))}
+              ))
+            ) : (
+              <Loader />
+            )}
             <input
               type='text'
               placeholder='Adiconar Nova Categoria'
