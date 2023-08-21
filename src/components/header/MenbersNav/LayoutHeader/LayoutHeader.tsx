@@ -8,6 +8,7 @@ import { UserContext } from '../../../../contexts/UserContext';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DarkModeContext } from '../../../../contexts/DarkModeContext';
+import config from '../../../../utilities/config';
 
 export interface PostProps {
   name: string;
@@ -59,7 +60,7 @@ export default function LayoutHeader() {
     const fetchData = async () => {
       try {
         const { data: response } = await axios.get(
-          `http://localhost:8080/posts/${postId}`
+          `${config.APP_BASE_URL}/posts/${postId}`
         );
         setPost(response[0]);
       } catch (error) {

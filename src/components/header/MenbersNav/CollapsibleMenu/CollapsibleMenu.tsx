@@ -29,7 +29,7 @@ const StyledMenu = styled(Stack)(() => ({
 export default function CollapsibleMenu({ openMenu }: any) {
   const [openGuias, setOpenGuias] = useState(false);
 
-  const { categories } = useContext(CategoryContext);
+  const { categories, isLoading } = useContext(CategoryContext);
   const { darkMode } = useContext(DarkModeContext);
   const { handleOpen: handleOpenMobileNav } = useContext(MainContext);
 
@@ -151,7 +151,7 @@ export default function CollapsibleMenu({ openMenu }: any) {
                 <span>Todos</span>
               </Stack>
             </NavLink>
-            {categories.length ? (
+            {categories.length || isLoading ? (
               categories.map((category) => (
                 <NavLink
                   key={category.categoryID}

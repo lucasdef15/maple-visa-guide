@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import config from '../utilities/config';
+import Loader from '../components/loaders/Loader';
 
 export interface Category {
   categoryID: number | null;
@@ -9,6 +11,8 @@ export interface Category {
 export interface CategoryContextValue {
   categories: Category[];
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  isLoading: boolean;
+  setIsloading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const initialState: Category[] = [
@@ -21,10 +25,13 @@ const initialState: Category[] = [
 const CategoryContext = createContext<CategoryContextValue>({
   categories: initialState,
   setCategories: () => {},
+  isLoading: true,
+  setIsloading: () => {},
 });
 
 const CategoryProvider = ({ children }: any) => {
   const [categories, setCategories] = useState<Category[]>(initialState);
+  const [isLoading, setIsloading] = useState<boolean>(true);
 
   const token = localStorage.getItem('token');
 
@@ -34,9 +41,14 @@ const CategoryProvider = ({ children }: any) => {
   }
 
   const fetchCategories = async () => {
-    const { data: response } = await axios.get('http://localhost:8080/cats');
-
-    setCategories(response.data.categories);
+    try {
+      const { data: response } = await axios.get(`${config.APP_BASE_URL}/cats`);
+      setCategories(response.data.categories);
+      setIsloading(false);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      setIsloading(false);
+    }
   };
 
   useEffect(() => {
@@ -44,17 +56,20 @@ const CategoryProvider = ({ children }: any) => {
       fetchCategories();
     } else {
       setCategories(initialState);
+      setIsloading(false);
     }
   }, [token]);
 
   const contextValues: CategoryContextValue = {
     categories,
     setCategories,
+    isLoading,
+    setIsloading,
   };
 
   return (
     <CategoryContext.Provider value={contextValues}>
-      {children}
+      {isLoading ? <Loader /> : children}
     </CategoryContext.Provider>
   );
 };

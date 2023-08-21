@@ -7,6 +7,7 @@ import ArticlesCard from '../components/cards/ArticlesCard';
 import Loader from '../components/loaders/Loader';
 import { useLocation } from 'react-router-dom';
 import { uid } from 'uid';
+import config from '../utilities/config';
 
 export interface Article {
   id?: string;
@@ -31,21 +32,9 @@ export default function Members() {
 
   const cat = useLocation().search;
 
-  const fetchpost = async () => {
-    try {
-      const { data: response } = await axios.get(
-        `http://localhost:8080/posts${cat}`
-      );
-      setPost(response);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching post:', error);
-      setLoading(false);
-    }
-  };
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8080/posts/${id}`);
+      await axios.delete(`${config.APP_BASE_URL}/posts/${id}`);
       setPost(posts.filter((post) => post.id !== id));
     } catch (error) {
       console.log(error);
@@ -53,6 +42,19 @@ export default function Members() {
   };
 
   useEffect(() => {
+    setLoading(true);
+    const fetchpost = async () => {
+      try {
+        const { data: response } = await axios.get(
+          `${config.APP_BASE_URL}/posts${cat}`
+        );
+        setPost(response);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching post:', error);
+        setLoading(false);
+      }
+    };
     fetchpost();
   }, [cat]);
 

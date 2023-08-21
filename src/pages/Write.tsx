@@ -13,6 +13,7 @@ import { CategoryContextValue } from '../contexts/CategoryContext';
 import TinyMCEditor from '../components/tinyMCEditor/TinyMCEditor';
 import { DarkModeContext } from '../contexts/DarkModeContext';
 import Loader from '../components/loaders/Loader';
+import config from '../utilities/config';
 
 export default function Write() {
   const [value, setValue] = useState('');
@@ -34,56 +35,56 @@ export default function Write() {
     try {
       const formData = new FormData();
       formData.append('file', file as Blob);
-      const res = await axios.post('http://localhost:8080/upload', formData);
+      const res = await axios.post(`${config.APP_BASE_URL}/upload`, formData);
       return res.data;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const upload64 = async () => {
-    try {
-      const htmlString = value;
+  // const upload64 = async () => {
+  //   try {
+  //     const htmlString = value;
 
-      const regexPattern = /src="(data:image\/[^;]+;base64[^"]+)"/gi;
+  //     const regexPattern = /src="(data:image\/[^;]+;base64[^"]+)"/gi;
 
-      let matches;
-      const extractedMatches = [];
+  //     let matches;
+  //     const extractedMatches = [];
 
-      while ((matches = regexPattern.exec(htmlString)) !== null) {
-        extractedMatches.push(matches[1]);
-      }
+  //     while ((matches = regexPattern.exec(htmlString)) !== null) {
+  //       extractedMatches.push(matches[1]);
+  //     }
 
-      let updatedHTML = value;
+  //     let updatedHTML = value;
 
-      const updatedHTMLPromises = extractedMatches.map(async (match) => {
-        const res = await axios.post('http://localhost:8080/upload64', {
-          imageData: match,
-        });
-        const data = res.data;
+  //     const updatedHTMLPromises = extractedMatches.map(async (match) => {
+  //       const res = await axios.post('${config.APP_BASE_URL}/upload64', {
+  //         imageData: match,
+  //       });
+  //       const data = res.data;
 
-        const imgURL = `http://localhost:8080/uploads/${data.fileName}`;
+  //       const imgURL = `${config.APP_BASE_URL}/uploads/${data.fileName}`;
 
-        return (updatedHTML = updatedHTML.replace(
-          data.base64ImageData,
-          imgURL
-        ));
-      });
+  //       return (updatedHTML = updatedHTML.replace(
+  //         data.base64ImageData,
+  //         imgURL
+  //       ));
+  //     });
 
-      const updatedHTMLArray = await Promise.all(updatedHTMLPromises);
-      return updatedHTMLArray[1];
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     const updatedHTMLArray = await Promise.all(updatedHTMLPromises);
+  //     return updatedHTMLArray[1];
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const newContent = await upload64();
+    // const newContent = await upload64();
 
     const fileName = await upload();
-    const imgURL = `http://localhost:8080/uploads/${fileName}`;
+    const imgURL = `${config.APP_BASE_URL}/uploads/${fileName}`;
 
     const catId = categories.find((category: any) => category.name === cat);
 
@@ -92,9 +93,9 @@ export default function Write() {
     }
 
     try {
-      await axios.post('http://localhost:8080/posts', {
+      await axios.post(`${config.APP_BASE_URL}/posts`, {
         title,
-        desc: newContent ?? value,
+        desc: value,
         categoryID: catId?.categoryID,
         img: file ? imgURL : '',
         authorID: user?.data?.id,
@@ -109,7 +110,7 @@ export default function Write() {
   const addNewCategory = async () => {
     if (!newCat) return;
     try {
-      const response = await axios.post('http://localhost:8080/cats', {
+      const response = await axios.post(`${config.APP_BASE_URL}/cats`, {
         name: newCat,
       });
       setCategories(response.data);
@@ -121,7 +122,7 @@ export default function Write() {
 
   const handleDeleteCat = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:8080/cats/${id}`);
+      await axios.delete(`${config.APP_BASE_URL}/cats/${id}`);
       const newCategories = categories.filter(
         (category: any) => category.categoryID !== id
       );

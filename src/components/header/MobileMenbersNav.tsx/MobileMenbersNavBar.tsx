@@ -13,6 +13,7 @@ import { useLocation } from 'react-router-dom';
 import { PostProps } from '../MenbersNav/LayoutHeader/LayoutHeader';
 import { Stack, Typography } from '@mui/material';
 import axios from 'axios';
+import config from '../../../utilities/config';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -111,7 +112,7 @@ export default function MobileMenbersNavBar() {
     const fetchData = async () => {
       try {
         const { data: response } = await axios.get(
-          `http://localhost:8080/posts/${postId}`
+          `${config.APP_BASE_URL}/posts/${postId}`
         );
         setPost(response[0]);
       } catch (error) {

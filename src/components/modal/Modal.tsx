@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
+import config from '../../utilities/config';
 
 const StyledInput = styled(TextField)(() => ({
   '& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input': {
@@ -82,7 +83,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     if (text === 'Signup' || text === 'Ver Mais' || text === 'Começar Agora') {
       try {
         const { data: signUpData } = await axios.post(
-          'http://localhost:8080/auth/signup',
+          `${config.APP_BASE_URL}/auth/signup`,
           {
             name,
             email,
@@ -95,7 +96,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
       }
     } else {
       const { data: logInData } = await axios.post(
-        'http://localhost:8080/auth/login',
+        `${config.APP_BASE_URL}/auth/login`,
         {
           email,
           password,

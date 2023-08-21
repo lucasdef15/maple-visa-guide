@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Loader from '../loaders/Loader';
+import config from '../../utilities/config';
 
 interface MenuCardPorops extends Article {
   categoryID: number;
@@ -21,7 +22,7 @@ export default function SideMenuCard({ categoryID, title }: any) {
     const fetchpost = async () => {
       try {
         const { data: response } = await axios.get(
-          `http://localhost:8080/posts?categoryID=${categoryID}`
+          `${config.APP_BASE_URL}/posts?categoryID=${categoryID}`
         );
         setPost(response);
         setLoading(false);

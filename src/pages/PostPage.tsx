@@ -10,6 +10,7 @@ import moment from 'moment';
 import Parser from 'html-react-parser';
 import { UserContext } from '../contexts/UserContext';
 import { DarkModeContext } from '../contexts/DarkModeContext';
+import config from '../utilities/config';
 
 const styledContent = {
   '& .img-container': {
@@ -64,7 +65,7 @@ export default function PostPage() {
     const fetchData = async () => {
       try {
         const { data: response } = await axios.get(
-          `http://localhost:8080/posts/${postId}`
+          `${config.APP_BASE_URL}/posts/${postId}`
         );
         setPost(response[0]);
       } catch (error) {
@@ -77,7 +78,7 @@ export default function PostPage() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/posts/${post.id}`);
+      await axios.delete(`${config.APP_BASE_URL}/posts/${post.id}`);
       navigate('/membros/guias');
     } catch (error) {
       console.log(error);

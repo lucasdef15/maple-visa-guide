@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
+import config from '../utilities/config';
 
 export interface User {
   data: {
@@ -53,7 +54,9 @@ const UserProvider = ({ children }: any) => {
   }
 
   const fetchUser = async () => {
-    const { data: response } = await axios.get('http://localhost:8080/auth/me');
+    const { data: response } = await axios.get(
+      `${config.APP_BASE_URL}/auth/me`
+    );
 
     if (response.data && response.data.user) {
       setUser({
@@ -76,8 +79,6 @@ const UserProvider = ({ children }: any) => {
       });
     }
   };
-
-  // console.log(user);
 
   useEffect(() => {
     if (token) {

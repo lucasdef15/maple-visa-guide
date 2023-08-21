@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MenbersPlanCard from '../components/cards/MenbersPlanCard';
 import { Stack } from '@mui/material';
+import config from '../utilities/config';
 
 const ContainerStyles = {
   minHeight: { xs: '100vh', sm: 'calc(100vh - 100px)' },
@@ -15,7 +16,7 @@ export default function MenbersPlan() {
   }, []);
 
   const fetchPrice = async () => {
-    const response = await axios.get('http://localhost:8080/subs/prices');
+    const response = await axios.get(`${config.APP_BASE_URL}/subs/prices`);
 
     setPrices(response.data.data);
   };

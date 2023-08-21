@@ -83,7 +83,6 @@ export default function VideoSection() {
     delay: 100,
   });
   const token = localStorage.getItem('token');
-  console.log(token);
   return (
     <StyledSection className='spacing'>
       <Stack

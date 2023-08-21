@@ -5,6 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import config from '../../utilities/config';
 
 interface MenbersCardProps {
   planName: string;
@@ -19,7 +20,7 @@ export default function MediaCard({
 }: MenbersCardProps) {
   const createSession = async (priceId: string) => {
     const { data: response } = await axios.post(
-      'http://localhost:8080/subs/session',
+      `${config.APP_BASE_URL}/subs/session`,
       { priceId }
     );
 
