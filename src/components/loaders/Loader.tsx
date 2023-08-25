@@ -10,7 +10,7 @@ export default function Loader() {
       sx={{
         display: 'grid',
         width: '100%',
-        height: '80vh',
+        height: 'calc(100vh -130px)',
         placeContent: 'center',
         color: darkMode ? 'white' : '#000088',
       }}

@@ -4,8 +4,8 @@ import { Stack } from '@mui/material';
 import { AiFillHome } from 'react-icons/ai';
 import { BiSolidDashboard } from 'react-icons/bi';
 import { BsWechat } from 'react-icons/bs';
+import { RiBook3Fill } from 'react-icons/ri';
 import SwitchTheme from './switch/SwitchTheme';
-import CollapsibleMenu from './CollapsibleMenu/CollapsibleMenu';
 import HeaderMenu from './HeaderMenu/HeaderMenu';
 import { useContext } from 'react';
 import { motion } from 'framer-motion';
@@ -70,7 +70,19 @@ export default function MenbersNav() {
                 {openMenu && <span>Dashboard</span>}
               </StyledLi>
             </NavLink>
-            <CollapsibleMenu openMenu={openMenu} />
+            <NavLink to='guias'>
+              <StyledLi
+                direction='row'
+                alignItems='center'
+                justifyContent={openMenu ? 'start' : 'center'}
+                spacing={2}
+                sx={{}}
+              >
+                <RiBook3Fill />
+                {openMenu && <span>Guias</span>}
+              </StyledLi>
+            </NavLink>
+
             <NavLink to='forum'>
               <StyledLi
                 direction='row'

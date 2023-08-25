@@ -1,7 +1,13 @@
-export default function Guias() {
+import { Stack } from '@mui/material';
+
+export default function Dashboard() {
   return (
-    <div>
-      <h1>Dashboard</h1>
-    </div>
+    <Stack
+      justifyContent={'center'}
+      alignItems={'center'}
+      sx={{
+        minHeight: 'calc(100vh - 250px)',
+      }}
+    ></Stack>
   );
 }
