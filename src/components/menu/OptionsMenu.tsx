@@ -39,14 +39,14 @@ export default function OptionsMenu() {
   }, []);
 
   const handleOpenOtions = () => {
-    setOpenOptions(!openOptions);
+    setOpenOptions((prevOpenOptions) => !prevOpenOptions);
   };
 
   const handleBodyClick = useCallback(
     (event: Event) => {
       const targetElement = event.target as Element;
       const isExcluded = targetElement.closest(
-        '.main-nav, .header-nav-options, .parent_root, .sub-menu-ul, .position, .sub-menu-options, .css-sa5cp1-MuiButtonBase-root-MuiButton-root'
+        '.main-nav, .header-nav-options, .parent_root, .sub-menu-ul, .position, .sub-menu-options, .css-sa5cp1-MuiButtonBase-root-MuiButton-root, .MuiButtonBase-root'
       );
 
       if (openOptions && !isExcluded) {
@@ -75,9 +75,10 @@ export default function OptionsMenu() {
         onClick={handleOpenOtions}
         sx={{
           borderRadius: '5px',
-          minWidth: '170px',
-          mb: '.1rem',
-          background: '#fff',
+          minWidth: '200px',
+          mb: '.3rem',
+          background: openOptions ? '#0000001a' : '#fff',
+          border: openOptions ? '1px solid #2020202f' : '',
           color: '#222',
           justifyContent: 'start',
           '&:hover': { background: '#45455236' },
@@ -91,9 +92,14 @@ export default function OptionsMenu() {
           direction={'row'}
           alignItems={'center'}
           justifyContent={'space-between'}
-          sx={{ width: '100%', '& svg': { width: '12px', height: '12px' } }}
+          sx={{
+            width: '100%',
+            '& svg': { width: '12px', height: '12px' },
+            fontWeight: 'bold',
+            fontSize: '1rem',
+          }}
         >
-          Filtros
+          Categorias
           <motion.span
             animate={{
               rotate: openOptions ? '-90deg' : '90deg',
@@ -104,7 +110,11 @@ export default function OptionsMenu() {
         </Stack>
       </Button>
       <motion.div variants={variants} animate={openOptions ? 'open' : 'closed'}>
-        <Navigation navLinksData={categories} openOptions={openOptions} />
+        <Navigation
+          categories={categories}
+          openOptions={openOptions}
+          setOpenOptions={setOpenOptions}
+        />
       </motion.div>
     </div>
   );
