@@ -7,10 +7,11 @@ import config from '../../utilities/config';
 import { BiSolidRightArrow } from 'react-icons/bi';
 import './style.css';
 
-interface Category {
+export interface Category {
   id: number;
   parent_id: number;
-  category: string;
+  name: string;
+  children: Category[];
 }
 
 export default function OptionsMenu() {
@@ -99,7 +100,7 @@ export default function OptionsMenu() {
             fontSize: '1rem',
           }}
         >
-          Categorias
+          Guias
           <motion.span
             animate={{
               rotate: openOptions ? '-90deg' : '90deg',

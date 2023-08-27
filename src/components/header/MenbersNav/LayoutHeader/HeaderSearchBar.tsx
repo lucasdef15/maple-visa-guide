@@ -66,6 +66,7 @@ export default function HeaderSearchBar() {
           maxWidth: '1700px',
         }}
       >
+        <OptionsMenu />
         <Stack>
           <Search>
             <SearchIconWrapper>
@@ -77,7 +78,6 @@ export default function HeaderSearchBar() {
             />
           </Search>
         </Stack>
-        <OptionsMenu />
       </Stack>
     </Stack>
   );
