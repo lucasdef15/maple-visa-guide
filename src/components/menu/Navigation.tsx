@@ -21,8 +21,13 @@ export default function Navigation({
   }, [openOptions]);
 
   const variants = {
+    open: { opacity: 1, x: '0', padding: '.3rem 1rem .7rem 1rem' },
+    closed: { opacity: 0, y: '-100%', display: 'none' },
+  };
+
+  const variants2 = {
     open: { opacity: 1, x: '0' },
-    closed: { opacity: 0, y: '-100%' },
+    closed: { opacity: 0, y: '-100%', display: 'none' },
   };
 
   const subMenuWhileTapHandler = (subMenuId: number) => {
@@ -36,12 +41,12 @@ export default function Navigation({
       <motion.ul className='main-nav'>
         {categories.map((el: any) => {
           return (
-            <motion.li key={el.id} className='header-nav-options options-hover'>
+            <motion.li key={el.id}>
               <motion.div
                 className='parent_root'
                 style={{
-                  background: showSubMenu[el.id] ? '#0000001a' : '',
-                  border: showSubMenu[el.id] ? '1px solid #2020202f' : '',
+                  color: showSubMenu[el.id] ? '#0080e8' : '',
+                  borderBottom: showSubMenu[el.id] ? 'none' : '',
                 }}
                 onClick={() => subMenuWhileTapHandler(el.id)}
               >
@@ -79,7 +84,7 @@ export default function Navigation({
               <motion.ul
                 variants={variants}
                 animate={showSubMenu[el.id] ? 'open' : 'closed'}
-                className='sub-menu-ul position'
+                className='sub-menu-ul'
               >
                 {showSubMenu[el.id] &&
                   el.children.map((ele: any) => {
@@ -87,22 +92,20 @@ export default function Navigation({
                       <motion.li
                         onClick={() => subMenuWhileTapHandler(ele.id)}
                         key={ele.id}
-                        className='sub-menu-options sub-menu-hover'
                       >
                         <motion.div
-                          className='parent_root'
+                          className='sub-menu-ul-options'
                           style={{
-                            background: showSubMenu[ele.id] ? '#0000001a' : '',
-                            border: showSubMenu[ele.id]
-                              ? '1px solid #2020202f'
-                              : '',
+                            color: showSubMenu[ele.id] ? '#0080e8' : '',
+                            borderBottom: showSubMenu[ele.id] ? '#f7f9fb' : '',
+                            borderRadius: showSubMenu[ele.id]
+                              ? '5px 5px 0 0'
+                              : '5px',
                           }}
                         >
                           {ele.children.length ? (
                             <>
-                              <motion.span style={{ fontWeight: 'bold' }}>
-                                {ele.name}
-                              </motion.span>
+                              <motion.span>{ele.name}</motion.span>
                               <motion.span
                                 animate={{
                                   rotate: showSubMenu[ele.id]
@@ -142,19 +145,16 @@ export default function Navigation({
                         </motion.div>
 
                         <motion.ul
-                          variants={variants}
+                          variants={variants2}
                           animate={showSubMenu[ele.id] ? 'open' : 'closed'}
-                          className='sub-menu-ul position'
+                          className='subsub-menu-ul'
                         >
                           {showSubMenu[ele.id] &&
                             ele.children.map((elem: any) => {
                               return (
-                                <motion.li
-                                  key={elem.id}
-                                  className='sub-menu-options sub-menu-hover'
-                                >
+                                <motion.li key={elem.id}>
                                   <Link
-                                    className='parent_root'
+                                    className='subsub-menu-ul-options'
                                     onClick={() => setOpenOptions(false)}
                                     to={`/membros/guias?categoryID=${elem.id}`}
                                   >

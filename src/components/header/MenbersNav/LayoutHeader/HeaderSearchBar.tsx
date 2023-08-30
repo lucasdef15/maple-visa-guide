@@ -6,7 +6,7 @@ import OptionsMenu from '../../../menu/OptionsMenu';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: '10px',
   backgroundColor: theme.palette.common.white,
   boxShadow: '1px 1px 10px rgba(0, 0, 0, .1)',
   '&:hover': {
@@ -14,6 +14,7 @@ const Search = styled('div')(({ theme }) => ({
   },
   marginLeft: 0,
   width: '375px',
+  height: '45px',
   [theme.breakpoints.down('sm')]: {
     marginLeft: theme.spacing(1),
     width: 'auto',
@@ -55,6 +56,7 @@ export default function HeaderSearchBar() {
         padding: '0 1rem',
         height: '45%',
       }}
+      alignItems={'center'}
     >
       <Stack
         direction={'row'}

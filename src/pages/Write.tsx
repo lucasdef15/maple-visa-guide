@@ -1,37 +1,16 @@
 import { useState, useContext } from 'react';
-import { Button, Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 import { routesVariants } from '../animations/animations';
 import { motion } from 'framer-motion';
-import axios from 'axios';
-import moment from 'moment';
-import { UserContext } from '../contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
 import TinyMCEditor from '../components/tinyMCEditor/TinyMCEditor';
 import { DarkModeContext } from '../contexts/DarkModeContext';
-import config from '../utilities/config';
 import Categories from '../components/categories/Categories';
 
 export default function Write() {
   const [value, setValue] = useState('');
   const [title, setTitle] = useState('');
-  const [file, setFile] = useState<File | null>(null);
-  const [cat, setCat] = useState('');
 
-  const { user } = useContext(UserContext);
   const { darkMode } = useContext(DarkModeContext);
-
-  const navigate = useNavigate();
-
-  const upload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file as Blob);
-      const res = await axios.post(`${config.APP_BASE_URL}/upload`, formData);
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // const upload64 = async () => {
   //   try {
@@ -68,33 +47,6 @@ export default function Write() {
   //     console.log(error);
   //   }
   // };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    // const fileName = await upload();
-    // const imgURL = `${config.APP_BASE_URL}/uploads/${fileName}`;
-
-    // const catId = categories.find((category: any) => category.name === cat);
-
-    // if (!cat) {
-    //   return alert(`Category can't be empty`);
-    // }
-
-    // try {
-    //   await axios.post(`${config.APP_BASE_URL}/posts`, {
-    //     title,
-    //     desc: value,
-    //     categoryID: catId?.categoryID,
-    //     img: file ? imgURL : '',
-    //     authorID: user?.data?.id,
-    //     date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-    //   });
-    //   navigate('/membros/guias');
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  };
 
   return (
     <motion.div
@@ -145,52 +97,7 @@ export default function Write() {
             },
           }}
         >
-          <Stack className='item' spacing={1}>
-            <Typography variant={'h5'} component={'h2'} fontWeight={'bold'}>
-              Publish
-            </Typography>
-            <span>
-              <b>Status</b> Draft
-            </span>
-            <span>
-              <b>Visibility</b> Public
-            </span>
-            <input
-              style={{ display: 'none' }}
-              type='file'
-              id='file'
-              onChange={(e) =>
-                setFile(e.target.files ? e.target.files[0] : null)
-              }
-            />
-            <label
-              htmlFor='file'
-              style={{ textDecoration: 'underline', cursor: 'pointer' }}
-            >
-              Upload Image
-            </label>
-            <span>{file?.name}</span>
-            <Stack
-              direction={'row'}
-              justifyContent={'space-between'}
-              sx={{ pt: '15px' }}
-            >
-              <Button
-                onClick={handleSubmit}
-                type='submit'
-                variant='contained'
-                color='secondary'
-                sx={{
-                  borderRadius: '10px',
-                  textTransform: 'unset',
-                  width: '100%',
-                }}
-              >
-                Publish
-              </Button>
-            </Stack>
-          </Stack>
-          <Categories />
+          <Categories title={title} value={value} />
         </Stack>
       </Stack>
     </motion.div>

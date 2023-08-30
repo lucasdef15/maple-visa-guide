@@ -5,6 +5,7 @@ import { Button, Stack } from '@mui/material';
 import { motion } from 'framer-motion';
 import config from '../../utilities/config';
 import { BiSolidRightArrow } from 'react-icons/bi';
+import { BsFilterLeft } from 'react-icons/bs';
 import './style.css';
 
 export interface Category {
@@ -75,14 +76,14 @@ export default function OptionsMenu() {
         variant='contained'
         onClick={handleOpenOtions}
         sx={{
-          borderRadius: '5px',
-          minWidth: '200px',
-          mb: '.3rem',
-          background: openOptions ? '#0000001a' : '#fff',
-          border: openOptions ? '1px solid #2020202f' : '',
+          borderRadius: '10px',
+          minWidth: '225px',
+          mb: '.6rem',
+          background: openOptions ? '#98c5ffd0' : '#fff',
+          border: openOptions ? '1px solid rgba(128, 128, 128, 0.295)' : '',
           color: '#222',
           justifyContent: 'start',
-          '&:hover': { background: '#45455236' },
+          '&:hover': { background: '#98c5ff' },
           boxShadow: '1px 1px 10px rgba(0, 0, 0, .1)',
           zIndex: 99,
           textTransform: 'unset',
@@ -100,7 +101,17 @@ export default function OptionsMenu() {
             fontSize: '1rem',
           }}
         >
-          Guias
+          <Stack
+            direction={'row'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            useFlexGap
+            spacing={2}
+            sx={{ '& svg': { width: '20px', height: '20px' } }}
+          >
+            <BsFilterLeft />
+            Filtrar
+          </Stack>
           <motion.span
             animate={{
               rotate: openOptions ? '-90deg' : '90deg',
@@ -110,7 +121,11 @@ export default function OptionsMenu() {
           </motion.span>
         </Stack>
       </Button>
-      <motion.div variants={variants} animate={openOptions ? 'open' : 'closed'}>
+      <motion.div
+        className='filter_body'
+        variants={variants}
+        animate={openOptions ? 'open' : 'closed'}
+      >
         <Navigation
           categories={categories}
           openOptions={openOptions}

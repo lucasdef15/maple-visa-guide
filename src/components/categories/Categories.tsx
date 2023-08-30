@@ -7,11 +7,20 @@ import Loader from '../loaders/Loader';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DarkModeContext } from '../../contexts/DarkModeContext';
+import { UserContext } from '../../contexts/UserContext';
+import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
-export default function Categories() {
+export default function Categories({ title, value }: any) {
+  const navigate = useNavigate();
+
   const { darkMode } = useContext(DarkModeContext);
+  const { user } = useContext(UserContext);
+
+  const [file, setFile] = useState<File | null>(null);
 
   const [categories, setCategories] = useState<Category[]>([]);
+
   const [selectedCategory, setSelectedCategory] = useState<
     Record<string, boolean>
   >({});
@@ -135,14 +144,16 @@ export default function Categories() {
           );
           setCategories(newCategories);
           setSelectedCategory({});
+          setSelectedSub1({});
+          setSelectedSub2({});
           setCatErr('');
           setSubCatErr('');
         } catch (error) {
           console.log(error);
         }
+      } else {
+        setCatErr('Categoria possui subcategorias associadas.');
       }
-    } else {
-      setCatErr('Categoria possui subcategorias associadas.');
     }
   };
 
@@ -175,9 +186,9 @@ export default function Categories() {
         } catch (error) {
           console.log(error);
         }
+      } else {
+        setSubCatErr('Subcategoria possui subcategorias associadas.');
       }
-    } else {
-      setSubCatErr('Subcategoria possui subcategorias associadas.');
     }
   };
 
@@ -210,8 +221,92 @@ export default function Categories() {
     }
   };
 
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file as Blob);
+      const res = await axios.post(`${config.APP_BASE_URL}/upload`, formData);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const fileName = await upload();
+    const imgURL = `${config.APP_BASE_URL}/uploads/${fileName}`;
+
+    const subcategory3 = subcategory2?.children.find(
+      (cat) => cat.name === Object.keys(selectedSub2)[0]
+    );
+
+    try {
+      await axios.post(`${config.APP_BASE_URL}/posts`, {
+        title,
+        desc: value,
+        categoryID: subcategory3
+          ? subcategory3?.id
+          : subcategory2
+          ? subcategory2?.id
+          : subcategory1?.id,
+        img: file ? imgURL : '',
+        authorID: user?.data?.id,
+        date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+      });
+      navigate('/membros/guias');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
+      <Stack className='item' spacing={1}>
+        <Typography variant={'h5'} component={'h2'} fontWeight={'bold'}>
+          Publish
+        </Typography>
+        <span>
+          <b>Status</b> Draft
+        </span>
+        <span>
+          <b>Visibility</b> Public
+        </span>
+        <input
+          style={{ display: 'none' }}
+          type='file'
+          id='file'
+          onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+        />
+        <label
+          htmlFor='file'
+          style={{ textDecoration: 'underline', cursor: 'pointer' }}
+        >
+          Upload Image
+        </label>
+        <span>{file?.name}</span>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          sx={{ pt: '15px' }}
+        >
+          <Button
+            onClick={handleSubmit}
+            type='submit'
+            variant='contained'
+            color='secondary'
+            sx={{
+              borderRadius: '10px',
+              textTransform: 'unset',
+              width: '100%',
+            }}
+          >
+            Publish
+          </Button>
+        </Stack>
+      </Stack>
+
       <Stack className='item' spacing={'2px'}>
         <Typography
           variant={'h5'}

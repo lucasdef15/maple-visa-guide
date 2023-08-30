@@ -90,7 +90,8 @@ export default function HeaderNav() {
         boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.103)',
         display: { xs: 'none', sm: 'flex' },
       }}
-      justifyContent={'space-between'}
+      alignItems={'center'}
+      justifyContent={'center'}
     >
       <Stack
         sx={headerStyle}
