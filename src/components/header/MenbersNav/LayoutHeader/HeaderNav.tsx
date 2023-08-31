@@ -3,7 +3,6 @@ import { RiBookletFill } from 'react-icons/ri';
 import Logo from '../../../logo/Logo';
 import { Link, useLocation } from 'react-router-dom';
 import { useContext } from 'react';
-import { CategoryContext } from '../../../../contexts/CategoryContext';
 import { UserContext } from '../../../../contexts/UserContext';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -34,7 +33,6 @@ export default function HeaderNav() {
     categoryID: 0,
   });
 
-  const { categories } = useContext(CategoryContext);
   const { isAdmin } = useContext(UserContext);
   const { darkMode } = useContext(DarkModeContext);
 
@@ -49,8 +47,6 @@ export default function HeaderNav() {
   };
 
   const catId: number = Number(location.search.split('=')[1]);
-
-  const category = categories.find((cat) => cat.categoryID === catId);
 
   const postId = location.pathname.split('/')[3];
 
@@ -71,15 +67,15 @@ export default function HeaderNav() {
     fetchData();
   }, [postId]);
 
-  if (postId && post) {
-    PostCategory = categories.find((cat) => cat.categoryID === post.categoryID);
-  }
+  // if (postId && post) {
+  //   PostCategory = categories.find((cat) => cat.categoryID === post.categoryID);
+  // }
 
-  const breadCrumbs = `${
-    location.pathname.includes('guias') ? 'Guias' : ''
-  } \\ ${
-    category?.name ? category?.name : PostCategory ? PostCategory.name : 'Todos'
-  }`;
+  // const breadCrumbs = `${
+  //   location.pathname.includes('guias') ? 'Guias' : ''
+  // } \\ ${
+  //   category?.name ? category?.name : PostCategory ? PostCategory.name : 'Todos'
+  // }`;
   return (
     <Stack
       component={'header'}
@@ -110,7 +106,7 @@ export default function HeaderNav() {
               color: darkMode ? '#fff' : '',
             }}
           >
-            {breadCrumbs}
+            {/* {breadCrumbs} */} null
           </Typography>
           <Typography
             color={'text.secondary'}

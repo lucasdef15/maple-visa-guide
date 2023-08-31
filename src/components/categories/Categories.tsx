@@ -118,9 +118,6 @@ export default function Categories({ title, value, postData }: any) {
       );
     } else {
       setSelectedCategories(null);
-      setSelectedCategory({});
-      setSelectedSub1({});
-      setSelectedSub2({});
     }
   }, [categories, postData, postData?.categoryID]);
 
@@ -137,6 +134,13 @@ export default function Categories({ title, value, postData }: any) {
     selectedCategories?.subcat,
     selectedCategories?.subsubcat,
   ]);
+
+  useEffect(() => {
+    setSelectedCategories(null);
+    setSelectedCategory({});
+    setSelectedSub1({});
+    setSelectedSub2({});
+  }, []);
 
   const handleCategoryChange = (categoryName: string) => {
     setSelectedCategory({ [categoryName]: true });
@@ -221,19 +225,19 @@ export default function Categories({ title, value, postData }: any) {
         } catch (error) {
           console.log(error);
         }
-      } else {
-        setCatErr('Categoria possui subcategorias associadas.');
       }
+    } else {
+      setCatErr('Categoria possui subcategorias associadas.');
     }
   };
 
   const handleDeleteSubCat1 = async (id: number) => {
-    const confirmed = window.confirm(
-      'Tem certeza que deseja exlcuir essa Subcategroia?'
-    );
     const subcat1 = subcategory1?.children.find((cat) => cat.id === id);
 
     if (!subcat1?.children.length) {
+      const confirmed = window.confirm(
+        'Tem certeza que deseja exlcuir essa Subcategroia?'
+      );
       if (confirmed) {
         try {
           await axios.delete(`${config.APP_BASE_URL}/cats/${id}`);
@@ -256,9 +260,9 @@ export default function Categories({ title, value, postData }: any) {
         } catch (error) {
           console.log(error);
         }
-      } else {
-        setSubCatErr('Subcategoria possui subcategorias associadas.');
       }
+    } else {
+      setSubCatErr('Subcategoria possui subcategorias associadas.');
     }
   };
 
@@ -360,7 +364,13 @@ export default function Categories({ title, value, postData }: any) {
         >
           Upload Image
         </label>
-        <span>{file?.name ? file?.name : urlparts[urlparts.length - 1]}</span>
+        <span>
+          {file?.name
+            ? file?.name
+            : urlparts
+            ? urlparts[urlparts.length - 1]
+            : file?.name}
+        </span>
         <Stack
           direction={'row'}
           justifyContent={'space-between'}

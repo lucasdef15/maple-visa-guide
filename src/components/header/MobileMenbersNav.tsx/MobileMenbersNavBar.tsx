@@ -7,7 +7,6 @@ import { styled } from '@mui/material/styles';
 import MainContext from '../../../contexts/MainContext';
 import Logo from '../../logo/Logo';
 import './MenbersStyle.css';
-import { CategoryContext } from '../../../contexts/CategoryContext';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
 import { useLocation } from 'react-router-dom';
 import { PostProps } from '../MenbersNav/LayoutHeader/LayoutHeader';
@@ -54,12 +53,11 @@ export default function MobileMenbersNavBar() {
   const { height } = useDimensions(containerRef);
 
   const { isOpen, showHeader, handleOpen } = useContext(MainContext);
-  const { categories } = useContext(CategoryContext);
   const { darkMode } = useContext(DarkModeContext);
 
   const catId: number = Number(location.search.split('=')[1]);
 
-  const category = categories.find((cat) => cat.categoryID === catId);
+  // const category = categories.find((cat) => cat.categoryID === catId);
 
   const postId = location.pathname.split('/')[3];
 
@@ -123,15 +121,15 @@ export default function MobileMenbersNavBar() {
     fetchData();
   }, [postId]);
 
-  if (postId && post) {
-    PostCategory = categories.find((cat) => cat.categoryID === post.categoryID);
-  }
+  // if (postId && post) {
+  //   PostCategory = categories.find((cat) => cat.categoryID === post.categoryID);
+  // }
 
-  const breadCrumbs = `${
-    location.pathname.includes('guias') ? 'Guias' : ''
-  } \\ ${
-    category?.name ? category?.name : PostCategory ? PostCategory.name : 'Todos'
-  }`;
+  // const breadCrumbs = `${
+  //   location.pathname.includes('guias') ? 'Guias' : ''
+  // } \\ ${
+  //   category?.name ? category?.name : PostCategory ? PostCategory.name : 'Todos'
+  // }`;
 
   return (
     <MobileNav
@@ -154,7 +152,7 @@ export default function MobileMenbersNavBar() {
             color: darkMode ? '#fff' : '',
           }}
         >
-          {breadCrumbs}
+          {/* {breadCrumbs} */}
         </Typography>
       </Stack>
       <motion.nav

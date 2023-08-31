@@ -6,7 +6,6 @@ import { useContext } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import AccountMenu from '../MenbersNav/menu/AccountMenu';
 import MainContext from '../../../contexts/MainContext';
-import CollapsibleMenu from '../MenbersNav/CollapsibleMenu/CollapsibleMenu';
 import { AiFillHome } from 'react-icons/ai';
 import { BiSolidDashboard } from 'react-icons/bi';
 import { BsWechat } from 'react-icons/bs';
@@ -113,7 +112,6 @@ export default function MenuItem() {
                 <span>Dashboard</span>
               </StyledLi>
             </NavLink>
-            <CollapsibleMenu openMenu={openMenu} />
             <NavLink to='forum'>
               <StyledLi
                 direction='row'
