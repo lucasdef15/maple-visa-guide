@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { routesVariants } from '../animations/animations';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Stack } from '@mui/material';
 import ArticlesCard from '../components/cards/ArticlesCard';
@@ -8,6 +8,7 @@ import Loader from '../components/loaders/Loader';
 import { useLocation } from 'react-router-dom';
 import { uid } from 'uid';
 import config from '../utilities/config';
+import PostsContext from '../contexts/PostsContext';
 
 export interface Article {
   id?: string;
@@ -27,10 +28,16 @@ const ArticleStyles = {
 };
 
 export default function Members() {
-  const [posts, setPost] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const cat = useLocation().search;
+
+  const { posts, setPost, loading, setLoading, fetchpost, query } =
+    useContext(PostsContext);
+
+  const filteredItems = posts.filter((item) =>
+    item.title.toLowerCase().includes(query.toLowerCase())
+  );
+
+  console.log(filteredItems);
 
   const handleDelete = async (id: string) => {
     try {
@@ -42,20 +49,11 @@ export default function Members() {
   };
 
   useEffect(() => {
-    setLoading(true);
-    const fetchpost = async () => {
-      try {
-        const { data: response } = await axios.get(
-          `${config.APP_BASE_URL}/posts${cat}`
-        );
-        setPost(response);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching post:', error);
-        setLoading(false);
-      }
+    const fetchInit = async () => {
+      setLoading(true);
+      await fetchpost(cat);
     };
-    fetchpost();
+    fetchInit();
   }, [cat]);
 
   return (
@@ -83,8 +81,8 @@ export default function Members() {
       >
         {loading ? (
           <Loader />
-        ) : posts.length ? (
-          posts.map((post) => (
+        ) : filteredItems.length ? (
+          filteredItems.map((post) => (
             <ArticlesCard
               key={uid()}
               id={post.id}
@@ -101,7 +99,7 @@ export default function Members() {
             alignItems='center'
             flexWrap='wrap'
           >
-            <p>Nenhuma Publicação</p>
+            <p>Nenhuma Publicação Encontrada</p>
           </Stack>
         )}
       </Stack>

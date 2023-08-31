@@ -1,4 +1,4 @@
-import { Stack, Avatar, Typography } from '@mui/material';
+import { Stack, Avatar, Typography, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { BiSolidMessageSquareEdit } from 'react-icons/bi';
@@ -7,6 +7,7 @@ import PostSideMenu from '../components/sideMenu/PostSideMenu';
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import 'moment/locale/pt-br';
 import Parser from 'html-react-parser';
 import { UserContext } from '../contexts/UserContext';
 import { DarkModeContext } from '../contexts/DarkModeContext';
@@ -38,6 +39,7 @@ export interface PostProps {
   title: string;
   desc: string;
   date: number;
+  edited: number;
   categoryID: number;
 }
 
@@ -49,6 +51,7 @@ export default function PostPage() {
     title: '',
     desc: '',
     date: 0,
+    edited: 0,
     userImg: '',
     categoryID: 0,
   });
@@ -58,6 +61,8 @@ export default function PostPage() {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  moment.locale('pt-br');
 
   const postId = location.pathname.split('/')[3];
 
@@ -112,7 +117,7 @@ export default function PostPage() {
       sx={{
         width: { xs: '100%', sm: 'calc(100% - 1rem)' },
         color: darkMode ? '#fff' : '',
-        pt: { xs: '170px', sm: '2rem' },
+        pt: { xs: '170px', sm: '0.8rem' },
       }}
     >
       <Stack
@@ -181,6 +186,17 @@ export default function PostPage() {
           >
             {Parser(post.desc)}
           </div>
+          <Stack
+            direction={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+          >
+            <small>
+              Última edição em{' '}
+              {moment(post.edited).format('DD-MM-YYYY / HH:mm')}
+            </small>
+            <Button>Reportar Esse Post</Button>
+          </Stack>
         </Stack>
         <PostSideMenu categoryID={post.categoryID} title={post.title} />
       </Stack>

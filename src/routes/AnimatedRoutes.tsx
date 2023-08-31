@@ -70,6 +70,7 @@ export default function AnimatedRoutes() {
             </Route>
           </Route>
           {/* layout 03 */}
+
           <Route path='/membros' element={<ProtectedRoute />}>
             <Route element={<ProtectedMenbersRoute />}>
               <Route element={<LazyMenbersLayout />}>

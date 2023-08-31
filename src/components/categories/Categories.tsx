@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DarkModeContext } from '../../contexts/DarkModeContext';
 import { UserContext } from '../../contexts/UserContext';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LoadedCats {
   cat: string | null;
@@ -19,6 +19,8 @@ interface LoadedCats {
 
 export default function Categories({ title, value, postData }: any) {
   const navigate = useNavigate();
+
+  const postId = useLocation().pathname.split('/')[4];
 
   const { darkMode } = useContext(DarkModeContext);
   const { user } = useContext(UserContext);
@@ -296,49 +298,75 @@ export default function Categories({ title, value, postData }: any) {
   };
 
   const upload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file as Blob);
-      const res = await axios.post(`${config.APP_BASE_URL}/upload`, formData);
-      return res.data;
-    } catch (error) {
-      console.log(error);
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append('file', file as Blob);
+        const res = await axios.post(`${config.APP_BASE_URL}/upload`, formData);
+        return res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      return false;
     }
   };
+
+  const urlparts = postData?.img.split('/');
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const fileName = await upload();
 
-    const imgURL = postData
-      ? `${config.APP_BASE_URL}/uploads/${postData?.img}`
-      : `${config.APP_BASE_URL}/uploads/${fileName}`;
+    const imgURL = file
+      ? `${config.APP_BASE_URL}/uploads/${fileName}`
+      : `${config.APP_BASE_URL}/uploads/${urlparts[urlparts.length - 1]}`;
 
     const subcategory3 = subcategory2?.children.find(
       (cat) => cat.name === Object.keys(selectedSub2)[0]
     );
 
-    try {
-      await axios.post(`${config.APP_BASE_URL}/posts`, {
-        title,
-        desc: value,
-        categoryID: subcategory3
-          ? subcategory3?.id
-          : subcategory2
-          ? subcategory2?.id
-          : subcategory1?.id,
-        img: file ? imgURL : '',
-        authorID: user?.data?.id,
-        date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-      });
-      navigate('/membros/guias');
-    } catch (error) {
-      console.log(error);
+    if (postData) {
+      try {
+        await axios.put(`${config.APP_BASE_URL}/posts/${postId}`, {
+          title,
+          desc: value,
+          categoryID: subcategory3
+            ? subcategory3?.id
+            : subcategory2
+            ? subcategory2?.id
+            : subcategory1?.id,
+          img: imgURL,
+          authorID: user?.data?.id,
+          date: postData.date,
+          edited: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+        });
+        navigate('/membros/guias');
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        await axios.post(`${config.APP_BASE_URL}/posts`, {
+          title,
+          desc: value,
+          categoryID: subcategory3
+            ? subcategory3?.id
+            : subcategory2
+            ? subcategory2?.id
+            : subcategory1?.id,
+          img: imgURL,
+          authorID: user?.data?.id,
+          date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+          edited: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+        });
+        navigate('/membros/guias');
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-
-  const urlparts = postData?.img.split('/');
 
   return (
     <>
@@ -387,7 +415,7 @@ export default function Categories({ title, value, postData }: any) {
               width: '100%',
             }}
           >
-            Publish
+            {postData ? 'Editar' : 'Publicar'}
           </Button>
         </Stack>
       </Stack>

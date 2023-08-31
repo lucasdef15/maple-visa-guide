@@ -3,6 +3,8 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import OptionsMenu from '../../../menu/OptionsMenu';
+import { useContext } from 'react';
+import PostsContext from '../../../../contexts/PostsContext';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -14,7 +16,6 @@ const Search = styled('div')(({ theme }) => ({
   },
   marginLeft: 0,
   width: '375px',
-  height: '45px',
   [theme.breakpoints.down('sm')]: {
     marginLeft: theme.spacing(1),
     width: 'auto',
@@ -49,6 +50,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function HeaderSearchBar() {
+  const { query, setQuery } = useContext(PostsContext);
+
   return (
     <Stack
       sx={{
@@ -76,6 +79,8 @@ export default function HeaderSearchBar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder='Search…'
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>

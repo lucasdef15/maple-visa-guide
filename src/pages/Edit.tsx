@@ -18,6 +18,7 @@ export default function Edit() {
     title: '',
     desc: '',
     date: 0,
+    edited: 0,
     userImg: '',
     categoryID: 0,
   });
