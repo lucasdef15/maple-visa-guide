@@ -11,7 +11,13 @@ import { UserContext } from '../../contexts/UserContext';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
-export default function Categories({ title, value }: any) {
+interface LoadedCats {
+  cat: string | null;
+  subcat: string | null;
+  subsubcat: string | null;
+}
+
+export default function Categories({ title, value, postData }: any) {
   const navigate = useNavigate();
 
   const { darkMode } = useContext(DarkModeContext);
@@ -20,6 +26,9 @@ export default function Categories({ title, value }: any) {
   const [file, setFile] = useState<File | null>(null);
 
   const [categories, setCategories] = useState<Category[]>([]);
+
+  const [selectedCategories, setSelectedCategories] =
+    useState<LoadedCats | null>(null);
 
   const [selectedCategory, setSelectedCategory] = useState<
     Record<string, boolean>
@@ -67,6 +76,67 @@ export default function Categories({ title, value }: any) {
     };
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    function findCategoryAndDescendants(id: number, categories: any) {
+      let result = null;
+
+      categories.forEach((cat: any) => {
+        if (cat.id === id) {
+          result = {
+            cat: cat.name,
+            subcat: null,
+            subsubcat: null,
+          };
+        } else {
+          cat.children.forEach((subcat: any) => {
+            if (subcat.id === id) {
+              result = {
+                cat: cat.name,
+                subcat: subcat.name,
+                subsubcat: null,
+              };
+            } else {
+              subcat.children.forEach((subsubcat: any) => {
+                if (subsubcat.id === id) {
+                  result = {
+                    cat: cat.name,
+                    subcat: subcat.name,
+                    subsubcat: subsubcat.name,
+                  };
+                }
+              });
+            }
+          });
+        }
+      });
+      return result;
+    }
+    if (postData !== null) {
+      setSelectedCategories(
+        findCategoryAndDescendants(postData.categoryID, categories)
+      );
+    } else {
+      setSelectedCategories(null);
+      setSelectedCategory({});
+      setSelectedSub1({});
+      setSelectedSub2({});
+    }
+  }, [categories, postData, postData?.categoryID]);
+
+  useEffect(() => {
+    const catKey: string = selectedCategories?.cat as string;
+    const subcatKey: string = selectedCategories?.subcat as string;
+    const subsubcatKey: string = selectedCategories?.subsubcat as string;
+
+    setSelectedCategory({ [catKey]: true });
+    setSelectedSub1({ [subcatKey]: true });
+    setSelectedSub2({ [subsubcatKey]: true });
+  }, [
+    selectedCategories?.cat,
+    selectedCategories?.subcat,
+    selectedCategories?.subsubcat,
+  ]);
 
   const handleCategoryChange = (categoryName: string) => {
     setSelectedCategory({ [categoryName]: true });
@@ -236,7 +306,10 @@ export default function Categories({ title, value }: any) {
     e.preventDefault();
 
     const fileName = await upload();
-    const imgURL = `${config.APP_BASE_URL}/uploads/${fileName}`;
+
+    const imgURL = postData
+      ? `${config.APP_BASE_URL}/uploads/${postData?.img}`
+      : `${config.APP_BASE_URL}/uploads/${fileName}`;
 
     const subcategory3 = subcategory2?.children.find(
       (cat) => cat.name === Object.keys(selectedSub2)[0]
@@ -260,6 +333,8 @@ export default function Categories({ title, value }: any) {
       console.log(error);
     }
   };
+
+  const urlparts = postData?.img.split('/');
 
   return (
     <>
@@ -285,7 +360,7 @@ export default function Categories({ title, value }: any) {
         >
           Upload Image
         </label>
-        <span>{file?.name}</span>
+        <span>{file?.name ? file?.name : urlparts[urlparts.length - 1]}</span>
         <Stack
           direction={'row'}
           justifyContent={'space-between'}

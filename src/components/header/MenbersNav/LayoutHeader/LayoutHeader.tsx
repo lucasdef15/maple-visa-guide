@@ -10,7 +10,8 @@ export default function LayoutHeader() {
     <Stack direction={'column'} sx={{ maxHeight: '170px', width: '100%' }}>
       <HeaderNav />
       {location.pathname.includes('guias') &&
-        !location.pathname.includes('write') && <HeaderSearchBar />}
+        !location.pathname.includes('write') &&
+        !location.pathname.includes('edit') && <HeaderSearchBar />}
     </Stack>
   );
 }

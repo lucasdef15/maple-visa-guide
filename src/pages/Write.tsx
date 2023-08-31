@@ -11,8 +11,6 @@ export default function Write() {
   const [title, setTitle] = useState('');
 
   const { darkMode } = useContext(DarkModeContext);
-
-  // const upload64 = async () => {
   //   try {
   //     const htmlString = value;
 
@@ -97,7 +95,7 @@ export default function Write() {
             },
           }}
         >
-          <Categories title={title} value={value} />
+          <Categories title={title} value={value} postData={null} />
         </Stack>
       </Stack>
     </motion.div>

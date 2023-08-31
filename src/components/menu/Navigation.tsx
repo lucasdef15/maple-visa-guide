@@ -83,7 +83,13 @@ export default function Navigation({
 
               <motion.ul
                 variants={variants}
-                animate={showSubMenu[el.id] ? 'open' : 'closed'}
+                animate={
+                  showSubMenu[el.id]
+                    ? el.children.length
+                      ? 'open'
+                      : 'closed'
+                    : 'closed'
+                }
                 className='sub-menu-ul'
               >
                 {showSubMenu[el.id] &&
@@ -146,7 +152,13 @@ export default function Navigation({
 
                         <motion.ul
                           variants={variants2}
-                          animate={showSubMenu[ele.id] ? 'open' : 'closed'}
+                          animate={
+                            showSubMenu[ele.id]
+                              ? ele.children.length
+                                ? 'open'
+                                : 'closed'
+                              : 'closed'
+                          }
                           className='subsub-menu-ul'
                         >
                           {showSubMenu[ele.id] &&
