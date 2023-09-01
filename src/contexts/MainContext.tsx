@@ -11,6 +11,10 @@ type MainContextValue = {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   handleOpen(): void;
+  isList: boolean;
+  setIsList: React.Dispatch<React.SetStateAction<boolean>>;
+  isBlock: boolean;
+  setIsBlock: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const MainContext = createContext<MainContextValue>({} as MainContextValue);
@@ -22,6 +26,8 @@ export function DataProvider({ children }: any) {
   const [isOpen, toggleOpen] = useCycle(false, true);
   const [openMenu, setOpenMenu] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [isList, setIsList] = useState(false);
+  const [isBlock, setIsBlock] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +62,10 @@ export function DataProvider({ children }: any) {
         openModal,
         setOpenModal,
         handleOpen,
+        isList,
+        setIsList,
+        isBlock,
+        setIsBlock,
       }}
     >
       {children}

@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import OptionsMenu from '../../../menu/OptionsMenu';
 import { useContext } from 'react';
 import PostsContext from '../../../../contexts/PostsContext';
+import DispLayMenu from '../menu/DisplayMenu';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -68,9 +69,13 @@ export default function HeaderSearchBar() {
           marginTop: '2rem',
           width: '100%',
           maxWidth: '1700px',
+          maxHeight: '60px',
         }}
       >
-        <OptionsMenu />
+        <Stack direction={'row'} useFlexGap spacing={3}>
+          <DispLayMenu />
+          <OptionsMenu />
+        </Stack>
         <Stack>
           <Search>
             <SearchIconWrapper>

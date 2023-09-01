@@ -5,7 +5,7 @@ import { Button, Stack } from '@mui/material';
 import { motion } from 'framer-motion';
 import config from '../../utilities/config';
 import { BiSolidRightArrow } from 'react-icons/bi';
-import { BsFilterLeft } from 'react-icons/bs';
+import { FaFilter } from 'react-icons/fa';
 import './style.css';
 
 export interface Category {
@@ -79,11 +79,15 @@ export default function OptionsMenu() {
           borderRadius: '10px',
           minWidth: '225px',
           mb: '.6rem',
-          background: openOptions ? '#98c5ffd0' : '#fff',
+          background: '#fff',
           border: openOptions ? '1px solid rgba(128, 128, 128, 0.295)' : '',
-          color: '#222',
+          color: '#222222d0',
           justifyContent: 'start',
-          '&:hover': { background: '#98c5ff' },
+          '&:hover': {
+            background: openOptions ? '#fff' : '#98c5ff',
+            boxShadow: openOptions ? '1px 1px 10px rgba(0, 0, 0, .1)' : '',
+          },
+          cursor: openOptions ? 'unset' : 'pointer',
           boxShadow: '1px 1px 10px rgba(0, 0, 0, .1)',
           zIndex: 99,
           textTransform: 'unset',
@@ -107,9 +111,9 @@ export default function OptionsMenu() {
             alignItems={'center'}
             useFlexGap
             spacing={2}
-            sx={{ '& svg': { width: '20px', height: '20px' } }}
+            sx={{ '& svg': { width: '13px', height: '13px' } }}
           >
-            <BsFilterLeft />
+            <FaFilter />
             Filtrar
           </Stack>
           <motion.span

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { routesVariants } from '../animations/animations';
 import { useContext, useEffect } from 'react';
 import axios from 'axios';
@@ -9,6 +9,8 @@ import { useLocation } from 'react-router-dom';
 import { uid } from 'uid';
 import config from '../utilities/config';
 import PostsContext from '../contexts/PostsContext';
+import ListPostCard from '../components/cards/ListPostCard';
+import MainContext from '../contexts/MainContext';
 
 const ArticleStyles = {
   minHeight: 'calc(100vh -130px)',
@@ -24,6 +26,8 @@ export default function Members() {
 
   const { posts, setPost, loading, setLoading, fetchpost, query } =
     useContext(PostsContext);
+
+  const { isList, isBlock } = useContext(MainContext);
 
   const filteredItems = posts.filter((item) =>
     item.title.toLowerCase().includes(query.toLowerCase())
@@ -61,9 +65,11 @@ export default function Members() {
         height: '100%',
         width: '100%',
         zIndex: '-1',
+        isolation: 'isolate',
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
+        paddingInline: '2rem',
       }}
     >
       <Stack
@@ -74,29 +80,45 @@ export default function Members() {
         useFlexGap
         spacing={4}
       >
-        {loading ? (
-          <Loader />
-        ) : filteredItems.length ? (
-          filteredItems.map((post) => (
-            <ArticlesCard
-              key={uid()}
-              id={post.id}
-              title={post.title}
-              img={post.img}
-              desc={post.desc}
-              handleDelete={handleDelete}
-            />
-          ))
-        ) : (
-          <Stack
-            direction='column'
-            justifyContent='center'
-            alignItems='center'
-            flexWrap='wrap'
-          >
-            <p>Nenhuma Publicação Encontrada</p>
-          </Stack>
-        )}
+        <AnimatePresence>
+          {loading ? (
+            <Loader />
+          ) : filteredItems.length ? (
+            filteredItems.map((post) => (
+              <>
+                {isList && (
+                  <ListPostCard
+                    key={uid()}
+                    id={post.id}
+                    title={post.title}
+                    img={post.img}
+                    desc={post.desc}
+                    handleDelete={handleDelete}
+                  />
+                )}
+                {isBlock && (
+                  <ArticlesCard
+                    key={uid()}
+                    id={post.id}
+                    title={post.title}
+                    img={post.img}
+                    desc={post.desc}
+                    handleDelete={handleDelete}
+                  />
+                )}
+              </>
+            ))
+          ) : (
+            <Stack
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
+              flexWrap='wrap'
+            >
+              <p>Nenhuma Publicação Encontrada</p>
+            </Stack>
+          )}
+        </AnimatePresence>
       </Stack>
     </motion.div>
   );
