@@ -3,18 +3,25 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-import { Article } from '../../pages/Guias';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Loader from '../loaders/Loader';
 import config from '../../utilities/config';
 
-interface MenuCardPorops extends Article {
+interface MenuCardPorops {
   categoryID: number;
+  id: number;
+  desc: string;
+  title: string;
+  img: string;
 }
 
-export default function SideMenuCard({ categoryID, title }: any) {
+export default function SideMenuCard({
+  categoryID,
+  title,
+  setLoadingPostPage,
+}: any) {
   const [posts, setPost] = useState<MenuCardPorops[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,8 +62,11 @@ export default function SideMenuCard({ categoryID, title }: any) {
       ) : (
         posts.map((post) =>
           categoryID === post.categoryID && title === post.title ? null : (
-            <Card key={post.id} sx={{ maxWidth: 345, borderRadius: '15px' }}>
-              <Link to={`/membros/guias/${post.id}`}>
+            <Card key={post.id} sx={{ maxWidth: 385, borderRadius: '15px' }}>
+              <Link
+                to={`/membros/guias/${post.id}`}
+                onClick={() => setLoadingPostPage(true)}
+              >
                 <CardActionArea onClick={scrollToTop}>
                   <CardMedia
                     component='img'

@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 import config from '../../../../utilities/config';
+import { Category } from '../../../menu/OptionsMenu';
 
 export interface PostProps {
   name: string;
@@ -17,21 +18,23 @@ export interface PostProps {
   title: string;
   desc: string;
   date: number;
+  edited: number;
   categoryID: number;
+}
+
+interface LoadedCats {
+  cat: string | null;
+  subcat: string | null;
+  subsubcat: string | null;
 }
 
 export default function HeaderNav() {
   const location = useLocation();
-  const [post, setPost] = useState<PostProps>({
-    name: '',
-    img: '',
-    id: 0,
-    title: '',
-    desc: '',
-    date: 0,
-    userImg: '',
-    categoryID: 0,
-  });
+
+  const [postData, setPostData] = useState<PostProps>({} as PostProps);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategories, setSelectedCategories] =
+    useState<LoadedCats | null>(null);
 
   const { isAdmin } = useContext(UserContext);
   const { darkMode } = useContext(DarkModeContext);
@@ -39,43 +42,116 @@ export default function HeaderNav() {
   const headerStyle = {
     background: darkMode ? '#222' : '#ecececdd',
     width: '100%',
-    paddingInline: { xs: '1rem', lg: '2rem' },
+    paddingInline: { xs: '1rem', lg: '0' },
     maxWidth: '1700px',
     '& .logo': {
       width: '115px',
     },
   };
 
-  const catId: number = Number(location.search.split('=')[1]);
-
-  const postId = location.pathname.split('/')[3];
-
-  let PostCategory;
+  const fullUrl = window.location.href;
+  const parsedUrl = new URL(fullUrl);
+  const params = new URLSearchParams(parsedUrl.search);
+  const postId = params.get('categoryID');
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       try {
-        const { data: response } = await axios.get(
-          `${config.APP_BASE_URL}/posts/${postId}`
-        );
-        setPost(response[0]);
+        const response = await axios.get(`${config.APP_BASE_URL}/cats`);
+        setCategories(response.data);
       } catch (error) {
         console.log(error);
       }
     };
+    fetchCategories();
+  }, []);
 
-    fetchData();
-  }, [postId]);
+  useEffect(() => {
+    if (!isNaN(parseInt(location.pathname.split('/')[3]))) {
+      const fetchPost = async () => {
+        try {
+          const response = await axios.get(
+            `${config.APP_BASE_URL}/posts/${parseInt(
+              location.pathname.split('/')[3]
+            )}`
+          );
+          setPostData(response.data[0]);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchPost();
+    }
+  }, [location.pathname]);
 
-  // if (postId && post) {
-  //   PostCategory = categories.find((cat) => cat.categoryID === post.categoryID);
-  // }
+  useEffect(() => {
+    function findCategoryAndDescendants(id: number, categories: any) {
+      let result = null;
 
-  // const breadCrumbs = `${
-  //   location.pathname.includes('guias') ? 'Guias' : ''
-  // } \\ ${
-  //   category?.name ? category?.name : PostCategory ? PostCategory.name : 'Todos'
-  // }`;
+      categories.forEach((cat: any) => {
+        if (cat.id === id) {
+          result = {
+            cat: cat.name,
+            subcat: null,
+            subsubcat: null,
+          };
+        } else {
+          cat.children.forEach((subcat: any) => {
+            if (subcat.id === id) {
+              result = {
+                cat: cat.name,
+                subcat: subcat.name,
+                subsubcat: null,
+              };
+            } else {
+              subcat.children.forEach((subsubcat: any) => {
+                if (subsubcat.id === id) {
+                  result = {
+                    cat: cat.name,
+                    subcat: subcat.name,
+                    subsubcat: subsubcat.name,
+                  };
+                }
+              });
+            }
+          });
+        }
+      });
+      return result;
+    }
+    if (postId) {
+      setSelectedCategories(
+        findCategoryAndDescendants(Number(postId), categories)
+      );
+    } else {
+      setSelectedCategories(
+        findCategoryAndDescendants(postData?.categoryID, categories)
+      );
+    }
+  }, [categories, postData?.categoryID, postId]);
+
+  let breadcrumbs = '';
+
+  if (location.pathname.includes('guias')) {
+    if (location.pathname.includes('write')) breadcrumbs = 'Guias / Write';
+    if (location.pathname.includes('edit')) breadcrumbs = 'Guias / Edit';
+    if (
+      fullUrl.includes('/membros/guias') &&
+      !fullUrl.includes('guias?categoryID=') &&
+      location.pathname.split('/').length === 3
+    )
+      breadcrumbs = 'Guias / Todos';
+
+    if (postId || !isNaN(parseInt(location.pathname.split('/')[3])))
+      breadcrumbs = `Guias / ${
+        selectedCategories?.subsubcat
+          ? selectedCategories?.subsubcat
+          : selectedCategories?.subcat
+          ? selectedCategories?.subcat
+          : selectedCategories?.cat
+      }`;
+  }
+
   return (
     <Stack
       component={'header'}
@@ -106,7 +182,7 @@ export default function HeaderNav() {
               color: darkMode ? '#fff' : '',
             }}
           >
-            {/* {breadCrumbs} */} null
+            {breadcrumbs}
           </Typography>
           <Typography
             color={'text.secondary'}

@@ -3,7 +3,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
-import { Article } from '../../pages/Guias';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import { useNavigate, Link } from 'react-router-dom';
@@ -20,7 +19,7 @@ export default function ArticlesCard({
   img,
   desc,
   handleDelete,
-}: Article) {
+}: any) {
   const { isAdmin } = useContext(UserContext);
   const { darkMode } = useContext(DarkModeContext);
 
@@ -73,14 +72,14 @@ export default function ArticlesCard({
               <IconButton
                 aria-label='delete'
                 onClick={() => handleDelete(id as string)}
-                sx={{ '&:hover': { background: 'tomato' } }}
+                sx={{ '&:hover': { background: 'tomato', color: '#fff' } }}
               >
                 <DeleteIcon />
               </IconButton>
               <Link to={`/membros/guias/edit/${id}`}>
                 <IconButton
                   aria-label='edit'
-                  sx={{ '&:hover': { background: 'teal' } }}
+                  sx={{ '&:hover': { background: 'teal', color: '#fff' } }}
                 >
                   <BiSolidMessageSquareEdit />
                 </IconButton>

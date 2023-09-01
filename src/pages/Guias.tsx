@@ -10,14 +10,6 @@ import { uid } from 'uid';
 import config from '../utilities/config';
 import PostsContext from '../contexts/PostsContext';
 
-export interface Article {
-  id?: string;
-  title: string;
-  img: string;
-  desc: string;
-  handleDelete(id: string): void;
-}
-
 const ArticleStyles = {
   minHeight: 'calc(100vh -130px)',
   marginBlock: { xs: '200px', sm: '50px' },
@@ -37,14 +29,17 @@ export default function Members() {
     item.title.toLowerCase().includes(query.toLowerCase())
   );
 
-  console.log(filteredItems);
-
   const handleDelete = async (id: string) => {
-    try {
-      await axios.delete(`${config.APP_BASE_URL}/posts/${id}`);
-      setPost(posts.filter((post) => post.id !== id));
-    } catch (error) {
-      console.log(error);
+    const confirmed = window.confirm(
+      'Tem certeza que deseja exlcuir essa Post?'
+    );
+    if (confirmed) {
+      try {
+        await axios.delete(`${config.APP_BASE_URL}/posts/${id}`);
+        setPost(posts.filter((post) => post.id !== id));
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

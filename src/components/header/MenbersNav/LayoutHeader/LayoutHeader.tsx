@@ -9,7 +9,13 @@ export default function LayoutHeader() {
   const pathName = location.pathname.split('/');
 
   return (
-    <Stack direction={'column'} sx={{ maxHeight: '170px', width: '100%' }}>
+    <Stack
+      direction={'column'}
+      sx={{
+        maxHeight: '170px',
+        width: '100%',
+      }}
+    >
       <HeaderNav />
       {location.pathname.includes('guias') &&
         !location.pathname.includes('write') &&

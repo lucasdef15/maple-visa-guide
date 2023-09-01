@@ -12,8 +12,11 @@ import Parser from 'html-react-parser';
 import { UserContext } from '../contexts/UserContext';
 import { DarkModeContext } from '../contexts/DarkModeContext';
 import config from '../utilities/config';
+import Loader from '../components/loaders/Loader';
 
 const styledContent = {
+  width: '100%',
+  maxWidth: '1300px',
   '& .img-container': {
     width: '100%',
     height: { xs: '230px', sm: '344px' },
@@ -55,6 +58,7 @@ export default function PostPage() {
     userImg: '',
     categoryID: 0,
   });
+  const [loading, setLoading] = useState<boolean>(true);
 
   const { isAdmin } = useContext(UserContext);
   const { darkMode } = useContext(DarkModeContext);
@@ -73,8 +77,10 @@ export default function PostPage() {
           `${config.APP_BASE_URL}/posts/${postId}`
         );
         setPost(response[0]);
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     };
 
@@ -82,11 +88,16 @@ export default function PostPage() {
   }, [postId]);
 
   const handleDelete = async () => {
-    try {
-      await axios.delete(`${config.APP_BASE_URL}/posts/${post.id}`);
-      navigate('/membros/guias');
-    } catch (error) {
-      console.log(error);
+    const confirmed = window.confirm(
+      'Tem certeza que deseja exlcuir essa Post?'
+    );
+    if (confirmed) {
+      try {
+        await axios.delete(`${config.APP_BASE_URL}/posts/${post.id}`);
+        navigate('/membros/guias');
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -123,82 +134,91 @@ export default function PostPage() {
       <Stack
         direction={{ xs: 'column', lg: 'row' }}
         useFlexGap
-        gap={'3vw'}
+        spacing={'3vw'}
         sx={{
-          margin: { xs: '1rem', sm: '2rem', lg: '3rem' },
+          margin: { xs: '0', sm: '2rem', lg: '3rem' },
           width: '100%',
           maxWidth: '1700px',
           p: '1rem',
         }}
       >
-        <Stack flex={'6'} sx={styledContent}>
-          <Typography
-            variant={'h4'}
-            sx={{
-              fontSize: 'clamp(18px, 5vw, 35px)',
-              mb: '1.7rem',
-              fontWeight: 'bold',
-            }}
-          >
-            {post.title}
-          </Typography>
-          <div className='img-container'>
-            <img src={post?.img} alt='' />
-          </div>
-          <Stack sx={styledAuthorInfo} direction={'row'} spacing={2}>
-            {post.userImg ? (
-              <Avatar alt={post.name} src={post.userImg} />
-            ) : (
-              <Avatar sx={{ color: '#fff' }}>
-                {post.name.slice(0, 1).toLocaleUpperCase()}
-              </Avatar>
-            )}
-            <div className='info'>
-              <h3>{post.name}</h3>
-              <p>Posted {moment(post.date).fromNow()}</p>
+        {loading ? (
+          <Loader />
+        ) : (
+          <Stack sx={styledContent}>
+            <Typography
+              variant={'h4'}
+              sx={{
+                fontSize: 'clamp(18px, 5vw, 35px)',
+                mb: '1.7rem',
+                fontWeight: 'bold',
+              }}
+            >
+              {post.title}
+            </Typography>
+            <div className='img-container'>
+              <img src={post?.img} alt='' />
             </div>
-            {isAdmin && (
-              <Stack direction={'row'} spacing={1} alignItems={'center'}>
-                <IconButton
-                  aria-label='delete'
-                  onClick={handleDelete}
-                  sx={{ '&:hover': { background: 'tomato' } }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-                <Link to={`/membros/guias/edit/${postId}`}>
+            <Stack sx={styledAuthorInfo} direction={'row'} spacing={2}>
+              {post.userImg ? (
+                <Avatar alt={post.name} src={post.userImg} />
+              ) : (
+                <Avatar sx={{ color: '#fff' }}>
+                  {post.name.slice(0, 1).toLocaleUpperCase()}
+                </Avatar>
+              )}
+              <div className='info'>
+                <h3>{post.name}</h3>
+                <p>Posted {moment(post.date).fromNow()}</p>
+              </div>
+              {isAdmin && (
+                <Stack direction={'row'} spacing={1} alignItems={'center'}>
                   <IconButton
-                    aria-label='edit'
-                    sx={{ '&:hover': { background: 'teal' } }}
+                    aria-label='delete'
+                    onClick={handleDelete}
+                    sx={{ '&:hover': { background: 'tomato', color: '#fff' } }}
                   >
-                    <BiSolidMessageSquareEdit />
+                    <DeleteIcon />
                   </IconButton>
-                </Link>
-              </Stack>
-            )}
+                  <Link to={`/membros/guias/edit/${postId}`}>
+                    <IconButton
+                      aria-label='edit'
+                      sx={{ '&:hover': { background: 'teal', color: '#fff' } }}
+                    >
+                      <BiSolidMessageSquareEdit />
+                    </IconButton>
+                  </Link>
+                </Stack>
+              )}
+            </Stack>
+            <div
+              className='content'
+              style={{
+                marginBlock: '3rem',
+                textAlign: 'justify',
+              }}
+            >
+              {Parser(post.desc)}
+            </div>
+            <Stack
+              direction={'row'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+            >
+              <small>
+                Última edição em{' '}
+                {moment(post.edited).format('DD-MM-YYYY / HH:mm')}(
+                {moment(post.edited).format('zz')})
+              </small>
+              <Button>Reportar Esse Post</Button>
+            </Stack>
           </Stack>
-          <div
-            className='content'
-            style={{
-              marginBlock: '3rem',
-              textAlign: 'justify',
-            }}
-          >
-            {Parser(post.desc)}
-          </div>
-          <Stack
-            direction={'row'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-          >
-            <small>
-              Última edição em{' '}
-              {moment(post.edited).format('DD-MM-YYYY / HH:mm')}
-            </small>
-            <Button>Reportar Esse Post</Button>
-          </Stack>
-        </Stack>
-        <PostSideMenu categoryID={post.categoryID} title={post.title} />
+        )}
+        <PostSideMenu
+          categoryID={post.categoryID}
+          title={post.title}
+          setLoading={setLoading}
+        />
       </Stack>
     </Stack>
   );

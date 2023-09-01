@@ -138,7 +138,6 @@ export default function Categories({ title, value, postData }: any) {
   ]);
 
   useEffect(() => {
-    setSelectedCategories(null);
     setSelectedCategory({});
     setSelectedSub1({});
     setSelectedSub2({});

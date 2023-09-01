@@ -67,7 +67,7 @@ export default function HeaderSearchBar() {
         sx={{
           marginTop: '2rem',
           width: '100%',
-          paddingInline: { xs: '1rem', lg: '2rem' },
+          // paddingInline: { xs: '1rem', lg: '2rem' },
           maxWidth: '1700px',
         }}
       >
