@@ -157,7 +157,8 @@ export default function HeaderNav() {
       component={'header'}
       sx={{
         width: '100%',
-        padding: '1rem',
+        paddingBlock: '1rem',
+        paddingInline: '2rem',
         background: darkMode ? '#222' : '#ecececdd',
         boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.103)',
         display: { xs: 'none', sm: 'flex' },

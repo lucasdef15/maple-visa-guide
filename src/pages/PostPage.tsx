@@ -207,8 +207,7 @@ export default function PostPage() {
             >
               <small>
                 Última edição em{' '}
-                {moment(post.edited).format('DD-MM-YYYY / HH:mm')}(
-                {moment(post.edited).format('zz')})
+                {moment(post.edited).format('DD-MM-YYYY / HH:mm')} (GMT-3)
               </small>
               <Button>Reportar Esse Post</Button>
             </Stack>
