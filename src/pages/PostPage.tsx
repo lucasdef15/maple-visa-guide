@@ -209,7 +209,9 @@ export default function PostPage() {
                 Última edição em{' '}
                 {moment(post.edited).format('DD-MM-YYYY / HH:mm')} (GMT-3)
               </small>
-              <Button>Reportar Esse Post</Button>
+              <Button sx={{ color: darkMode ? '#fff !important' : '' }}>
+                Reportar Esse Post
+              </Button>
             </Stack>
           </Stack>
         )}

@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiSolidMessageSquareEdit } from 'react-icons/bi';
+import { DarkModeContext } from '../../contexts/DarkModeContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -28,6 +29,7 @@ export default function ListPostCard({
   const navigate = useNavigate();
 
   const { isAdmin } = useContext(UserContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const getText = (html: any) => {
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -60,7 +62,7 @@ export default function ListPostCard({
             sx={{
               cursor: 'pointer',
               transition: 'all .5s',
-              '&:hover': { color: '#01244A' },
+              '&:hover': { color: darkMode ? '#0080e8' : '#0080e8' },
             }}
           >
             {title.length > 26 ? `${title.slice(0, 26)}...` : title}
@@ -70,7 +72,7 @@ export default function ListPostCard({
             sx={{
               cursor: 'pointer',
               transition: 'all .5s',
-              '&:hover': { color: '#01244A' },
+              '&:hover': { color: darkMode ? '#0080e8' : '#0080e8' },
             }}
           >
             {content?.length ?? ''.length > 100

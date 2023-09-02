@@ -61,6 +61,7 @@ export default function Navigation({
                     color: darkMode ? '#fff' : '#222',
                   },
                   borderBottom: showSubMenu[el.id] ? '#fff !important' : '',
+                  color: showSubMenu[el.id] ? '#0080e8' : '',
                   borderRadius: showSubMenu[el.id]
                     ? '5px 5px 0 0 !important'
                     : '0',
@@ -190,7 +191,7 @@ export default function Navigation({
                           }
                           className='subsub-menu-ul'
                           style={{
-                            background: darkMode ? '#121212' : '#fff',
+                            background: darkMode ? '#121212' : '#f7f9fb',
                             color: darkMode ? '#fff' : '#222222d0',
                           }}
                         >

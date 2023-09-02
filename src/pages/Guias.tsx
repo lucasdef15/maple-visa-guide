@@ -10,6 +10,7 @@ import config from '../utilities/config';
 import PostsContext from '../contexts/PostsContext';
 import ListPostCard from '../components/cards/ListPostCard';
 import MainContext from '../contexts/MainContext';
+import { DarkModeContext } from '../contexts/DarkModeContext';
 
 const ArticleStyles = {
   minHeight: 'calc(100vh -130px)',
@@ -27,6 +28,7 @@ export default function Members() {
     useContext(PostsContext);
 
   const { isList, isBlock } = useContext(MainContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const filteredItems = posts.filter((item) =>
     item.title.toLowerCase().includes(query.toLowerCase())
@@ -111,6 +113,7 @@ export default function Members() {
               justifyContent='center'
               alignItems='center'
               flexWrap='wrap'
+              sx={{ color: darkMode ? '#fff' : '' }}
             >
               <p>Nenhuma Publicação Encontrada</p>
             </Stack>
