@@ -1,12 +1,13 @@
 import Navigation from './Navigation';
 import axios from 'axios';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { Button, Stack } from '@mui/material';
 import { motion } from 'framer-motion';
 import config from '../../utilities/config';
 import { BiSolidRightArrow } from 'react-icons/bi';
 import { FaFilter } from 'react-icons/fa';
 import './style.css';
+import { DarkModeContext } from '../../contexts/DarkModeContext';
 
 export interface Category {
   id: number;
@@ -18,6 +19,8 @@ export interface Category {
 export default function OptionsMenu() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [openOptions, setOpenOptions] = useState<boolean>(false);
+
+  const { darkMode } = useContext(DarkModeContext);
 
   const variants = {
     open: { opacity: 1, x: '0' },
@@ -79,12 +82,16 @@ export default function OptionsMenu() {
           borderRadius: '10px',
           minWidth: '225px',
           mb: '.6rem',
-          background: '#fff',
+          background: darkMode ? '#272727' : '#fff',
           border: openOptions ? '1px solid rgba(128, 128, 128, 0.295)' : '',
-          color: '#222222d0',
+          color: darkMode ? '#fff' : '#222222d0',
           justifyContent: 'start',
           '&:hover': {
-            background: openOptions ? '#fff' : '#98c5ff',
+            background: darkMode
+              ? '#ffffff14 !important'
+              : openOptions
+              ? '#fff'
+              : '#98c5ff',
             boxShadow: openOptions ? '1px 1px 10px rgba(0, 0, 0, .1)' : '',
           },
           cursor: openOptions ? 'unset' : 'pointer',
@@ -127,6 +134,7 @@ export default function OptionsMenu() {
       </Button>
       <motion.div
         className='filter_body'
+        style={{ background: darkMode ? '#121212' : '#fff' }}
         variants={variants}
         animate={openOptions ? 'open' : 'closed'}
       >

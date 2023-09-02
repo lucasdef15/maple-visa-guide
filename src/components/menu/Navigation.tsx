@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { BiSolidRightArrow } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { DarkModeContext } from '../../contexts/DarkModeContext';
+import { Stack } from '@mui/material';
 
 interface SubMenuState {
   [key: number]: boolean;
@@ -13,6 +15,8 @@ export default function Navigation({
   setOpenOptions,
 }: any) {
   const [showSubMenu, setShowSubMenu] = useState<SubMenuState>({});
+
+  const { darkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
     if (!openOptions) {
@@ -38,15 +42,28 @@ export default function Navigation({
 
   return (
     <motion.nav>
-      <motion.ul className='main-nav'>
+      <motion.ul
+        className='main-nav'
+        style={{
+          background: darkMode ? '#121212' : '#fff',
+          color: darkMode ? '#fff' : '#222222d0',
+        }}
+      >
         {categories.map((el: any) => {
           return (
             <motion.li key={el.id}>
-              <motion.div
+              <Stack
+                direction={'row'}
                 className='parent_root'
-                style={{
-                  color: showSubMenu[el.id] ? '#0080e8' : '',
-                  borderBottom: showSubMenu[el.id] ? 'none' : '',
+                sx={{
+                  '&:hover': {
+                    background: darkMode ? '#ffffff14' : '#98c5ffd0',
+                    color: darkMode ? '#fff' : '#222',
+                  },
+                  borderBottom: showSubMenu[el.id] ? '#fff !important' : '',
+                  borderRadius: showSubMenu[el.id]
+                    ? '5px 5px 0 0 !important'
+                    : '0',
                 }}
                 onClick={() => subMenuWhileTapHandler(el.id)}
               >
@@ -79,7 +96,7 @@ export default function Navigation({
                     </motion.span>
                   </Link>
                 )}
-              </motion.div>
+              </Stack>
 
               <motion.ul
                 variants={variants}
@@ -91,6 +108,10 @@ export default function Navigation({
                     : 'closed'
                 }
                 className='sub-menu-ul'
+                style={{
+                  background: darkMode ? '#121212' : '#fff',
+                  color: darkMode ? '#fff' : '#222222d0',
+                }}
               >
                 {showSubMenu[el.id] &&
                   el.children.map((ele: any) => {
@@ -99,14 +120,22 @@ export default function Navigation({
                         onClick={() => subMenuWhileTapHandler(ele.id)}
                         key={ele.id}
                       >
-                        <motion.div
+                        <Stack
+                          direction={'row'}
                           className='sub-menu-ul-options'
-                          style={{
+                          sx={{
+                            '&:hover': {
+                              background: darkMode ? '#ffffff2d' : '#98c5ffd0',
+                              color: darkMode ? '#fff' : '#222',
+                            },
+                            background: darkMode ? '#222' : '#f7f9fb',
                             color: showSubMenu[ele.id] ? '#0080e8' : '',
-                            borderBottom: showSubMenu[ele.id] ? '#f7f9fb' : '',
+                            borderBottom: showSubMenu[ele.id]
+                              ? '#f7f9fb !important'
+                              : '',
                             borderRadius: showSubMenu[ele.id]
-                              ? '5px 5px 0 0'
-                              : '5px',
+                              ? '5px 5px 0 0 !important'
+                              : '0',
                           }}
                         >
                           {ele.children.length ? (
@@ -148,7 +177,7 @@ export default function Navigation({
                               </motion.span>
                             </Link>
                           )}
-                        </motion.div>
+                        </Stack>
 
                         <motion.ul
                           variants={variants2}
@@ -160,11 +189,27 @@ export default function Navigation({
                               : 'closed'
                           }
                           className='subsub-menu-ul'
+                          style={{
+                            background: darkMode ? '#121212' : '#fff',
+                            color: darkMode ? '#fff' : '#222222d0',
+                          }}
                         >
                           {showSubMenu[ele.id] &&
                             ele.children.map((elem: any) => {
                               return (
-                                <motion.li key={elem.id}>
+                                <Stack
+                                  component={'li'}
+                                  sx={{
+                                    '& .subsub-menu-ul-options:hover': {
+                                      background: darkMode
+                                        ? '#ffffff2d'
+                                        : '#98c5ffd0',
+                                      color: darkMode ? '#fff' : '#222',
+                                      borderRadius: '5px',
+                                    },
+                                  }}
+                                  key={elem.id}
+                                >
                                   <Link
                                     className='subsub-menu-ul-options'
                                     onClick={() => setOpenOptions(false)}
@@ -172,7 +217,7 @@ export default function Navigation({
                                   >
                                     <motion.span>{elem.name}</motion.span>
                                   </Link>
-                                </motion.li>
+                                </Stack>
                               );
                             })}
                         </motion.ul>

@@ -15,6 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
   gap: '3rem',
   alignItems: 'center',
   overflow: 'hidden',
+  maxHeight: '135px',
 }));
 
 export default function ListPostCard({

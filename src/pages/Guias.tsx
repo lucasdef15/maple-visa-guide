@@ -1,12 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { routesVariants } from '../animations/animations';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Stack } from '@mui/material';
 import ArticlesCard from '../components/cards/ArticlesCard';
 import Loader from '../components/loaders/Loader';
 import { useLocation } from 'react-router-dom';
-import { uid } from 'uid';
 import config from '../utilities/config';
 import PostsContext from '../contexts/PostsContext';
 import ListPostCard from '../components/cards/ListPostCard';
@@ -85,10 +84,9 @@ export default function Members() {
             <Loader />
           ) : filteredItems.length ? (
             filteredItems.map((post) => (
-              <>
+              <React.Fragment key={post.id}>
                 {isList && (
                   <ListPostCard
-                    key={uid()}
                     id={post.id}
                     title={post.title}
                     img={post.img}
@@ -98,7 +96,6 @@ export default function Members() {
                 )}
                 {isBlock && (
                   <ArticlesCard
-                    key={uid()}
                     id={post.id}
                     title={post.title}
                     img={post.img}
@@ -106,7 +103,7 @@ export default function Members() {
                     handleDelete={handleDelete}
                   />
                 )}
-              </>
+              </React.Fragment>
             ))
           ) : (
             <Stack

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Button, Stack } from '@mui/material';
@@ -8,6 +8,7 @@ import { HiMiniSquares2X2 } from 'react-icons/hi2';
 import { BsFillGrid1X2Fill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import MainContext from '../../../../contexts/MainContext';
+import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 
 export default function DispLayMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -17,20 +18,39 @@ export default function DispLayMenu() {
   };
 
   const { setIsList, setIsBlock } = useContext(MainContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
   const handleCloseList = () => {
     setAnchorEl(null);
+    localStorage.setItem('isList', 'true');
+    localStorage.setItem('isBlock', 'false');
     setIsList(true);
     setIsBlock(false);
   };
   const handleCloseBlock = () => {
     setAnchorEl(null);
+    localStorage.setItem('isList', 'false');
+    localStorage.setItem('isBlock', 'true');
     setIsBlock(true);
     setIsList(false);
   };
+
+  useEffect(() => {
+    const storedIsList = localStorage.getItem('isList');
+    const storedIsBlock = localStorage.getItem('isBlock');
+
+    if (storedIsList === 'true') {
+      setIsList(true);
+      setIsBlock(false);
+    }
+    if (storedIsBlock === 'true') {
+      setIsBlock(true);
+      setIsList(false);
+    }
+  }, [setIsBlock, setIsList]);
 
   return (
     <Stack>
@@ -46,12 +66,12 @@ export default function DispLayMenu() {
         sx={{
           borderRadius: '10px',
           mb: '.6rem',
-          background: '#fff',
+          background: darkMode ? '#272727' : '#fff',
           border: '',
-          color: '#222222d0',
+          color: darkMode ? '#fff' : '#222222d0',
           fontWeight: 'bold',
           justifyContent: 'start',
-          '&:hover': { background: '#98c5ff' },
+          '&:hover': { background: darkMode ? '#ffffff14' : '#98c5ff' },
           boxShadow: '1px 1px 10px rgba(0, 0, 0, .1)',
           zIndex: 99,
           textTransform: 'unset',
@@ -115,7 +135,7 @@ export default function DispLayMenu() {
           sx={{
             transition: 'all .2s',
             '&:hover': {
-              background: '#98c5ff',
+              background: darkMode ? '#ffffff14' : '#98c5ff',
               color: '#222',
             },
           }}
@@ -127,7 +147,7 @@ export default function DispLayMenu() {
             useFlexGap
             spacing={2}
             sx={{
-              color: '#222222d0 !important',
+              color: darkMode ? '#fff' : '#222222d0',
             }}
           >
             <FaListAlt /> Lista
@@ -138,7 +158,7 @@ export default function DispLayMenu() {
           sx={{
             transition: 'all .2s',
             '&:hover': {
-              background: '#98c5ff',
+              background: darkMode ? '#ffffff14' : '#98c5ff',
               color: '#222',
             },
           }}
@@ -149,7 +169,9 @@ export default function DispLayMenu() {
             justifyContent={'center'}
             useFlexGap
             spacing={2}
-            sx={{ color: '#222222d0 !important' }}
+            sx={{
+              color: darkMode ? '#fff' : '#222222d0',
+            }}
           >
             <HiMiniSquares2X2 />
             Blocos

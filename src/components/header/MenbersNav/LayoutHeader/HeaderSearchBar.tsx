@@ -6,11 +6,12 @@ import OptionsMenu from '../../../menu/OptionsMenu';
 import { useContext } from 'react';
 import PostsContext from '../../../../contexts/PostsContext';
 import DispLayMenu from '../menu/DisplayMenu';
+import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: '10px',
-  backgroundColor: theme.palette.common.white,
+
   boxShadow: '1px 1px 10px rgba(0, 0, 0, .1)',
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
@@ -43,15 +44,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '300px',
     [theme.breakpoints.down('sm')]: {
       width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
     },
   },
 }));
 
 export default function HeaderSearchBar() {
   const { query, setQuery } = useContext(PostsContext);
+
+  const { darkMode } = useContext(DarkModeContext);
 
   return (
     <Stack
@@ -77,7 +77,12 @@ export default function HeaderSearchBar() {
           <OptionsMenu />
         </Stack>
         <Stack>
-          <Search>
+          <Search
+            sx={{
+              backgroundColor: darkMode ? '#242424' : '#fff',
+              color: darkMode ? '#fff' : '',
+            }}
+          >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
