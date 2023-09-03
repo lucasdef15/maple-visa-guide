@@ -9,6 +9,7 @@ import axios from 'axios';
 import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 import config from '../../../../utilities/config';
 import { Category } from '../../../menu/OptionsMenu';
+import MainContext from '../../../../contexts/MainContext';
 
 export interface PostProps {
   name: string;
@@ -38,6 +39,7 @@ export default function HeaderNav() {
 
   const { isAdmin } = useContext(UserContext);
   const { darkMode } = useContext(DarkModeContext);
+  const { openMenu } = useContext(MainContext);
 
   const headerStyle = {
     background: darkMode ? '#222' : '#ecececdd',
@@ -144,11 +146,11 @@ export default function HeaderNav() {
 
     if (postId || !isNaN(parseInt(location.pathname.split('/')[3])))
       breadcrumbs = `Guias / ${
-        selectedCategories?.subsubcat
-          ? selectedCategories?.subsubcat
-          : selectedCategories?.subcat
-          ? selectedCategories?.subcat
-          : selectedCategories?.cat
+        selectedCategories?.subsubcat ?? ''
+          ? selectedCategories?.subsubcat ?? ''
+          : selectedCategories?.subcat ?? ''
+          ? selectedCategories?.subcat ?? ''
+          : selectedCategories?.cat ?? ''
       }`;
   }
 
@@ -168,9 +170,9 @@ export default function HeaderNav() {
     >
       <Stack
         sx={headerStyle}
-        direction={'row'}
+        direction={{ sm: openMenu ? 'column' : 'row', lg: 'row' }}
         justifyContent={'space-between'}
-        alignItems={'center'}
+        alignItems={{ sm: openMenu ? 'start' : 'center', lg: 'center' }}
         useFlexGap
         spacing={3}
       >

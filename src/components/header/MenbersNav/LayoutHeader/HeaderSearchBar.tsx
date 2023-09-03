@@ -11,15 +11,12 @@ import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: '10px',
-
   boxShadow: '1px 1px 10px rgba(0, 0, 0, .1)',
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
-  width: '375px',
   [theme.breakpoints.down('sm')]: {
-    marginLeft: theme.spacing(1),
     width: 'auto',
   },
 }));
@@ -57,22 +54,31 @@ export default function HeaderSearchBar() {
     <Stack
       sx={{
         width: '100%',
-        padding: '0 2rem',
+        padding: { xs: '0 1rem', sm: '0 2rem' },
         height: '45%',
+        marginBlock: { xs: '120px', sm: '0' },
       }}
       alignItems={'center'}
     >
       <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
+        direction={{ xs: 'column-reverse', lg: 'row' }}
+        justifyContent={{ xs: 'center', sm: 'space-between' }}
+        useFlexGap
+        spacing={2}
         sx={{
           marginTop: '2rem',
           width: '100%',
           maxWidth: '1700px',
-          maxHeight: '60px',
+          // maxHeight: '50px',
         }}
       >
-        <Stack direction={'row'} useFlexGap spacing={3}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          useFlexGap
+          alignItems={{ xs: '', sm: 'start' }}
+          spacing={{ sx: '0px', sm: 3 }}
+          sx={{ maxHeight: '100px' }}
+        >
           <DispLayMenu />
           <OptionsMenu />
         </Stack>

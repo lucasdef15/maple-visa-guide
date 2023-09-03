@@ -76,10 +76,17 @@ export default function DispLayMenu() {
           zIndex: 99,
           textTransform: 'unset',
           fontSize: '1rem',
+          width: '100%',
           '& svg': { width: '12px', height: '12px' },
         }}
       >
-        <Stack direction={'row'} spacing={4} alignItems={'center'}>
+        <Stack
+          direction={'row'}
+          spacing={4}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          sx={{ width: '100%' }}
+        >
           <Stack direction={'row'} spacing={2} alignItems={'center'}>
             <Stack>
               <BsFillGrid1X2Fill />

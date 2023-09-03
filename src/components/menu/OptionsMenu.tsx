@@ -74,11 +74,12 @@ export default function OptionsMenu() {
   }, [handleBodyClick]);
 
   return (
-    <div>
+    <div style={{ height: '55px', width: '100%' }}>
       <Button
         variant='contained'
         onClick={handleOpenOtions}
         sx={{
+          width: '100%',
           borderRadius: '10px',
           minWidth: '225px',
           mb: '.6rem',

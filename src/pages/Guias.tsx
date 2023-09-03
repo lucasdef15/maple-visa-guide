@@ -12,14 +12,7 @@ import ListPostCard from '../components/cards/ListPostCard';
 import MainContext from '../contexts/MainContext';
 import { DarkModeContext } from '../contexts/DarkModeContext';
 
-const ArticleStyles = {
-  minHeight: 'calc(100vh -130px)',
-  marginBlock: { xs: '200px', sm: '50px' },
-  width: '100%',
-  zIndex: -1,
-  position: 'relative',
-  maxWidth: '1700px',
-};
+
 
 export default function Members() {
   const cat = useLocation().search;
@@ -27,7 +20,7 @@ export default function Members() {
   const { posts, setPost, loading, setLoading, fetchpost, query } =
     useContext(PostsContext);
 
-  const { isList, isBlock } = useContext(MainContext);
+  const { isList, isBlock, openMenu } = useContext(MainContext);
   const { darkMode } = useContext(DarkModeContext);
 
   const filteredItems = posts.filter((item) =>
@@ -56,8 +49,18 @@ export default function Members() {
     fetchInit();
   }, [cat]);
 
+  const ArticleStyles = {
+    minHeight: 'calc(100vh -130px)',
+    marginBlock: { xs: '180px', sm: openMenu ? '170px' : '100px', lg: '50px' },
+    width: '100%',
+    zIndex: -1,
+    position: 'relative',
+    maxWidth: '1700px',
+  };
+
   return (
     <motion.div
+      className='guiasWrapper'
       variants={routesVariants}
       initial='initial'
       animate='visible'

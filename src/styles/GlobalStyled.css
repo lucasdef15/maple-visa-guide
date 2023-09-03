@@ -186,3 +186,8 @@ ul, ol{
     width: 100%;
   }
 }
+@media (max-width: 750px) {
+  .guiasWrapper {
+    padding-inline: 1rem !important;
+  }
+}
