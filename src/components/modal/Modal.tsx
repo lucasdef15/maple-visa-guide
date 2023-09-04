@@ -137,10 +137,12 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     axios.defaults.headers.common[
       'authorization'
     ] = `Bearer ${response.data.token}`;
-    setOpen(false);
+    
     if (response.data.user.isMember) {
+      setOpen(false);
       navigate('/membros/guias');
     } else {
+      setOpen(false);
       navigate('/plano');
     }
   };

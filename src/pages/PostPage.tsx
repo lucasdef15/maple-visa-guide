@@ -219,7 +219,7 @@ export default function PostPage() {
         )}
         <PostSideMenu
           categoryID={post.categoryID}
-          title={post.title}
+          postId={postId}
           setLoading={setLoading}
         />
       </Stack>

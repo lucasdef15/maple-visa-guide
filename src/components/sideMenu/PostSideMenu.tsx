@@ -1,7 +1,7 @@
 import SideMenuCard from '../cards/SideMenuCard';
 import { Stack, Typography } from '@mui/material';
 
-export default function PostSideMenu({ categoryID, title, setLoading }: any) {
+export default function PostSideMenu({ categoryID, postId, setLoading }: any) {
   return (
     <Stack spacing={{ xs: 7, lg: 4 }}>
       <Typography
@@ -24,7 +24,7 @@ export default function PostSideMenu({ categoryID, title, setLoading }: any) {
       >
         <SideMenuCard
           categoryID={categoryID}
-          title={title}
+          postId={postId}
           setLoadingPostPage={setLoading}
         />
       </Stack>

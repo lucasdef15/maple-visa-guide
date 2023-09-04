@@ -17,13 +17,11 @@ interface MenuCardPorops {
   img: string;
 }
 
-export default function SideMenuCard({
-  categoryID,
-  title,
-  setLoadingPostPage,
-}: any) {
+export default function SideMenuCard({ categoryID, postId, setLoadingPostPage }: any) {
   const [posts, setPost] = useState<MenuCardPorops[]>([]);
   const [loading, setLoading] = useState(true);
+
+  console.log(posts);
 
   useEffect(() => {
     const fetchpost = async () => {
@@ -55,13 +53,14 @@ export default function SideMenuCard({
     const doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent;
   };
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         posts.map((post) =>
-          categoryID === post.categoryID && title === post.title ? null : (
+          Number(postId) === post.id ? null : (
             <Card key={post.id} sx={{ maxWidth: 385, borderRadius: '15px' }}>
               <Link
                 to={`/membros/guias/${post.id}`}
@@ -71,8 +70,8 @@ export default function SideMenuCard({
                   <CardMedia
                     component='img'
                     height='140'
-                    image={post.img}
-                    alt='green iguana'
+                    image={`data:image/jpeg;base64,${post.img}`}
+                    alt={post.title}
                   />
                   <CardContent>
                     <Typography gutterBottom variant='h5' component='div'>
