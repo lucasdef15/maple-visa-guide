@@ -296,70 +296,68 @@ export default function Categories({ title, value, postData }: any) {
     }
   };
 
-  const upload = async () => {
-    if (file) {
-      try {
-        const formData = new FormData();
-        formData.append('file', file as Blob);
-        const res = await axios.post(`${config.APP_BASE_URL}/upload`, formData);
-        return res.data;
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      return false;
-    }
-  };
-
-  const urlparts = postData?.img.split('/');
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    const fileName = await upload();
-
-    const imgURL = file
-      ? `${config.APP_BASE_URL}/uploads/${fileName}`
-      : `${config.APP_BASE_URL}/uploads/${urlparts[urlparts.length - 1]}`;
 
     const subcategory3 = subcategory2?.children.find(
       (cat) => cat.name === Object.keys(selectedSub2)[0]
     );
 
+    const postFormData = new FormData();
+    postFormData.append(
+      'img',
+      postData
+        ? file
+          ? (file as Blob)
+          : (postData.img as string)
+        : (file as Blob)
+    );
+    postFormData.append('title', title);
+    postFormData.append('desc', value);
+    postFormData.append(
+      'categoryID',
+      subcategory3
+        ? (subcategory3?.id.toString() as string)
+        : (subcategory2?.toString() as string)
+        ? (subcategory2?.id.toString() as string)
+        : (subcategory1?.id.toString() as string)
+    );
+    postFormData.append('authorID', user?.data?.id.toString() as string);
+    postFormData.append(
+      'date',
+      postData
+        ? postData.date
+        : moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+    );
+    postFormData.append(
+      'edited',
+      moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+    );
+
+    const configHeader = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
     if (postData) {
       try {
-        await axios.put(`${config.APP_BASE_URL}/posts/${postId}`, {
-          title,
-          desc: value,
-          categoryID: subcategory3
-            ? subcategory3?.id
-            : subcategory2
-            ? subcategory2?.id
-            : subcategory1?.id,
-          img: imgURL,
-          authorID: user?.data?.id,
-          date: postData.date,
-          edited: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-        });
+        await axios.put(
+          `${config.APP_BASE_URL}/posts/${postId}`,
+          postFormData,
+          configHeader
+        );
         navigate('/membros/guias');
       } catch (error) {
         console.log(error);
       }
     } else {
       try {
-        await axios.post(`${config.APP_BASE_URL}/posts`, {
-          title,
-          desc: value,
-          categoryID: subcategory3
-            ? subcategory3?.id
-            : subcategory2
-            ? subcategory2?.id
-            : subcategory1?.id,
-          img: imgURL,
-          authorID: user?.data?.id,
-          date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-          edited: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-        });
+        await axios.post(
+          `${config.APP_BASE_URL}/posts`,
+          postFormData,
+          configHeader
+        );
         navigate('/membros/guias');
       } catch (error) {
         console.log(error);
@@ -391,12 +389,12 @@ export default function Categories({ title, value, postData }: any) {
         >
           Upload Image
         </label>
-        <span>
+        <span style={{ color: 'teal' }}>
           {file?.name
             ? file?.name
-            : urlparts
-            ? urlparts[urlparts.length - 1]
-            : file?.name}
+            : postData
+            ? 'Image Loaded From Database'
+            : 'No file selected'}
         </span>
         <Stack
           direction={'row'}

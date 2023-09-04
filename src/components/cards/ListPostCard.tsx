@@ -57,6 +57,8 @@ export default function ListPostCard({
 
   const content = getText(desc);
 
+  const base64ImageData = `data:image/jpeg;base64,${img}`;
+
   return (
     <Item
       elevation={4}
@@ -79,7 +81,7 @@ export default function ListPostCard({
           },
         }}
       >
-        <img src={img} alt={title} />
+        <img src={base64ImageData} alt={title} />
       </Stack>
       <Stack direction={'row'} alignItems={'center'}>
         <Stack>
@@ -121,7 +123,7 @@ export default function ListPostCard({
           <Stack direction={'column'} spacing={1} alignItems={'center'}>
             <IconButton
               aria-label='delete'
-              onClick={handleDelete}
+              onClick={() => handleDelete(id)}
               sx={{ '&:hover': { background: 'tomato', color: '#fff' } }}
             >
               <DeleteIcon />

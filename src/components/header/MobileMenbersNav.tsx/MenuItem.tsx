@@ -12,6 +12,7 @@ import { BsWechat } from 'react-icons/bs';
 import SwitchTheme from '../MenbersNav/switch/SwitchTheme';
 import { Stack, Typography, Button } from '@mui/material';
 import { RiBookletFill } from 'react-icons/ri';
+import { RiBook3Fill } from 'react-icons/ri';
 
 const StyledLi = styled(Stack)(() => ({
   '&:not(.not)': {
@@ -110,6 +111,18 @@ export default function MenuItem() {
               >
                 <BiSolidDashboard />
                 <span>Dashboard</span>
+              </StyledLi>
+            </NavLink>
+            <NavLink to='guias'>
+              <StyledLi
+                direction='row'
+                alignItems='center'
+                justifyContent={openMenu ? 'start' : 'center'}
+                spacing={2}
+                sx={{}}
+              >
+                <RiBook3Fill />
+                {openMenu && <span>Guias</span>}
               </StyledLi>
             </NavLink>
             <NavLink to='forum'>

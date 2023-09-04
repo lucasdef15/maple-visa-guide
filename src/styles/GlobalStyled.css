@@ -148,7 +148,7 @@
   z-index: 1;
 }
 body{
-    overflow-x: hidden;
+    overflow-x: visible;
     color: #01244a;
     background-color: #F7F7F7;
 }

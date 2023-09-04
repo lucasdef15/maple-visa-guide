@@ -74,7 +74,7 @@ export default function OptionsMenu() {
   }, [handleBodyClick]);
 
   return (
-    <div style={{ height: '55px', width: '100%' }}>
+    <Stack sx={{ height: '55px', width: '100%' }}>
       <Button
         variant='contained'
         onClick={handleOpenOtions}
@@ -145,6 +145,6 @@ export default function OptionsMenu() {
           setOpenOptions={setOpenOptions}
         />
       </motion.div>
-    </div>
+    </Stack>
   );
 }

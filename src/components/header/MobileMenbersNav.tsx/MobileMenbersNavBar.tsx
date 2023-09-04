@@ -2,17 +2,13 @@ import { motion } from 'framer-motion';
 import { useDimensions } from '../MobileNav/use-dimensions';
 import { MenuToggle } from './MenuToggle';
 import Navigation from './Navigation';
-import { useContext, useEffect, useCallback, useRef, useState } from 'react';
+import { useContext, useEffect, useCallback, useRef } from 'react';
 import { styled } from '@mui/material/styles';
 import MainContext from '../../../contexts/MainContext';
 import Logo from '../../logo/Logo';
 import './MenbersStyle.css';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
-import { useLocation } from 'react-router-dom';
-import { PostProps } from '../MenbersNav/LayoutHeader/LayoutHeader';
-import { Stack, Typography } from '@mui/material';
-import axios from 'axios';
-import config from '../../../utilities/config';
+import { Stack } from '@mui/material';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -37,31 +33,10 @@ const sidebar = {
 export default function MobileMenbersNavBar() {
   const containerRef = useRef(null);
 
-  const location = useLocation();
-
-  const [post, setPost] = useState<PostProps>({
-    name: '',
-    img: '',
-    id: 0,
-    title: '',
-    desc: '',
-    date: 0,
-    userImg: '',
-    categoryID: 0,
-  });
-
   const { height } = useDimensions(containerRef);
 
   const { isOpen, showHeader, handleOpen } = useContext(MainContext);
   const { darkMode } = useContext(DarkModeContext);
-
-  const catId: number = Number(location.search.split('=')[1]);
-
-  // const category = categories.find((cat) => cat.categoryID === catId);
-
-  const postId = location.pathname.split('/')[3];
-
-  let PostCategory;
 
   const MobileNav = styled(Stack)(() => ({
     width: '100%',
@@ -106,31 +81,6 @@ export default function MobileMenbersNavBar() {
     };
   }, [handleBodyClick]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data: response } = await axios.get(
-          `${config.APP_BASE_URL}/posts/${postId}`
-        );
-        setPost(response[0]);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [postId]);
-
-  // if (postId && post) {
-  //   PostCategory = categories.find((cat) => cat.categoryID === post.categoryID);
-  // }
-
-  // const breadCrumbs = `${
-  //   location.pathname.includes('guias') ? 'Guias' : ''
-  // } \\ ${
-  //   category?.name ? category?.name : PostCategory ? PostCategory.name : 'Todos'
-  // }`;
-
   return (
     <MobileNav
       sx={{
@@ -139,22 +89,6 @@ export default function MobileMenbersNavBar() {
       }}
     >
       <Logo color={darkMode ? '#fff' : '#07264E'} />
-      <Stack
-        sx={{ mt: '1rem', width: '100%' }}
-        direction={'row'}
-        justifyContent={'space-between'}
-      >
-        <Typography
-          component={'h2'}
-          sx={{
-            fontSize: '20px',
-            fontweight: 'bold',
-            color: darkMode ? '#fff' : '',
-          }}
-        >
-          {/* {breadCrumbs} */}
-        </Typography>
-      </Stack>
       <motion.nav
         style={{
           top: showHeader ? 0 : isOpen ? 0 : '-200px',

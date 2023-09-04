@@ -55,6 +55,7 @@ export default function HeaderSearchBar() {
       sx={{
         width: '100%',
         padding: { xs: '0 1rem', sm: '0 2rem' },
+        paddingRight: { xs: '1rem', sm: '2.6rem' },
         height: '45%',
         marginBlock: { xs: '120px', sm: '0' },
       }}

@@ -121,6 +121,8 @@ export default function PostPage() {
     handleBackgroundColorSpans();
   }, [darkMode]);
 
+  const base64ImageData = `data:image/jpeg;base64,${post.img}`;
+
   return (
     <Stack
       direction={'row'}
@@ -157,7 +159,7 @@ export default function PostPage() {
               {post.title}
             </Typography>
             <div className='img-container'>
-              <img src={post?.img} alt='' />
+              <img src={base64ImageData} alt='' />
             </div>
             <Stack sx={styledAuthorInfo} direction={'row'} spacing={2}>
               {post.userImg ? (

@@ -161,6 +161,7 @@ export default function HeaderNav() {
         width: '100%',
         paddingBlock: '1rem',
         paddingInline: '2rem',
+        paddingRight: '3rem',
         background: darkMode ? '#222' : '#ecececdd',
         boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.103)',
         display: { xs: 'none', sm: 'flex' },

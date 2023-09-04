@@ -32,6 +32,8 @@ export default function ArticlesCard({
 
   const content = getText(desc);
 
+  const base64ImageData = `data:image/jpeg;base64,${img}`;
+
   return (
     <Card key={id} sx={{ maxWidth: 345, height: '398px', zIndex: -1 }}>
       <Stack
@@ -43,7 +45,12 @@ export default function ArticlesCard({
           alignItems: 'start',
         }}
       >
-        <CardMedia component='img' height='140' image={img} alt='cover' />
+        <CardMedia
+          component='img'
+          height='140'
+          image={base64ImageData}
+          alt='cover'
+        />
         <CardContent>
           <Typography
             onClick={() => navigate(`${id}`)}
@@ -71,7 +78,7 @@ export default function ArticlesCard({
             <>
               <IconButton
                 aria-label='delete'
-                onClick={() => handleDelete(id as string)}
+                onClick={() => handleDelete(id)}
                 sx={{ '&:hover': { background: 'tomato', color: '#fff' } }}
               >
                 <DeleteIcon />
