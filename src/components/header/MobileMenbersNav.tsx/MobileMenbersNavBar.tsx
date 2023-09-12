@@ -101,7 +101,7 @@ export default function MobileMenbersNavBar() {
         ref={containerRef}
       >
         <motion.div className='mobile-background' variants={sidebar} />
-        <Navigation isOpen={isOpen} />
+        <Navigation isOpen={isOpen} handleOpen={handleOpen} />
         <MenuToggle toggle={() => handleOpen()} />
       </motion.nav>
     </MobileNav>

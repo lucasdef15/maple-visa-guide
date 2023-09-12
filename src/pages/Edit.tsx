@@ -11,17 +11,7 @@ import config from '../utilities/config';
 import Categories from '../components/categories/Categories';
 
 export default function Edit() {
-  const [postData, setPostData] = useState<PostProps>({
-    name: '',
-    img: '',
-    id: 0,
-    title: '',
-    desc: '',
-    date: 0,
-    edited: 0,
-    userImg: '',
-    categoryID: 0,
-  });
+  const [postData, setPostData] = useState<PostProps | null>(null);
   const [value, setValue] = useState('');
   const [title, setTitle] = useState('');
 
@@ -45,11 +35,11 @@ export default function Edit() {
 
   useEffect(() => {
     const setPostInfo = () => {
-      setValue(postData.desc);
-      setTitle(postData.title);
+      setValue(postData?.desc as string);
+      setTitle(postData?.title as string);
     };
     setPostInfo();
-  }, [postData.desc, postData.title]);
+  }, [postData?.desc, postData?.title]);
 
   return (
     <motion.div

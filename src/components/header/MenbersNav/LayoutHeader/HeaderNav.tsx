@@ -12,15 +12,21 @@ import { Category } from '../../../menu/OptionsMenu';
 import MainContext from '../../../../contexts/MainContext';
 
 export interface PostProps {
-  name: string;
-  img: string;
-  userImg: string;
-  id: number;
-  title: string;
+  author: {
+    img: string;
+    name: string;
+  };
+  category: {
+    id: string;
+    parentId: string;
+    category: string;
+  };
+  createdAt: string;
   desc: string;
-  date: number;
-  edited: number;
-  categoryID: number;
+  id: number;
+  img: string;
+  title: string;
+  updatedAt: string;
 }
 
 interface LoadedCats {
@@ -87,7 +93,7 @@ export default function HeaderNav() {
   }, [location.pathname]);
 
   useEffect(() => {
-    function findCategoryAndDescendants(id: number, categories: any) {
+    function findCategoryAndDescendants(id: string, categories: any) {
       let result = null;
 
       categories.forEach((cat: any) => {
@@ -122,15 +128,13 @@ export default function HeaderNav() {
       return result;
     }
     if (postId) {
-      setSelectedCategories(
-        findCategoryAndDescendants(Number(postId), categories)
-      );
+      setSelectedCategories(findCategoryAndDescendants(postId, categories));
     } else {
       setSelectedCategories(
-        findCategoryAndDescendants(postData?.categoryID, categories)
+        findCategoryAndDescendants(postData?.category?.id, categories)
       );
     }
-  }, [categories, postData?.categoryID, postId]);
+  }, [categories, postData?.category?.id, postId]);
 
   let breadcrumbs = '';
 

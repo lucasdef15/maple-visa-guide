@@ -59,6 +59,8 @@ export default function ListPostCard({
 
   const base64ImageData = `data:image/jpeg;base64,${img}`;
 
+  console.log(img);
+
   return (
     <Item
       elevation={4}

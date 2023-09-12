@@ -28,7 +28,7 @@ const StyledLi = styled(Stack)(() => ({
   },
 }));
 
-export default function MenuItem() {
+export default function MenuItem({ handleOpen }: any) {
   const { user, isAdmin } = useContext(UserContext);
   const { openMenu } = useContext(MainContext);
 
@@ -60,15 +60,15 @@ export default function MenuItem() {
             <Typography
               sx={{
                 fontSize:
-                  (user?.data?.email.length as number) >= 21
+                  (user?.data?.email.length as number) > 19
                     ? '.7rem'
                     : '.85rem',
                 fontWeight: 'light',
                 color: 'text.light',
               }}
             >
-              {(user?.data?.email.length as number) >= 21
-                ? user?.data?.email.slice(0, 21) + '...'
+              {(user?.data?.email.length as number) > 19
+                ? user?.data?.email.slice(0, 19) + '...'
                 : user?.data?.email}
             </Typography>
           </Stack>
@@ -101,7 +101,7 @@ export default function MenuItem() {
             justifyContent={'start'}
             spacing={1}
           >
-            <NavLink to='dashboard'>
+            <NavLink to='dashboard' onClick={handleOpen}>
               <StyledLi
                 direction='row'
                 alignItems='center'
@@ -113,7 +113,7 @@ export default function MenuItem() {
                 <span>Dashboard</span>
               </StyledLi>
             </NavLink>
-            <NavLink to='guias'>
+            <NavLink to='guias' onClick={handleOpen}>
               <StyledLi
                 direction='row'
                 alignItems='center'
@@ -136,7 +136,7 @@ export default function MenuItem() {
                 <span>Chat</span>
               </StyledLi>
             </NavLink>
-            <NavLink to='/'>
+            <NavLink to='/' onClick={handleOpen}>
               <StyledLi
                 direction='row'
                 alignItems='center'
@@ -149,7 +149,7 @@ export default function MenuItem() {
             </NavLink>
           </Stack>
           {isAdmin && (
-            <Link to={'guias/write'}>
+            <Link to={'guias/write'} onClick={handleOpen}>
               <Button
                 className='signinBtn'
                 variant='contained'

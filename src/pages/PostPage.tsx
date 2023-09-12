@@ -35,29 +35,26 @@ const styledAuthorInfo = {
 };
 
 export interface PostProps {
-  name: string;
-  img: string;
-  userImg: string;
-  id: number;
-  title: string;
+  author: {
+    img: string;
+    name: string;
+  };
+  category: {
+    id: string;
+    parentId: string;
+    category: string;
+  };
+  createdAt: string;
   desc: string;
-  date: number;
-  edited: number;
-  categoryID: number;
+  id: number;
+  img: string;
+  title: string;
+  updatedAt: string;
 }
 
 export default function PostPage() {
-  const [post, setPost] = useState<PostProps>({
-    name: '',
-    img: '',
-    id: 0,
-    title: '',
-    desc: '',
-    date: 0,
-    edited: 0,
-    userImg: '',
-    categoryID: 0,
-  });
+  const [post, setPost] = useState<PostProps | null>(null);
+  console.log(post);
   const [loading, setLoading] = useState<boolean>(true);
 
   const { isAdmin } = useContext(UserContext);
@@ -93,7 +90,7 @@ export default function PostPage() {
     );
     if (confirmed) {
       try {
-        await axios.delete(`${config.APP_BASE_URL}/posts/${post.id}`);
+        await axios.delete(`${config.APP_BASE_URL}/posts/${post?.id}`);
         navigate('/membros/guias');
       } catch (error) {
         console.log(error);
@@ -121,7 +118,7 @@ export default function PostPage() {
     handleBackgroundColorSpans();
   }, [darkMode]);
 
-  const base64ImageData = `data:image/jpeg;base64,${post.img}`;
+  const base64ImageData = `data:image/jpeg;base64,${post?.img}`;
 
   return (
     <Stack
@@ -130,7 +127,7 @@ export default function PostPage() {
       sx={{
         width: { xs: '100%', sm: 'calc(100% - 1rem)' },
         color: darkMode ? '#fff' : '',
-        pt: { xs: '170px', sm: '0.8rem' },
+        pt: { xs: '110px', sm: '0.8rem' },
       }}
     >
       <Stack
@@ -156,22 +153,22 @@ export default function PostPage() {
                 fontWeight: 'bold',
               }}
             >
-              {post.title}
+              {post?.title}
             </Typography>
             <div className='img-container'>
               <img src={base64ImageData} alt='' />
             </div>
             <Stack sx={styledAuthorInfo} direction={'row'} spacing={2}>
-              {post.userImg ? (
-                <Avatar alt={post.name} src={post.userImg} />
+              {post?.author?.img ? (
+                <Avatar alt={post.author.name} src={post.author.img} />
               ) : (
                 <Avatar sx={{ color: '#fff' }}>
-                  {post.name.slice(0, 1).toLocaleUpperCase()}
+                  {post?.author.name.slice(0, 1).toLocaleUpperCase()}
                 </Avatar>
               )}
               <div className='info'>
-                <h3>{post.name}</h3>
-                <p>Posted {moment(post.date).fromNow()}</p>
+                <h3>{post?.author.name}</h3>
+                <p>Posted {moment(post?.createdAt).fromNow()}</p>
               </div>
               {isAdmin && (
                 <Stack direction={'row'} spacing={1} alignItems={'center'}>
@@ -200,16 +197,18 @@ export default function PostPage() {
                 textAlign: 'justify',
               }}
             >
-              {Parser(post.desc)}
+              {Parser(post?.desc as string)}
             </div>
             <Stack
-              direction={'row'}
+              direction={{ xs: 'column', sm: 'row' }}
               justifyContent={'space-between'}
               alignItems={'center'}
+              spacing={2}
+              sx={{ pb: { xs: '5rem' } }}
             >
               <small>
                 Última edição em{' '}
-                {moment(post.edited).format('DD-MM-YYYY / HH:mm')} (GMT-3)
+                {moment(post?.updatedAt).format('DD-MM-YYYY / HH:mm')} (GMT-3)
               </small>
               <Button sx={{ color: darkMode ? '#fff !important' : '' }}>
                 Reportar Esse Post
@@ -218,7 +217,7 @@ export default function PostPage() {
           </Stack>
         )}
         <PostSideMenu
-          categoryID={post.categoryID}
+          categoryID={post?.category.id}
           postId={postId}
           setLoading={setLoading}
         />

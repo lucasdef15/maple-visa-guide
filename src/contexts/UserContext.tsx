@@ -111,11 +111,13 @@ const UserProvider = ({ children }: any) => {
       const decodedToken = jwt_decode(token as string) as DecodedToken;
       const userRole = decodedToken.role;
 
-      userRole === 'admin' ? setIsAdmin(true) : setIsAdmin(false);
+      userRole === 'ADMIN' ? setIsAdmin(true) : setIsAdmin(false);
     } catch (error) {
       console.error(error);
     }
   }, [token]);
+
+  console.log(user);
 
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>

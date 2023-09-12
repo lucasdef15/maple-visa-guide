@@ -8,8 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DarkModeContext } from '../../contexts/DarkModeContext';
 import { UserContext } from '../../contexts/UserContext';
-import moment from 'moment';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { PostProps } from '../../pages/PostPage';
 
 interface LoadedCats {
   cat: string | null;
@@ -17,7 +17,8 @@ interface LoadedCats {
   subsubcat: string | null;
 }
 
-export default function Categories({ title, value, postData }: any) {
+export default function Categories({ title, value, postData: data }: any) {
+  const postData = data as PostProps;
   const navigate = useNavigate();
 
   const postId = useLocation().pathname.split('/')[4];
@@ -28,6 +29,8 @@ export default function Categories({ title, value, postData }: any) {
   const [file, setFile] = useState<File | null>(null);
 
   const [categories, setCategories] = useState<Category[]>([]);
+
+  console.log(categories);
 
   const [selectedCategories, setSelectedCategories] =
     useState<LoadedCats | null>(null);
@@ -54,7 +57,7 @@ export default function Categories({ title, value, postData }: any) {
 
   useEffect(() => {
     const data: Category | undefined = subcategory1?.children?.find(
-      (cat: any) => cat.name === Object.keys(selectedSub1)[0]
+      (cat: any) => cat.name === Object.keys(selectedSub1!)[0]
     );
 
     data ? setSubcategory2(data) : setSubcategory2(undefined);
@@ -62,7 +65,7 @@ export default function Categories({ title, value, postData }: any) {
 
   useEffect(() => {
     const data: Category | undefined = categories.find(
-      (cat) => cat.name === Object.keys(selectedCategory)[0]
+      (cat) => cat.name === Object.keys(selectedCategory!)[0]
     );
     categories.length > 0 ? setSubcategory1(data) : setSubcategory1(undefined);
   }, [categories, selectedCategory]);
@@ -80,7 +83,7 @@ export default function Categories({ title, value, postData }: any) {
   }, []);
 
   useEffect(() => {
-    function findCategoryAndDescendants(id: number, categories: any) {
+    function findCategoryAndDescendants(id: string, categories: any) {
       let result = null;
 
       categories.forEach((cat: any) => {
@@ -116,21 +119,22 @@ export default function Categories({ title, value, postData }: any) {
     }
     if (postData !== null) {
       setSelectedCategories(
-        findCategoryAndDescendants(postData.categoryID, categories)
+        findCategoryAndDescendants(postData.category.id, categories)
       );
     } else {
       setSelectedCategories(null);
     }
-  }, [categories, postData, postData?.categoryID]);
+  }, [categories, postData, postData?.category?.id]);
 
   useEffect(() => {
-    const catKey: string = selectedCategories?.cat as string;
-    const subcatKey: string = selectedCategories?.subcat as string;
-    const subsubcatKey: string = selectedCategories?.subsubcat as string;
+    const catKey: string | undefined = selectedCategories?.cat as string;
+    const subcatKey: string | undefined = selectedCategories?.subcat as string;
+    const subsubcatKey: string | undefined =
+      selectedCategories?.subsubcat as string;
 
-    setSelectedCategory({ [catKey]: true });
-    setSelectedSub1({ [subcatKey]: true });
-    setSelectedSub2({ [subsubcatKey]: true });
+    setSelectedCategory(catKey ? { [catKey]: true } : {});
+    setSelectedSub1(subcatKey ? { [subcatKey]: true } : {});
+    setSelectedSub2(subsubcatKey ? { [subsubcatKey]: true } : {});
   }, [
     selectedCategories?.cat,
     selectedCategories?.subcat,
@@ -162,7 +166,7 @@ export default function Categories({ title, value, postData }: any) {
     try {
       const response = await axios.post(`${config.APP_BASE_URL}/cats`, {
         name: newCat,
-        parent_id: 0,
+        parent_id: '0',
       });
 
       setCategories(response.data);
@@ -300,7 +304,7 @@ export default function Categories({ title, value, postData }: any) {
     e.preventDefault();
 
     const subcategory3 = subcategory2?.children.find(
-      (cat) => cat.name === Object.keys(selectedSub2)[0]
+      (cat) => cat.name === Object.keys(selectedSub2!)[0]
     );
 
     const postFormData = new FormData();
@@ -323,16 +327,6 @@ export default function Categories({ title, value, postData }: any) {
         : (subcategory1?.id.toString() as string)
     );
     postFormData.append('authorID', user?.data?.id.toString() as string);
-    postFormData.append(
-      'date',
-      postData
-        ? postData.date
-        : moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
-    );
-    postFormData.append(
-      'edited',
-      moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
-    );
 
     const configHeader = {
       headers: {
@@ -364,6 +358,8 @@ export default function Categories({ title, value, postData }: any) {
       }
     }
   };
+
+  console.log('hey', Object.keys(selectedSub1!).length);
 
   return (
     <>
@@ -440,7 +436,7 @@ export default function Categories({ title, value, postData }: any) {
                   type='radio'
                   id={category.name}
                   style={{ cursor: 'pointer' }}
-                  checked={selectedCategory[category.name]}
+                  checked={selectedCategory![category.name]}
                   onChange={() => handleCategoryChange(category.name)}
                 />
                 <label htmlFor={category.name} style={{ cursor: 'pointer' }}>
@@ -494,7 +490,7 @@ export default function Categories({ title, value, postData }: any) {
         </Button>
       </Stack>
 
-      {Object.keys(selectedCategory).length !== 0 && (
+      {Object.keys(selectedCategory!).length !== 0 && (
         <Stack className='item' spacing={'2px'}>
           <Typography
             variant={'h5'}
@@ -518,7 +514,7 @@ export default function Categories({ title, value, postData }: any) {
                     type='radio'
                     id={sub1.name}
                     style={{ cursor: 'pointer' }}
-                    checked={selectedSub1[sub1.name]}
+                    checked={selectedSub1![sub1.name]}
                     onChange={() => handleSub1Change(sub1.name)}
                   />
                   <label htmlFor={sub1.name} style={{ cursor: 'pointer' }}>
@@ -573,7 +569,7 @@ export default function Categories({ title, value, postData }: any) {
         </Stack>
       )}
 
-      {Object.keys(selectedSub1).length !== 0 && (
+      {Object.keys(selectedSub1!).length !== 0 && (
         <Stack className='item' spacing={'2px'}>
           <Typography
             variant={'h5'}
@@ -583,40 +579,36 @@ export default function Categories({ title, value, postData }: any) {
           >
             Subsubcategoria
           </Typography>
-          {subcategory2?.children ? (
-            subcategory2?.children.map((sub2: any) => (
-              <Stack
-                key={sub2.id}
-                direction={'row'}
-                alignItems={'center'}
-                justifyContent={'space-between'}
-                spacing={2}
-              >
-                <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                  <input
-                    type='radio'
-                    id={sub2.name}
-                    style={{ cursor: 'pointer' }}
-                    checked={selectedSub2[sub2.name]}
-                    onChange={() => handleSub2Change(sub2.name)}
-                  />
-                  <label htmlFor={sub2.name} style={{ cursor: 'pointer' }}>
-                    {sub2.name}
-                  </label>
-                </Stack>
-                <IconButton
-                  aria-label='delete'
-                  size='small'
-                  onClick={() => handleDeleteSubCat2(sub2.id)}
-                  sx={{ '&:hover': { background: 'tomato' } }}
-                >
-                  <DeleteIcon fontSize='inherit' />
-                </IconButton>
+          {subcategory2?.children.map((sub2: any) => (
+            <Stack
+              key={sub2.id}
+              direction={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              spacing={2}
+            >
+              <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                <input
+                  type='radio'
+                  id={sub2.name}
+                  style={{ cursor: 'pointer' }}
+                  checked={selectedSub2![sub2.name]}
+                  onChange={() => handleSub2Change(sub2.name)}
+                />
+                <label htmlFor={sub2.name} style={{ cursor: 'pointer' }}>
+                  {sub2.name}
+                </label>
               </Stack>
-            ))
-          ) : (
-            <Loader />
-          )}
+              <IconButton
+                aria-label='delete'
+                size='small'
+                onClick={() => handleDeleteSubCat2(sub2.id)}
+                sx={{ '&:hover': { background: 'tomato' } }}
+              >
+                <DeleteIcon fontSize='inherit' />
+              </IconButton>
+            </Stack>
+          ))}
           <input
             type='text'
             placeholder='Adiconar Nova Subsubategoria'

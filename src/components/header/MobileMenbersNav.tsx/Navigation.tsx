@@ -10,7 +10,7 @@ const variants = {
   },
 };
 
-export default function Navigation({ isOpen }: any) {
+export default function Navigation({ isOpen, handleOpen }: any) {
   return (
     <motion.ul
       variants={variants}
@@ -20,7 +20,7 @@ export default function Navigation({ isOpen }: any) {
         transition: '.5s',
       }}
     >
-      <MenuItem />
+      <MenuItem handleOpen={handleOpen} />
     </motion.ul>
   );
 }

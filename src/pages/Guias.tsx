@@ -12,10 +12,9 @@ import ListPostCard from '../components/cards/ListPostCard';
 import MainContext from '../contexts/MainContext';
 import { DarkModeContext } from '../contexts/DarkModeContext';
 
-
-
 export default function Members() {
   const cat = useLocation().search;
+  console.log(cat);
 
   const { posts, setPost, loading, setLoading, fetchpost, query } =
     useContext(PostsContext);
@@ -47,6 +46,7 @@ export default function Members() {
       await fetchpost(cat);
     };
     fetchInit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cat]);
 
   const ArticleStyles = {
