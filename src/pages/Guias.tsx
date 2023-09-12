@@ -14,7 +14,6 @@ import { DarkModeContext } from '../contexts/DarkModeContext';
 
 export default function Members() {
   const cat = useLocation().search;
-  console.log(cat);
 
   const { posts, setPost, loading, setLoading, fetchpost, query } =
     useContext(PostsContext);

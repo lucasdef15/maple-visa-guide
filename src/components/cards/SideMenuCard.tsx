@@ -21,7 +21,6 @@ export default function SideMenuCard({ categoryID, postId, setLoadingPostPage }:
   const [posts, setPost] = useState<MenuCardPorops[]>([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(posts);
 
   useEffect(() => {
     const fetchpost = async () => {

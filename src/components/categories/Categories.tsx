@@ -28,9 +28,9 @@ export default function Categories({ title, value, postData: data }: any) {
 
   const [file, setFile] = useState<File | null>(null);
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [loadingCat, setLoadingCat] = useState(false);
 
-  console.log(categories);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [selectedCategories, setSelectedCategories] =
     useState<LoadedCats | null>(null);
@@ -71,11 +71,14 @@ export default function Categories({ title, value, postData: data }: any) {
   }, [categories, selectedCategory]);
 
   useEffect(() => {
+    setLoadingCat(true);
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${config.APP_BASE_URL}/cats`);
         setCategories(response.data);
+        setLoadingCat(false);
       } catch (error) {
+        setLoadingCat(false);
         console.log(error);
       }
     };
@@ -208,8 +211,11 @@ export default function Categories({ title, value, postData: data }: any) {
     }
   };
 
-  const handleDeleteCat = async (id: number) => {
-    const category = categories.find((cat) => cat.id === id);
+  const handleDeleteCat = async (id: string) => {
+    const category = categories.find((cat) => {
+      const catId: string = cat.id.toString();
+      return catId === id;
+    });
 
     if (!category?.children.length) {
       const confirmed = window.confirm(
@@ -236,8 +242,11 @@ export default function Categories({ title, value, postData: data }: any) {
     }
   };
 
-  const handleDeleteSubCat1 = async (id: number) => {
-    const subcat1 = subcategory1?.children.find((cat) => cat.id === id);
+  const handleDeleteSubCat1 = async (id: string) => {
+    const subcat1 = subcategory1?.children.find((cat) => {
+      const catId: string = cat.id.toString();
+      return catId === id;
+    });
 
     if (!subcat1?.children.length) {
       const confirmed = window.confirm(
@@ -246,15 +255,26 @@ export default function Categories({ title, value, postData: data }: any) {
       if (confirmed) {
         try {
           await axios.delete(`${config.APP_BASE_URL}/cats/${id}`);
-          const updatedChildren = subcategory1?.children?.filter(
-            (child) => child.id !== id
-          );
+          const updatedChildren = subcategory1?.children?.filter((child) => {
+            const childId: string = child.id;
+            return childId !== id;
+          });
 
           if (subcategory1) {
             const updatedObject: Category = {
               ...subcategory1,
               children: updatedChildren || [],
             };
+
+            if (categories) {
+              const updatedCategories = categories.map((category) => {
+                if (category.id === subcategory1.id) {
+                  return updatedObject;
+                }
+                return category;
+              });
+              setCategories(updatedCategories);
+            }
 
             setSubcategory1(updatedObject);
             setCatErr('');
@@ -271,23 +291,32 @@ export default function Categories({ title, value, postData: data }: any) {
     }
   };
 
-  const handleDeleteSubCat2 = async (id: number) => {
+  const handleDeleteSubCat2 = async (id: string) => {
     const confirmed = window.confirm(
-      'Tem certeza que deseja exlcuir essa Subsubcategroia?'
+      'Tem certeza que deseja excluir essa Subsubcategoria?'
     );
 
     if (confirmed) {
       try {
         await axios.delete(`${config.APP_BASE_URL}/cats/${id}`);
-        const updatedChildren = subcategory2?.children?.filter(
-          (child) => child.id !== id
-        );
+        const updatedChildren = subcategory2?.children?.filter((child) => {
+          const childId: string = child.id.toString();
+          return childId !== id;
+        });
 
         if (subcategory2) {
           const updatedObject: Category = {
             ...subcategory2,
             children: updatedChildren || [],
           };
+
+          if (subcategory1) {
+            const updatedSubcategory1: Category = {
+              ...subcategory1,
+              children: updatedObject ? [updatedObject] : [],
+            };
+            setSubcategory1(updatedSubcategory1);
+          }
 
           setSubcategory2(updatedObject);
           setCatErr('');
@@ -359,8 +388,6 @@ export default function Categories({ title, value, postData: data }: any) {
     }
   };
 
-  console.log('hey', Object.keys(selectedSub1!).length);
-
   return (
     <>
       <Stack className='item' spacing={1}>
@@ -422,7 +449,9 @@ export default function Categories({ title, value, postData: data }: any) {
         >
           Categoria
         </Typography>
-        {categories.length ? (
+        {loadingCat ? (
+          <Loader />
+        ) : (
           categories.map((category: any) => (
             <Stack
               key={category.id}
@@ -453,8 +482,6 @@ export default function Categories({ title, value, postData: data }: any) {
               </IconButton>
             </Stack>
           ))
-        ) : (
-          <Loader />
         )}
         <Typography sx={{ color: 'tomato', fontSize: '13px' }}>
           {catErr}

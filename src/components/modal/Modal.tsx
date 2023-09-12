@@ -11,6 +11,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import config from '../../utilities/config';
+import Loader from '../loaders/Loader';
 
 const StyledInput = styled(TextField)(() => ({
   '& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input': {
@@ -61,6 +62,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
@@ -80,6 +82,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     setNameError('');
     setEmailError('');
     setPasswordError('');
+    setLoading(true);
     if (text === 'Signup' || text === 'Ver Mais' || text === 'Começar Agora') {
       try {
         const { data: signUpData } = await axios.post(
@@ -91,7 +94,9 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
           }
         );
         response = signUpData;
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     } else {
@@ -102,6 +107,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
           password,
         }
       );
+      setLoading(false);
       response = logInData;
     }
     //check each error
@@ -137,7 +143,7 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     axios.defaults.headers.common[
       'authorization'
     ] = `Bearer ${response.data.token}`;
-    
+
     if (response.data.user.isMember) {
       setOpen(false);
       navigate('/membros/guias');
@@ -190,97 +196,101 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
             justifyContent='space-between'
             sx={{ width: '100%', height: '100%' }}
           >
-            <Stack
-              flexDirection='column'
-              justifyContent='center'
-              alignItems='center'
-              sx={{ width: '100%', height: '100%' }}
-            >
-              <Typography
-                id='modal-modal-title'
-                fontWeight='bold'
-                variant='h6'
-                component='h2'
-                fontSize='42px'
-                sx={{ letterSpacing: '2px !important' }}
-              >
-                {text === 'Login'
-                  ? 'Fazer Login'
-                  : text === 'Ver Mais' || text === 'Começar Agora'
-                  ? 'Criar uma Conta'
-                  : 'Criar uma Conta'}
-              </Typography>
-              <Typography
-                variant='h6'
-                component='p'
-                fontSize='16px'
-                sx={{ letterSpacing: '2px !important' }}
-              >
-                {text === 'Login'
-                  ? 'Login to your accont'
-                  : text === 'Ver Mais' || text === 'Começar Agora'
-                  ? 'Sign up now and unlock exclusive access'
-                  : 'Sign up now and unlock exclusive access'}
-              </Typography>
-              <Stack
-                id='modal-modal-description'
-                sx={{ mt: 5, width: '80%' }}
-                spacing={3}
-              >
-                {text === 'Login' ? (
-                  ''
-                ) : (
-                  <StyledInput
-                    error={nameError ? true : false}
-                    helperText={nameError ? nameError : ''}
-                    label='Nome'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    type='text'
-                  />
-                )}
-                <StyledInput
-                  error={emailError ? true : false}
-                  helperText={emailError ? emailError : ''}
-                  label='E-Mail'
-                  type='email'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <StyledInput
-                  error={passwordError ? true : false}
-                  helperText={passwordError ? passwordError : ''}
-                  label='Senha'
-                  type='password'
-                  autoComplete='current-password'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Stack>
+            {loading ? (
+              <Loader />
+            ) : (
               <Stack
                 flexDirection='column'
-                useFlexGap
-                spacing={1}
-                sx={{ mt: 2, width: '80%' }}
+                justifyContent='center'
+                alignItems='center'
+                sx={{ width: '100%', height: '100%' }}
               >
-                <Button
-                  className='signinBtn'
-                  variant='contained'
-                  color='secondary'
-                  sx={{
-                    textTransform: 'initial',
-                    p: '.55rem 1.3rem',
-                    fontSize: '1rem',
-                    letterSpacing: '2px !important',
-                  }}
-                  onClick={handleClick}
+                <Typography
+                  id='modal-modal-title'
+                  fontWeight='bold'
+                  variant='h6'
+                  component='h2'
+                  fontSize='42px'
+                  sx={{ letterSpacing: '2px !important' }}
                 >
-                  {text === 'Ver Mais' || text === 'Começar Agora'
-                    ? 'Signup'
-                    : text}
-                </Button>
+                  {text === 'Login'
+                    ? 'Fazer Login'
+                    : text === 'Ver Mais' || text === 'Começar Agora'
+                    ? 'Criar uma Conta'
+                    : 'Criar uma Conta'}
+                </Typography>
+                <Typography
+                  variant='h6'
+                  component='p'
+                  fontSize='16px'
+                  sx={{ letterSpacing: '2px !important' }}
+                >
+                  {text === 'Login'
+                    ? 'Login to your accont'
+                    : text === 'Ver Mais' || text === 'Começar Agora'
+                    ? 'Sign up now and unlock exclusive access'
+                    : 'Sign up now and unlock exclusive access'}
+                </Typography>
+                <Stack
+                  id='modal-modal-description'
+                  sx={{ mt: 5, width: '80%' }}
+                  spacing={3}
+                >
+                  {text === 'Login' ? (
+                    ''
+                  ) : (
+                    <StyledInput
+                      error={nameError ? true : false}
+                      helperText={nameError ? nameError : ''}
+                      label='Nome'
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      type='text'
+                    />
+                  )}
+                  <StyledInput
+                    error={emailError ? true : false}
+                    helperText={emailError ? emailError : ''}
+                    label='E-Mail'
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <StyledInput
+                    error={passwordError ? true : false}
+                    helperText={passwordError ? passwordError : ''}
+                    label='Senha'
+                    type='password'
+                    autoComplete='current-password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </Stack>
+                <Stack
+                  flexDirection='column'
+                  useFlexGap
+                  spacing={1}
+                  sx={{ mt: 2, width: '80%' }}
+                >
+                  <Button
+                    className='signinBtn'
+                    variant='contained'
+                    color='secondary'
+                    sx={{
+                      textTransform: 'initial',
+                      p: '.55rem 1.3rem',
+                      fontSize: '1rem',
+                      letterSpacing: '2px !important',
+                    }}
+                    onClick={handleClick}
+                  >
+                    {text === 'Ver Mais' || text === 'Começar Agora'
+                      ? 'Signup'
+                      : text}
+                  </Button>
+                </Stack>
               </Stack>
-            </Stack>
+            )}
             <Stack
               justifyContent='center'
               alignItems='center'

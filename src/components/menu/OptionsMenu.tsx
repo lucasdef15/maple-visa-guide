@@ -10,8 +10,8 @@ import './style.css';
 import { DarkModeContext } from '../../contexts/DarkModeContext';
 
 export interface Category {
-  id: number;
-  parent_id: number;
+  id: string;
+  parent_id: string;
   name: string;
   children: Category[];
 }
