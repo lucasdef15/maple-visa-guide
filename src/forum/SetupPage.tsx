@@ -22,12 +22,12 @@ export default function SetupPage() {
   }, []);
 
   if (data?.data?.server) {
-    return <Navigate to={`/servers/${data.data.server.id}`} />;
+    return <Navigate to={`/membros/forum/servers/${data.data.server.id}`} />;
   }
 
   return (
-    <div>
+    <>
       <InitialModal />
-    </div>
+    </>
   );
 }

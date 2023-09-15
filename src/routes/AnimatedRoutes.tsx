@@ -14,6 +14,7 @@ const LazyDashboard = lazy(() => import('../pages/Dashboard'));
 const LazyPostPage = lazy(() => import('../pages/PostPage'));
 const LazyWrite = lazy(() => import('../pages/Write'));
 const LazyEdit = lazy(() => import('../pages/Edit'));
+const LazyServerPage = lazy(() => import('../pages/ServerPage'));
 
 // Layouts
 const LazyRootLayout = lazy(() => import('../layouts/RootLayout'));
@@ -82,14 +83,7 @@ export default function AnimatedRoutes() {
                     </Suspense>
                   }
                 />
-                <Route
-                  path='forum'
-                  element={
-                    <Suspense fallback={<Loader />}>
-                      <LazyForum />
-                    </Suspense>
-                  }
-                />
+
                 <Route
                   path='guias'
                   element={
@@ -119,6 +113,22 @@ export default function AnimatedRoutes() {
                   element={
                     <Suspense fallback={<Loader />}>
                       <LazyEdit />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path='forum'
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <LazyForum />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path='forum/servers/:id'
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <LazyServerPage />
                     </Suspense>
                   }
                 />
