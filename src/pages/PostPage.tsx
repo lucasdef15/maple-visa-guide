@@ -54,7 +54,6 @@ export interface PostProps {
 
 export default function PostPage() {
   const [post, setPost] = useState<PostProps | null>(null);
-  console.log(post);
   const [loading, setLoading] = useState<boolean>(true);
 
   const { isAdmin } = useContext(UserContext);

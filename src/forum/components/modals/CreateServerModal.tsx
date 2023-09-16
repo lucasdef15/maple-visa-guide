@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -18,6 +18,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import config from '../../../utilities/config';
+import { useModal } from '../../hooks/use-modal-store';
+import { ForumContext } from '../../../contexts/ForumContext';
 
 const formSchema = z.object({
   name: z.string().min(1, 'Server name is required.'),
@@ -39,9 +41,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function InitialModal() {
-  const [open, setOpen] = useState(true);
+export default function CreateServerModal() {
   const [file, setfile] = useState<any>(null);
+
+  const { isOpen, onClose, type } = useModal();
+  const { setServers, fetchServers } = useContext(ForumContext);
+
+  const isModalOpen = isOpen && type === 'createServer';
 
   const { control, handleSubmit, formState, register, setValue, reset } =
     useForm({
@@ -84,11 +90,10 @@ export default function InitialModal() {
 
   const isLoading = formState.isSubmitting;
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
-    setOpen(false);
+    reset();
+    onClose();
+    setfile(null);
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -104,9 +109,10 @@ export default function InitialModal() {
 
     try {
       await axios.post(`${config.APP_BASE_URL}/server`, formData, configHeader);
-
+      await fetchServers(setServers);
       reset();
-      window.location.reload();
+      onClose();
+      setfile(null);
     } catch (error) {
       console.error(error);
     }
@@ -114,11 +120,12 @@ export default function InitialModal() {
 
   return (
     <div>
-      <Button variant='outlined' onClick={handleClickOpen}>
-        Open dialog
-      </Button>
       <AnimatePresence>
-        <BootstrapDialog aria-labelledby='customized-dialog-title' open={open}>
+        <BootstrapDialog
+          aria-labelledby='customized-dialog-title'
+          open={isModalOpen}
+          onClose={handleClose}
+        >
           <IconButton
             aria-label='delete'
             onClick={handleClose}

@@ -117,7 +117,6 @@ const UserProvider = ({ children }: any) => {
     }
   }, [token]);
 
-  console.log(user);
 
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>

@@ -34,7 +34,8 @@
     "react-router-dom": "^6.14.2",
     "react-scroll": "^1.8.9",
     "uid": "^2.0.2",
-    "zod": "^3.22.2"
+    "zod": "^3.22.2",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.2",

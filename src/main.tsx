@@ -7,15 +7,18 @@ import './styles/GlobalStyled.css';
 import { UserProvider } from './contexts/UserContext.tsx';
 import { DarkModeProvider } from './contexts/DarkModeContext.tsx';
 import { PostsDataProvider } from './contexts/PostsContext.tsx';
+import { ForumProvider } from './contexts/ForumContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <DataProvider>
       <UserProvider>
         <PostsDataProvider>
-          <DarkModeProvider>
-            <App />
-          </DarkModeProvider>
+          <ForumProvider>
+            <DarkModeProvider>
+              <App />
+            </DarkModeProvider>
+          </ForumProvider>
         </PostsDataProvider>
       </UserProvider>
     </DataProvider>
