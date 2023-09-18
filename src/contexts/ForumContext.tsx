@@ -5,6 +5,8 @@ import config from '../utilities/config';
 interface ForumContextValue {
   servers: any;
   setServers: React.Dispatch<React.SetStateAction<any>>;
+  profile: any;
+  setProfile: React.Dispatch<React.SetStateAction<any>>;
   fetchServers: (
     setServers: React.Dispatch<React.SetStateAction<any>>
   ) => Promise<void>;
@@ -14,6 +16,7 @@ const ForumContext = createContext<ForumContextValue>({} as ForumContextValue);
 
 const ForumProvider = ({ children }: any) => {
   const [servers, setServers] = useState<any>([]);
+  const [profile, setProfile] = useState<any>({});
 
   const fetchServers = async (
     setServers: React.Dispatch<React.SetStateAction<any>>
@@ -27,10 +30,26 @@ const ForumProvider = ({ children }: any) => {
     fetchServers(setServers);
   }, []);
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(
+          `${config.APP_BASE_URL}/profile/current`
+        );
+        setProfile(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchProfile();
+  }, []);
+
   const contextValue: ForumContextValue = {
     servers,
     setServers,
     fetchServers,
+    profile,
+    setProfile,
   };
 
   return (

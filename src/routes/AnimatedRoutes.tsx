@@ -20,6 +20,7 @@ const LazyServerPage = lazy(() => import('../pages/ServerPage'));
 const LazyRootLayout = lazy(() => import('../layouts/RootLayout'));
 const LazyMenbersLayout = lazy(() => import('../layouts/MenbersLayout'));
 const LazyPaymentLayout = lazy(() => import('../layouts/PaymentLayout'));
+const LazyServerIdLayout = lazy(() => import('../layouts/ServerIdLayout'));
 
 // Protected Routes
 import { ProtectedRoute } from './ProtectedRoute';
@@ -116,22 +117,24 @@ export default function AnimatedRoutes() {
                     </Suspense>
                   }
                 />
-                <Route
-                  path='forum'
-                  element={
-                    <Suspense fallback={<Loader />}>
-                      <LazyForum />
-                    </Suspense>
-                  }
-                />
-                <Route
-                  path='forum/servers/:id'
-                  element={
-                    <Suspense fallback={<Loader />}>
-                      <LazyServerPage />
-                    </Suspense>
-                  }
-                />
+                <Route element={<LazyServerIdLayout />}>
+                  <Route
+                    path='forum'
+                    element={
+                      <Suspense fallback={<Loader />}>
+                        <LazyForum />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path='forum/servers/:id'
+                    element={
+                      <Suspense fallback={<Loader />}>
+                        <LazyServerPage />
+                      </Suspense>
+                    }
+                  />
+                </Route>
               </Route>
             </Route>
           </Route>

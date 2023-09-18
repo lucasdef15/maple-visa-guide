@@ -17,8 +17,6 @@ export default function MenbersLayout() {
 
   const location = useLocation();
 
-  console.log(location.pathname.includes('forum'));
-
   const styledLayout = {
     zIndex: -1,
     position: 'relative',

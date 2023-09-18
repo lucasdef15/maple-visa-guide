@@ -11,7 +11,7 @@ export default function SetupPage() {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          `${config.APP_BASE_URL}/initialprofile`
+          `${config.APP_BASE_URL}/profile/initial`
         );
         setData(response.data);
       } catch (error) {

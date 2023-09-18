@@ -15,10 +15,12 @@ export default function NavigationAction() {
             background: '#444',
             color: 'rgb(16 185 129)',
             transition: 'all 250ms',
+            height: '48px',
+            width: '48px',
             '&:hover': {
               backgroundColor: 'rgb(16 185 129)',
               color: 'white',
-              borderRadius: '15px',
+              borderRadius: '16px',
             },
           }}
         >
