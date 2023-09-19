@@ -6,8 +6,8 @@ export interface ServerWithMembersWithProfile {
   updatedAt: string;
   imageUrl: string;
   inviteCode: string;
-  channels: Channel[];
-  members: Member[];
+  channels?: Channel[];
+  members?: Member[];
 }
 
 export interface Channel {

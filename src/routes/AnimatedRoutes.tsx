@@ -15,6 +15,7 @@ const LazyPostPage = lazy(() => import('../pages/PostPage'));
 const LazyWrite = lazy(() => import('../pages/Write'));
 const LazyEdit = lazy(() => import('../pages/Edit'));
 const LazyServerPage = lazy(() => import('../pages/ServerPage'));
+const LazyInviteCodePage = lazy(() => import('../pages/InviteCodePage'));
 
 // Layouts
 const LazyRootLayout = lazy(() => import('../layouts/RootLayout'));
@@ -32,6 +33,14 @@ export default function AnimatedRoutes() {
       <Suspense fallback={<Loader />}>
         {/* layout 01 */}
         <Routes location={location} key={location.pathname}>
+          <Route
+            path='/invite/:inviteCode'
+            element={
+              <Suspense fallback={<Loader />}>
+                <LazyInviteCodePage />
+              </Suspense>
+            }
+          />
           <Route path='/' element={<LazyRootLayout />}>
             <Route
               index

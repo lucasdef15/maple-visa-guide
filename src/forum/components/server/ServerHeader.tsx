@@ -1,27 +1,26 @@
-import { Stack, MouseEvent, Typography } from '@mui/material';
+import { Typography, Skeleton } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ServerWithMembersWithProfile } from '../../../../types';
-import { useContext, useState } from 'react';
+import { MouseEvent, useContext, useState } from 'react';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
 import { LuUserPlus } from 'react-icons/lu';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { BsPeople } from 'react-icons/bs';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { BiTrashAlt } from 'react-icons/bi';
 import { AiOutlineLogout } from 'react-icons/ai';
+import { useModal } from '../../hooks/use-modal-store';
+import { motion } from 'framer-motion';
+import { BiTrashAlt } from 'react-icons/bi';
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfile;
   role?: 'ADMIN' | 'GUEST' | 'MODERATOR';
+  isLoading: boolean;
 }
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -68,7 +67,11 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-export default function ServerHeader({ server, role }: ServerHeaderProps) {
+export default function ServerHeader({
+  server,
+  role,
+  isLoading,
+}: ServerHeaderProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -80,8 +83,15 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
 
   const { darkMode } = useContext(DarkModeContext);
 
+  const { onOpen } = useModal();
+
   const isAdmin = role === 'ADMIN';
   const isModerator = isAdmin || role === 'MODERATOR';
+
+  const handleInvitePeople = () => {
+    onOpen('invite', { server });
+    setAnchorEl(null);
+  };
 
   return (
     <div>
@@ -95,34 +105,54 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
           color: darkMode ? 'white' : '#222',
           borderRadius: '0 !important',
           textTransform: 'unset',
+          display: 'flex',
           justifyContent: 'space-between',
+          alignItems: 'center',
           paddingInline: '.7rem',
-          paddingBlock: '.6rem',
-          borderBottom: '2px solid #222222c1',
+          paddingBlock: '.4rem',
+          paddingRight: '.9rem',
+          borderBottom: darkMode ? '' : '1px solid rgba(0, 0, 0, 0.05)',
+          boxShadow: darkMode ? '' : '1px 1px 10px rgba(0, 0, 0, 0.05)',
           '&:hover': {
             backgroundColor: 'rgba(255, 255, 255, .05)',
           },
         }}
         disableElevation
         onClick={handleClick}
-        endIcon={<KeyboardArrowDownIcon />}
       >
-        <Typography sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-          {server?.name}
-        </Typography>
+        {isLoading ? (
+          <Skeleton
+            variant='text'
+            sx={{ fontSize: '1rem', borderRadius: '5px' }}
+            width={210}
+          />
+        ) : (
+          <Typography sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+            {server?.name}
+          </Typography>
+        )}
+        <motion.span
+          animate={{
+            rotate: open ? '-180deg' : '0deg',
+            y: open ? -5 : 2,
+          }}
+        >
+          <KeyboardArrowDownIcon />
+        </motion.span>
       </Button>
+      {darkMode ? <Divider /> : null}
       <StyledMenu
         id='demo-customized-menu'
         MenuListProps={{
           'aria-labelledby': 'demo-customized-button',
         }}
         anchorEl={anchorEl}
-        open={open}
+        open={isLoading ? false : open}
         onClose={handleClose}
       >
         {isModerator && (
           <MenuItem
-            onClick={handleClose}
+            onClick={handleInvitePeople}
             disableRipple
             sx={{
               color: darkMode ? 'rgb(129 140 248)' : 'rgb(79 70 229)',
