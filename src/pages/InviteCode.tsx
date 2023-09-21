@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../utilities/config';
@@ -21,16 +21,20 @@ export default function InviteCode({ params }: any) {
   }, [params.inviteCode]);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchExistingServerData = async () => {
       try {
         const response = await axios.get(
           `${config.APP_BASE_URL}/server/existing-server/${params.inviteCode}`
         );
 
-        setExistingServer(response.data.data.existingServer);
+        if (isMounted) {
+          setExistingServer(response.data.data.existingServer);
 
-        if (!response.data.data.existingServer) {
-          fetchData();
+          if (!response.data.data.existingServer) {
+            fetchData();
+          }
         }
       } catch (error) {
         console.log(error);
@@ -38,7 +42,12 @@ export default function InviteCode({ params }: any) {
     };
 
     fetchExistingServerData();
-  }, [params.inviteCode, fetchData]);
+
+    // Cleanup function to set isMounted to false when the component unmounts
+    return () => {
+      isMounted = false;
+    };
+  }, [fetchData, params.inviteCode]);
 
   if (existingServer) {
     return <Navigate to={`/membros/forum/servers/${existingServer.id}`} />;

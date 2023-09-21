@@ -92,6 +92,14 @@ export default function ServerHeader({
     onOpen('invite', { server });
     setAnchorEl(null);
   };
+  const handleEditServer = () => {
+    onOpen('editServer', { server });
+    setAnchorEl(null);
+  };
+  const handleManageMembers = () => {
+    onOpen('members', { server });
+    setAnchorEl(null);
+  };
 
   return (
     <div>
@@ -134,7 +142,7 @@ export default function ServerHeader({
         <motion.span
           animate={{
             rotate: open ? '-180deg' : '0deg',
-            y: open ? -5 : 2,
+            y: open ? -4 : 3,
           }}
         >
           <KeyboardArrowDownIcon />
@@ -165,7 +173,7 @@ export default function ServerHeader({
         )}
         {isAdmin && (
           <MenuItem
-            onClick={handleClose}
+            onClick={handleEditServer}
             disableRipple
             sx={{
               justifyContent: 'space-between',
@@ -177,7 +185,7 @@ export default function ServerHeader({
         )}
         {isAdmin && (
           <MenuItem
-            onClick={handleClose}
+            onClick={handleManageMembers}
             disableRipple
             sx={{
               justifyContent: 'space-between',
@@ -218,6 +226,7 @@ export default function ServerHeader({
             onClick={handleClose}
             disableRipple
             sx={{
+              color: 'rgb(244 63 94)',
               justifyContent: 'space-between',
             }}
           >

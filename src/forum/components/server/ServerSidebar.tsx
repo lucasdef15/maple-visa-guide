@@ -13,7 +13,7 @@ interface ServerSidebarProps {
 }
 
 export default function ServerSidebar({ serverId }: ServerSidebarProps) {
-  const { profile } = useContext(ForumContext);
+  const { profile, servers } = useContext(ForumContext);
 
   const { darkMode } = useContext(DarkModeContext);
 
@@ -36,7 +36,7 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
     };
 
     fetchServer();
-  }, [id]);
+  }, [id, servers]);
 
   const textChannels = server?.data?.serverComp?.channels?.filter(
     (channel: any) => channel.type === 'TEXT'
