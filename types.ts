@@ -10,10 +10,16 @@ export interface ServerWithMembersWithProfile {
   members?: Member[];
 }
 
+export enum ChannelType {
+  TEXT,
+  AUDIO,
+  VIDEO,
+}
+
 export interface Channel {
   id: string;
   name: string;
-  type: string;
+  type: ChannelType;
   profileId: string;
   serverId: string;
   createdAt: string;

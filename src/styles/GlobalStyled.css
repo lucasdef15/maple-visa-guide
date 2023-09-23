@@ -177,6 +177,9 @@ ul, ol{
 .highlighted-span{
   color: #111 !important
 }
+.css-edmh20-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+  border-radius: 10px !important;
+}
 
 @media (max-width: 750px) {
   .DesktopMenbersNavBar{

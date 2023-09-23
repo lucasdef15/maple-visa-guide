@@ -95,12 +95,6 @@ export default function EditServerModal() {
 
   const isLoading = formState.isSubmitting;
 
-  const handleClose = () => {
-    reset();
-    onClose();
-    setfile(null);
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const formData = new FormData();
     formData.append('name', values.name);
@@ -136,11 +130,11 @@ export default function EditServerModal() {
         <BootstrapDialog
           aria-labelledby='customized-dialog-title'
           open={isModalOpen}
-          onClose={handleClose}
+          onClose={onClose}
         >
           <IconButton
             aria-label='delete'
-            onClick={handleClose}
+            onClick={onClose}
             sx={{ position: 'absolute', right: 5, top: 5 }}
           >
             <AiOutlineClose />

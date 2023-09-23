@@ -100,6 +100,18 @@ export default function ServerHeader({
     onOpen('members', { server });
     setAnchorEl(null);
   };
+  const handleCreateChannel = () => {
+    onOpen('createChannel', { server });
+    setAnchorEl(null);
+  };
+  const handleLeaveServer = () => {
+    onOpen('leaveServer', { server });
+    setAnchorEl(null);
+  };
+  const handleDeleteServer = () => {
+    onOpen('deleteServer', { server });
+    setAnchorEl(null);
+  };
 
   return (
     <div>
@@ -197,7 +209,7 @@ export default function ServerHeader({
         )}
         {isModerator && (
           <MenuItem
-            onClick={handleClose}
+            onClick={handleCreateChannel}
             disableRipple
             sx={{
               justifyContent: 'space-between',
@@ -210,7 +222,7 @@ export default function ServerHeader({
         {isModerator && <Divider sx={{ my: 0.5 }} />}
         {isAdmin && (
           <MenuItem
-            onClick={handleClose}
+            onClick={handleDeleteServer}
             disableRipple
             sx={{
               color: 'rgb(244 63 94)',
@@ -223,7 +235,7 @@ export default function ServerHeader({
         )}
         {!isAdmin && (
           <MenuItem
-            onClick={handleClose}
+            onClick={handleLeaveServer}
             disableRipple
             sx={{
               color: 'rgb(244 63 94)',
