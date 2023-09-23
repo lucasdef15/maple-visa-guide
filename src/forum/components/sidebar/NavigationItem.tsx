@@ -24,55 +24,57 @@ export default function NavigationItem({
   const base64ImageData = `data:image/jpeg;base64,${imageUrl}`;
 
   return (
-    <ActionTooltip title={name} placement='right'>
-      <Box
-        onClick={onClick}
-        sx={{
-          postion: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          marginBlock: 2,
-          '&:hover .sideIcon': {
-            height: params?.id !== id ? '20px' : '36px',
-          },
-        }}
-      >
+    <>
+      <ActionTooltip title={name} placement='right'>
         <Box
-          className='sideIcon'
+          onClick={onClick}
           sx={{
-            position: 'absolute',
-            left: 0,
-            background: 'white',
-            borderRadius: '2.5px',
-            transition: 'all 250ms',
-            width: '4px',
-            height: params?.id === id ? '36px' : '8px',
-          }}
-        />
-        <Box
-          sx={{
-            position: 'relative',
+            postion: 'relative',
             display: 'flex',
-            height: '48px',
-            width: '48px',
-            transition: 'all 250ms',
-            overflow: 'hidden',
-            borderRadius: params?.id === id ? '16px' : '50%',
-            '&:hover': {
-              borderRadius: '16px',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            marginBlock: 2,
+            '&:hover .sideIcon': {
+              height: params?.id !== id ? '20px' : '36px',
             },
           }}
         >
-          <img
-            src={base64ImageData}
-            alt={name}
-            style={{ objectFit: 'cover' }}
+          <Box
+            className='sideIcon'
+            sx={{
+              position: 'absolute',
+              left: 0,
+              background: 'white',
+              borderRadius: '2.5px',
+              transition: 'all 250ms',
+              width: '4px',
+              height: params?.id === id ? '36px' : '8px',
+            }}
           />
+          <Box
+            sx={{
+              position: 'relative',
+              display: 'flex',
+              height: '48px',
+              width: '48px',
+              transition: 'all 250ms',
+              overflow: 'hidden',
+              borderRadius: params?.id === id ? '16px' : '50%',
+              '&:hover': {
+                borderRadius: '16px',
+              },
+            }}
+          >
+            <img
+              src={base64ImageData}
+              alt={name}
+              style={{ objectFit: 'cover' }}
+            />
+          </Box>
         </Box>
-      </Box>
-    </ActionTooltip>
+      </ActionTooltip>
+    </>
   );
 }

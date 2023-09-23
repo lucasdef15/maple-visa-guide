@@ -4,9 +4,8 @@ import axios from 'axios';
 import config from '../../../utilities/config';
 import { useParams } from 'react-router-dom';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
-import { Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 import ServerHeader from './ServerHeader';
-import { FaBullseye } from 'react-icons/fa';
 
 interface ServerSidebarProps {
   serverId: string;
@@ -18,7 +17,7 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
   const { darkMode } = useContext(DarkModeContext);
 
   const [server, setServer] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(FaBullseye);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { id } = useParams();
 

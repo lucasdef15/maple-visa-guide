@@ -1,9 +1,9 @@
-import { Stack, Box } from '@mui/material';
-import { useContext } from 'react';
-
+import { Stack, Box, Skeleton } from '@mui/material';
+import { useEffect, useState } from 'react';
 import NavigationAction from './NavigationAction';
 import NavigationItem from './NavigationItem';
-import { ForumContext } from '../../../contexts/ForumContext';
+import config from '../../../utilities/config';
+import axios from 'axios';
 
 const separatorStyle = {
   borderBottom: '2px solid #99999944',
@@ -13,7 +13,24 @@ const separatorStyle = {
 };
 
 export default function NavigationSidebar() {
-  const { servers } = useContext(ForumContext);
+  const [servers, setServers] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchServers = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${config.APP_BASE_URL}/server`);
+        setServers(response.data.servers);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchServers();
+  }, []);
+
   return (
     <Stack
       sx={{
@@ -29,15 +46,32 @@ export default function NavigationSidebar() {
       <NavigationAction />
       <Box sx={separatorStyle} />
       <Box sx={{ mb: 2 }}>
-        {servers.map((server: any) => (
-          <div key={server?.id}>
-            <NavigationItem
-              id={server.id}
-              name={server.name}
-              imageUrl={server.imageUrl}
+        {isLoading ? (
+          <>
+            <Skeleton
+              variant='circular'
+              width={48}
+              height={48}
+              sx={{ marginBlock: 2, background: '#ffffff4b' }}
             />
-          </div>
-        ))}
+            <Skeleton
+              variant='circular'
+              width={48}
+              height={48}
+              sx={{ marginBlock: 2, background: '#ffffff4b' }}
+            />
+          </>
+        ) : (
+          servers.map((server: any) => (
+            <div key={server?.id}>
+              <NavigationItem
+                id={server.id}
+                name={server.name}
+                imageUrl={server.imageUrl}
+              />
+            </div>
+          ))
+        )}
       </Box>
     </Stack>
   );

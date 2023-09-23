@@ -143,7 +143,7 @@ export default function ServerHeader({
         {isLoading ? (
           <Skeleton
             variant='text'
-            sx={{ fontSize: '1rem', borderRadius: '5px' }}
+            sx={{ fontSize: '1.1rem', borderRadius: '5px' }}
             width={210}
           />
         ) : (
