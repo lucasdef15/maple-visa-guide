@@ -4,12 +4,30 @@ import axios from 'axios';
 import config from '../../../utilities/config';
 import { useParams } from 'react-router-dom';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import ServerHeader from './ServerHeader';
+import ServerSearch from './ServerSearch';
+import { BsShieldFillCheck, BsShieldFillExclamation } from 'react-icons/bs';
+import { AiOutlineAudio } from 'react-icons/ai';
+import { BiHash } from 'react-icons/bi';
+import { LuVideo } from 'react-icons/lu';
+import { Channel, ChannelType, Member, MemberRole } from '../../../../types';
 
 interface ServerSidebarProps {
   serverId: string;
 }
+
+const iconMap = {
+  [ChannelType.TEXT]: <BiHash />,
+  [ChannelType.AUDIO]: <AiOutlineAudio />,
+  [ChannelType.VIDEO]: <LuVideo />,
+};
+
+const roleIconMap = {
+  [MemberRole.GUEST]: null,
+  [MemberRole.MODERATOR]: <BsShieldFillCheck style={{ color: '#4f46e5' }} />,
+  [MemberRole.ADMIN]: <BsShieldFillExclamation style={{ color: '#f43f5e' }} />,
+};
 
 export default function ServerSidebar({ serverId }: ServerSidebarProps) {
   const { profile, servers } = useContext(ForumContext);
@@ -69,6 +87,66 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
         role={role}
         isLoading={loading}
       />
+      <Box
+        sx={{
+          height: '100%',
+          overflow: 'auto',
+          px: 1,
+        }}
+      >
+        <Stack sx={{ mt: 2 }}>
+          <ServerSearch
+            data={[
+              {
+                label: 'Text Channels',
+                type: 'channel',
+                data: textChannels?.map((channel: Channel) => ({
+                  id: channel.id,
+                  name: channel.name,
+                  icon: iconMap[
+                    ChannelType[channel.type] as unknown as ChannelType
+                  ],
+                })),
+              },
+              {
+                label: 'Voice Channels',
+                type: 'channel',
+                data: audioChannels?.map((channel: Channel) => ({
+                  id: channel.id,
+                  name: channel.name,
+                  icon: iconMap[
+                    ChannelType[channel.type] as unknown as ChannelType
+                  ],
+                })),
+              },
+              {
+                label: 'Video Channels',
+                type: 'channel',
+                data: videoChannels?.map((channel: Channel) => ({
+                  id: channel.id,
+                  name: channel.name,
+                  icon: iconMap[
+                    ChannelType[channel.type] as unknown as ChannelType
+                  ],
+                })),
+              },
+              {
+                label: 'Members',
+                type: 'member',
+                data: members?.map((member: Member) => ({
+                  id: member.id,
+                  name: member.profile.name,
+                  icon: roleIconMap[
+                    MemberRole[
+                      member.role as unknown as number
+                    ] as unknown as MemberRole
+                  ],
+                })),
+              },
+            ]}
+          />
+        </Stack>
+      </Box>
     </Stack>
   );
 }

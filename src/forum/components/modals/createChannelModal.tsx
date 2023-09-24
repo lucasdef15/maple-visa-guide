@@ -21,6 +21,7 @@ import Select from '@mui/material/Select';
 import { ChannelType } from '../../../../types';
 import qs from 'query-string';
 import { useParams } from 'react-router-dom';
+import { DarkModeContext } from '../../../contexts/DarkModeContext';
 
 const formSchema = z.object({
   name: z
@@ -44,9 +45,16 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+const StyledFormControl = styled(FormControl)(() => ({
+  '& .bosta': {
+    borderRadius: '1px !important',
+  },
+}));
+
 export default function CreateChannelModal() {
   const { isOpen, onClose, type } = useModal();
   const { setServers, fetchServers } = useContext(ForumContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const isModalOpen = isOpen && type === 'createChannel';
 
@@ -68,6 +76,11 @@ export default function CreateChannelModal() {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const updatedValues = {
+      ...values,
+      type: ChannelType[values.type],
+    };
+
     try {
       const url = qs.stringifyUrl({
         url: `${config.APP_BASE_URL}/channels`,
@@ -75,7 +88,7 @@ export default function CreateChannelModal() {
           serverId: params?.id,
         },
       });
-      await axios.post(url, values);
+      await axios.post(url, updatedValues);
       await fetchServers(setServers);
       reset();
       onClose();
@@ -162,7 +175,10 @@ export default function CreateChannelModal() {
                     </motion.div>
                   )}
                 </motion.div>
-                <FormControl variant='standard' sx={{ minWidth: 120, my: 2 }}>
+                <StyledFormControl
+                  variant='standard'
+                  sx={{ minWidth: 120, my: 2 }}
+                >
                   <Controller
                     name='type'
                     control={control}
@@ -176,6 +192,13 @@ export default function CreateChannelModal() {
                           id='channelTypeLabel'
                           disabled={isLoading}
                           label='channel type'
+                          MenuProps={{
+                            PaperProps: {
+                              sx: {
+                                borderRadius: '5px',
+                              },
+                            },
+                          }}
                           {...field}
                         >
                           <MenuItem value={0}>Text</MenuItem>
@@ -185,7 +208,7 @@ export default function CreateChannelModal() {
                       </>
                     )}
                   />
-                </FormControl>
+                </StyledFormControl>
                 <Stack sx={{ pt: 2.5 }}>
                   <Button
                     type='submit'

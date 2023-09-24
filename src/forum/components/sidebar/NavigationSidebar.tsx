@@ -39,15 +39,29 @@ export default function NavigationSidebar() {
         flexDirection: 'column',
         alignItems: 'center',
         color: '#fff',
-        p: '10px',
+        py: '10px',
+        px: '5px',
         overflow: 'hiden',
       }}
     >
       <NavigationAction />
       <Box sx={separatorStyle} />
-      <Box sx={{ mb: 2 }}>
+      <Box
+        sx={{
+          mb: 2,
+          height: 'calc(100vh - 120px)',
+          overflow: 'auto',
+          px: '10px',
+        }}
+      >
         {isLoading ? (
           <>
+            <Skeleton
+              variant='circular'
+              width={48}
+              height={48}
+              sx={{ marginBlock: 2, background: '#ffffff4b' }}
+            />
             <Skeleton
               variant='circular'
               width={48}

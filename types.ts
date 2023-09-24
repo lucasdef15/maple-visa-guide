@@ -15,6 +15,11 @@ export enum ChannelType {
   AUDIO,
   VIDEO,
 }
+export enum MemberRole {
+  ADMIN,
+  MODERATOR,
+  GUEST,
+}
 
 export interface Channel {
   id: string;
