@@ -1,6 +1,6 @@
 import { Box, Button, Divider, IconButton, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
 import { FiSearch } from 'react-icons/fi';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -12,6 +12,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface ServerSearchProps {
   data: {
@@ -29,10 +30,16 @@ interface ServerSearchProps {
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: '5px',
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
+  borderRadius: '0px',
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? alpha(theme.palette.common.black, 0.15)
+      : alpha(theme.palette.common.black, 0.015),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.black, 0.25),
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? alpha(theme.palette.common.black, 0.45)
+        : alpha(theme.palette.common.black, 0.05),
   },
   margin: 0,
   width: '450px',
@@ -58,7 +65,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '90%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -70,7 +76,7 @@ const BootstrapDialog = styled(Dialog)(() => ({
     padding: 0,
   },
   '& .MuiPaper-root': {
-    borderRadius: '5px',
+    borderRadius: '15px',
     padding: 0,
     maxHeight: '350px',
   },
@@ -79,13 +85,58 @@ const BootstrapDialog = styled(Dialog)(() => ({
 export default function ServerSearch({ data }: ServerSearchProps) {
   const { darkMode } = useContext(DarkModeContext);
   const [open, setOpen] = useState(false);
+  const [filteredData, setFilteredData] = useState<ServerSearchProps['data']>(
+    []
+  );
+  const [query, setQuery] = useState('');
+
+  const navigate = useNavigate();
+  const params = useParams();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
+  };
+
+  useEffect(() => {
+    const filteredItems = data.map((item) => ({
+      ...item,
+      data: item?.data?.filter((innerItem) =>
+        innerItem.name.toLowerCase().includes(query.toLowerCase())
+      ),
+    }));
+    setFilteredData(filteredItems);
+  }, [data, query]);
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen(!open);
+      }
+    };
+
+    document.addEventListener('keydown', down);
+
+    return () => document.removeEventListener('keydown', down);
+  }, [open]);
+
+  const onCLick = ({
+    id,
+    type,
+  }: {
+    id: string;
+    type: 'channel' | 'member';
+  }) => {
+    setOpen(false);
+    if (type === 'member') {
+      navigate(`/membros/forum/servers/${params.id}/conversations/${id}`);
+    }
+    if (type === 'channel') {
+      navigate(`/membros/forum/servers/${params.id}/channels/${id}`);
+    }
   };
 
   return (
@@ -144,6 +195,8 @@ export default function ServerSearch({ data }: ServerSearchProps) {
           <StyledInputBase
             placeholder='Search all channels and members'
             inputProps={{ 'aria-label': 'search' }}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
 
           <IconButton
@@ -158,7 +211,7 @@ export default function ServerSearch({ data }: ServerSearchProps) {
         </Search>
         <DialogContent>
           <Divider />
-          {data.map(({ label, data }, index) => {
+          {filteredData?.map(({ label, data, type }, index) => {
             if (!data?.length) return null;
 
             return (
@@ -185,7 +238,11 @@ export default function ServerSearch({ data }: ServerSearchProps) {
               >
                 {data?.map(({ id, icon, name }) => {
                   return (
-                    <ListItemButton key={id} sx={{ py: 0.5 }}>
+                    <ListItemButton
+                      onClick={() => onCLick({ id, type })}
+                      key={id}
+                      sx={{ py: 0.5 }}
+                    >
                       <ListItemIcon
                         sx={{
                           minWidth: 'unset',

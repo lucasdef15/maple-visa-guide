@@ -17,6 +17,9 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
     paddingInline: '10px',
     paddingBlock: '6px',
     borderRadius: '5px',
+    fontSize: '.8rem',
+    fontWeight: '300',
+    fontFamily: `system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`,
   },
 }));
 

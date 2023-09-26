@@ -4,7 +4,7 @@ import axios from 'axios';
 import config from '../../../utilities/config';
 import { useParams } from 'react-router-dom';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
-import { Box, Stack } from '@mui/material';
+import { Box, Divider, Stack } from '@mui/material';
 import ServerHeader from './ServerHeader';
 import ServerSearch from './ServerSearch';
 import { BsShieldFillCheck, BsShieldFillExclamation } from 'react-icons/bs';
@@ -12,6 +12,8 @@ import { AiOutlineAudio } from 'react-icons/ai';
 import { BiHash } from 'react-icons/bi';
 import { LuVideo } from 'react-icons/lu';
 import { Channel, ChannelType, Member, MemberRole } from '../../../../types';
+import ServerSection from './ServerSection';
+import ServerChannel from './ServerChannel';
 
 interface ServerSidebarProps {
   serverId: string;
@@ -91,7 +93,7 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
         sx={{
           height: '100%',
           overflow: 'auto',
-          px: 1,
+          px: 1.5,
         }}
       >
         <Stack sx={{ mt: 2 }}>
@@ -146,6 +148,28 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
             ]}
           />
         </Stack>
+
+        <Divider sx={{ mb: 2, mt: 1 }} />
+
+        {!!textChannels?.length && (
+          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
+            <ServerSection
+              sectionType='channels'
+              channelType={ChannelType.TEXT}
+              role={role}
+              label={'Text Channels'}
+              server={server}
+            />
+            {textChannels.map((channel: Channel) => (
+              <ServerChannel
+                key={channel.id}
+                channel={channel}
+                role={role}
+                server={server}
+              />
+            ))}
+          </Stack>
+        )}
       </Box>
     </Stack>
   );

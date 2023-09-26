@@ -184,15 +184,14 @@ ul, ol{
   width: 10px
 }
 ::-webkit-scrollbar-track {
-  background: hsla(0, 0%, 100%, 0.3);
+  background: hsla(0, 0%, 0%, 0.3);
   border-radius: 15px;
-  margin-block: 1rem;
+  margin-block: .5rem;
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(0, 0%, 100%, .3);
+  background: hsla(0, 0%, 0%, 0.39);
   border-radius: 15px;
 }
-
 @media (max-width: 750px) {
   .DesktopMenbersNavBar{
     display: none !important;
