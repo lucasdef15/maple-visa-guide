@@ -12,7 +12,8 @@ export default function NavigationAction() {
         <IconButton
           onClick={() => onOpen('createServer')}
           sx={{
-            background: '#444',
+            background: (theme) =>
+              theme.palette.mode === 'dark' ? '#444' : '#fff',
             color: 'rgb(16 185 129)',
             transition: 'all 250ms',
             height: '48px',

@@ -24,7 +24,8 @@ function Theme(dark: boolean) {
       borderRadius: 25,
     },
     typography: {
-      fontFamily: "'Candara', 'system-ui'",
+      fontFamily:
+        "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
     },
     breakpoints: {
       values: {

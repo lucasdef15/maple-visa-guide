@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -52,15 +52,16 @@ const StyledFormControl = styled(FormControl)(() => ({
 }));
 
 export default function CreateChannelModal() {
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const { setServers, fetchServers } = useContext(ForumContext);
   const { darkMode } = useContext(DarkModeContext);
 
   const isModalOpen = isOpen && type === 'createChannel';
+  const { channelType } = data;
 
   const params = useParams();
 
-  const { control, handleSubmit, formState, reset } = useForm({
+  const { control, handleSubmit, formState, reset, setValue } = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
@@ -96,6 +97,14 @@ export default function CreateChannelModal() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (channelType) {
+      setValue('type', channelType);
+    } else {
+      setValue('type', ChannelType.TEXT);
+    }
+  }, [channelType, setValue]);
 
   return (
     <div>

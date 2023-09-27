@@ -41,7 +41,7 @@ export interface Member {
   profile: UserProfile;
 }
 
-interface UserProfile {
+export interface UserProfile {
   id: string;
   name: string;
   email: string;

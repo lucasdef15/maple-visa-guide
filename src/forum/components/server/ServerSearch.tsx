@@ -160,13 +160,17 @@ export default function ServerSearch({ data }: ServerSearchProps) {
               : 'hsla(0, 0%, 13%, 0.05)',
           },
           '& svg': {
-            fontSize: '1.3rem',
+            fontSize: '1.2rem',
           },
         }}
       >
         <FiSearch />
-        <Typography fontSize={'1rem'} fontWeight={'bold'}>
-          Search...
+        <Typography
+          fontSize={'1rem'}
+          fontWeight={600}
+          fontFamily={`system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`}
+        >
+          Search
         </Typography>
         <Box
           component={'kbd'}
@@ -174,12 +178,13 @@ export default function ServerSearch({ data }: ServerSearchProps) {
             pointerEvents: 'none',
             display: 'inline-flex',
             alignItems: 'center',
-            fontSize: '.9rem',
-            gap: 0.5,
-            p: '0rem .45rem',
+            fontSize: '.8rem',
+            gap: 0.2,
+            p: '0 .2rem',
             bgcolor: darkMode ? '#121212' : '#c9c9c96e',
             borderRadius: '6px',
             ml: 'auto',
+            border: darkMode ? '1px solid #111' : '1px solid lightGrey',
           }}
         >
           <small>Ctrl</small>

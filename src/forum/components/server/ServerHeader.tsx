@@ -114,7 +114,7 @@ export default function ServerHeader({
   };
 
   return (
-    <div>
+    <>
       <Button
         id='demo-customized-button'
         aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -131,8 +131,8 @@ export default function ServerHeader({
           paddingInline: '.7rem',
           paddingBlock: '.4rem',
           paddingRight: '.9rem',
-          borderBottom: darkMode ? '' : '1px solid rgba(0, 0, 0, 0.05)',
-          boxShadow: darkMode ? '' : '1px 1px 10px rgba(0, 0, 0, 0.05)',
+          borderBottom: darkMode ? '' : '1px solid rgba(0, 0, 0, 0.1)',
+          boxShadow: darkMode ? '' : '1px 1px 5px rgba(0, 0, 0, 0.05)',
           '&:hover': {
             backgroundColor: 'rgba(255, 255, 255, .05)',
           },
@@ -143,11 +143,22 @@ export default function ServerHeader({
         {isLoading ? (
           <Skeleton
             variant='text'
-            sx={{ fontSize: '1.1rem', borderRadius: '5px' }}
+            sx={{
+              fontSize: '1.1rem',
+              borderRadius: '5px',
+              background: (theme) =>
+                theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+            }}
             width={210}
           />
         ) : (
-          <Typography sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+          <Typography
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '1.1rem',
+              color: (theme) => theme.palette.text.primary,
+            }}
+          >
             {server?.name}
           </Typography>
         )}
@@ -177,6 +188,7 @@ export default function ServerHeader({
             sx={{
               color: darkMode ? 'rgb(129 140 248)' : 'rgb(79 70 229)',
               justifyContent: 'space-between',
+              fontSize: '1rem',
             }}
           >
             Invite People
@@ -201,6 +213,7 @@ export default function ServerHeader({
             disableRipple
             sx={{
               justifyContent: 'space-between',
+              fontSize: '1rem',
             }}
           >
             Manage Members
@@ -213,6 +226,7 @@ export default function ServerHeader({
             disableRipple
             sx={{
               justifyContent: 'space-between',
+              fontSize: '1rem',
             }}
           >
             Create Channel
@@ -227,6 +241,7 @@ export default function ServerHeader({
             sx={{
               color: 'rgb(244 63 94)',
               justifyContent: 'space-between',
+              fontSize: '1rem',
             }}
           >
             Delete Server
@@ -240,6 +255,7 @@ export default function ServerHeader({
             sx={{
               color: 'rgb(244 63 94)',
               justifyContent: 'space-between',
+              fontSize: '1rem',
             }}
           >
             Leave Server
@@ -247,6 +263,6 @@ export default function ServerHeader({
           </MenuItem>
         )}
       </StyledMenu>
-    </div>
+    </>
   );
 }

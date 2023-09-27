@@ -14,6 +14,7 @@ import { LuVideo } from 'react-icons/lu';
 import { Channel, ChannelType, Member, MemberRole } from '../../../../types';
 import ServerSection from './ServerSection';
 import ServerChannel from './ServerChannel';
+import ServerMember from './ServerMember';
 
 interface ServerSidebarProps {
   serverId: string;
@@ -96,7 +97,7 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
           px: 1.5,
         }}
       >
-        <Stack sx={{ mt: 2 }}>
+        <Stack sx={{ mt: 1 }}>
           <ServerSearch
             data={[
               {
@@ -152,20 +153,72 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
         <Divider sx={{ mb: 2, mt: 1 }} />
 
         {!!textChannels?.length && (
-          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
+          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.15}>
             <ServerSection
               sectionType='channels'
               channelType={ChannelType.TEXT}
               role={role}
               label={'Text Channels'}
-              server={server}
             />
-            {textChannels.map((channel: Channel) => (
+            {textChannels?.map((channel: Channel) => (
               <ServerChannel
                 key={channel.id}
                 channel={channel}
                 role={role}
                 server={server}
+              />
+            ))}
+          </Stack>
+        )}
+        {!!audioChannels?.length && (
+          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
+            <ServerSection
+              sectionType='channels'
+              channelType={ChannelType.AUDIO}
+              role={role}
+              label={'Voice Channels'}
+            />
+            {audioChannels?.map((channel: Channel) => (
+              <ServerChannel
+                key={channel.id}
+                channel={channel}
+                role={role}
+                server={server}
+              />
+            ))}
+          </Stack>
+        )}
+        {!!videoChannels?.length && (
+          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
+            <ServerSection
+              sectionType='channels'
+              channelType={ChannelType.VIDEO}
+              role={role}
+              label={'Video Channels'}
+            />
+            {videoChannels?.map((channel: Channel) => (
+              <ServerChannel
+                key={channel.id}
+                channel={channel}
+                role={role}
+                server={server}
+              />
+            ))}
+          </Stack>
+        )}
+        {!!members?.length && (
+          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
+            <ServerSection
+              sectionType='members'
+              role={role}
+              label={'Members'}
+              server={server?.data?.serverComp}
+            />
+            {members?.map((member: Member) => (
+              <ServerMember
+                key={member.id}
+                member={member}
+                server={server?.data?.serverComp}
               />
             ))}
           </Stack>

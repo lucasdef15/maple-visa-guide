@@ -34,13 +34,14 @@ export default function NavigationSidebar() {
   return (
     <Stack
       sx={{
-        background: '#222',
+        background: (theme) =>
+          theme.palette.mode === 'dark' ? '#1e1f22' : '#e3e5e8',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         color: '#fff',
         py: '10px',
-        px: '5px',
+        px: '2px',
         overflow: 'hiden',
       }}
     >
@@ -60,19 +61,31 @@ export default function NavigationSidebar() {
               variant='circular'
               width={48}
               height={48}
-              sx={{ marginBlock: 2, background: '#ffffff4b' }}
+              sx={{
+                marginBlock: 2,
+                background: (theme) =>
+                  theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+              }}
             />
             <Skeleton
               variant='circular'
               width={48}
               height={48}
-              sx={{ marginBlock: 2, background: '#ffffff4b' }}
+              sx={{
+                marginBlock: 2,
+                background: (theme) =>
+                  theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+              }}
             />
             <Skeleton
               variant='circular'
               width={48}
               height={48}
-              sx={{ marginBlock: 2, background: '#ffffff4b' }}
+              sx={{
+                marginBlock: 2,
+                background: (theme) =>
+                  theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+              }}
             />
           </>
         ) : (

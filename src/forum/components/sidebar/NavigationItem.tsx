@@ -45,11 +45,12 @@ export default function NavigationItem({
             className='sideIcon'
             sx={{
               position: 'absolute',
-              left: 0,
-              background: 'white',
-              borderRadius: '2.5px',
+              left: '-2.5px',
+              background: (theme) =>
+                theme.palette.mode === 'dark' ? '#fff' : '#121212',
+              borderRadius: '15px',
               transition: 'all 250ms',
-              width: '4px',
+              width: '6px',
               height: params?.id === id ? '36px' : '8px',
             }}
           />

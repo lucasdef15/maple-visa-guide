@@ -19,7 +19,7 @@ import axios from 'axios';
 import config from '../../../utilities/config';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
 import { Member } from '../../../../types';
-import UserAvatar from '../providers/avatars/UserAvatar';
+import UserAvatar from '../avatars/UserAvatar';
 import { BsShieldFillCheck } from 'react-icons/bs';
 import { BsShieldFillExclamation } from 'react-icons/bs';
 import { BsFillShieldFill } from 'react-icons/bs';
@@ -221,7 +221,6 @@ export default function MembersModal() {
                 <UserAvatar
                   src={member?.profile?.imageUrl}
                   name={member.profile.name}
-                  className=''
                 />
                 <Stack>
                   <Stack

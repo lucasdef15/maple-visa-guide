@@ -1,5 +1,8 @@
 import { create } from 'zustand';
-import { ServerWithMembersWithProfile as Server } from '../../../types';
+import {
+  ChannelType,
+  ServerWithMembersWithProfile as Server,
+} from '../../../types';
 
 export type ModalType =
   | 'createServer'
@@ -12,6 +15,7 @@ export type ModalType =
 
 interface ModalData {
   server?: Server;
+  channelType?: ChannelType;
 }
 
 interface ModalStore {

@@ -1,4 +1,4 @@
-import { BiEdit, BiHash, BiTrash } from 'react-icons/bi';
+import { BiEdit, BiHash, BiLockAlt, BiTrash } from 'react-icons/bi';
 import {
   Channel,
   ChannelType,
@@ -50,12 +50,19 @@ export default function ServerChannel({
         justifyContent: 'start',
         textTransform: 'unset',
         py: 0,
-        height: '40px',
-        borderRadius: '5px',
+        height: '37px',
+        borderRadius: '7px',
+        color: (theme) => theme.palette.text.secondary,
       }}
       startIcon={<Icon />}
     >
-      <Typography>{channel.name}</Typography>
+      <Typography
+        sx={{ color: (theme) => theme.palette.text.secondary }}
+        fontSize={'.95rem'}
+        fontWeight={600}
+      >
+        {channel.name}
+      </Typography>
       {channel.name !== 'general' && role !== MemberRole.GUEST && isHovered && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -74,6 +81,24 @@ export default function ServerChannel({
             </IconButton>
           </ActionTooltip>
         </motion.div>
+      )}
+      {channel.name === 'general' && role !== MemberRole.GUEST && (
+        <Stack sx={{ ml: 'auto' }}>
+          <ActionTooltip title={'Locked'} placement={'top'}>
+            <Stack
+              sx={{
+                width: '35px',
+                height: '35px',
+                borderRadius: '50%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '1.2rem',
+              }}
+            >
+              <BiLockAlt />
+            </Stack>
+          </ActionTooltip>
+        </Stack>
       )}
     </Button>
   );
