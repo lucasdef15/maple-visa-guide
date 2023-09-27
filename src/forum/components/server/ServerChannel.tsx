@@ -12,6 +12,7 @@ import { Button, IconButton, Stack, Typography } from '@mui/material';
 import ActionTooltip from '../actionTooltip/ActionTooltip';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useModal } from '../../hooks/use-modal-store';
 
 interface ServerChannelProps {
   channel: Channel;
@@ -32,6 +33,7 @@ export default function ServerChannel({
 }: ServerChannelProps) {
   const [isHovered, setIsHovered] = useState(false);
 
+  const { onOpen } = useModal();
   const params = useParams();
   const navigate = useNavigate();
 
@@ -71,12 +73,18 @@ export default function ServerChannel({
           style={{ marginLeft: 'auto' }}
         >
           <ActionTooltip title={'Edit'} placement={'top'}>
-            <IconButton sx={{ width: '35px', height: '35px' }}>
+            <IconButton
+              onClick={() => onOpen('editChannel', { server, channel })}
+              sx={{ width: '35px', height: '35px' }}
+            >
               <BiEdit />
             </IconButton>
           </ActionTooltip>
           <ActionTooltip title={'Delete'} placement={'top'}>
-            <IconButton sx={{ width: '35px', height: '35px' }}>
+            <IconButton
+              onClick={() => onOpen('deleteChannel', { server, channel })}
+              sx={{ width: '35px', height: '35px' }}
+            >
               <BiTrash />
             </IconButton>
           </ActionTooltip>

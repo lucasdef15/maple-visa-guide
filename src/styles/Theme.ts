@@ -9,7 +9,7 @@ function Theme(dark: boolean) {
         white: '#fff',
       },
       primary: {
-        main: '#000088',
+        main: dark ? '#fff' : '#000088',
         light: '#01487c',
         dark: '#01244a',
         contrastText: '#fff',

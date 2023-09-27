@@ -26,7 +26,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { ChannelType } from '../../../../types';
 import qs from 'query-string';
-import { useParams } from 'react-router-dom';
 
 const formSchema = z.object({
   name: z
@@ -50,6 +49,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  '&.Mui-selected': {
+    backgroundColor: theme.palette.mode === 'dark' ? '#ffffff30' : '#2222221d',
+  },
+  '&.Mui-selected:hover': {
+    backgroundColor: theme.palette.mode === 'dark' ? '#ffffff52' : '#22222242',
+  },
+}));
+
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   'label + &': {
     marginTop: theme.spacing(3),
@@ -62,6 +70,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     fontSize: 16,
     padding: '10px 26px 10px 12px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -82,15 +91,13 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function CreateChannelModal() {
+export default function EditChannelModal() {
   const { isOpen, onClose, type, data } = useModal();
   const { setServers, fetchServers, setIsServerLoading } =
     useContext(ForumContext);
 
-  const isModalOpen = isOpen && type === 'createChannel';
-  const { channelType } = data;
-
-  const params = useParams();
+  const isModalOpen = isOpen && type === 'editChannel';
+  const { channel, server } = data;
 
   const { control, handleSubmit, formState, reset, setValue } = useForm({
     resolver: zodResolver(formSchema),
@@ -116,29 +123,26 @@ export default function CreateChannelModal() {
     try {
       setIsServerLoading(true);
       const url = qs.stringifyUrl({
-        url: `${config.APP_BASE_URL}/channels`,
+        url: `${config.APP_BASE_URL}/channels/${channel?.id}`,
         query: {
-          serverId: params?.id,
+          serverId: server?.id,
         },
       });
-      await axios.post(url, updatedValues);
+      await axios.patch(url, updatedValues);
       await fetchServers(setServers);
       reset();
       onClose();
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsServerLoading(false);
     }
   };
 
   useEffect(() => {
-    if (channelType) {
-      setValue('type', channelType);
-    } else {
-      setValue('type', ChannelType.TEXT);
+    if (channel) {
+      setValue('name', channel?.name);
+      setValue('type', ChannelType[channel?.type] as unknown as ChannelType);
     }
-  }, [channelType, setValue]);
+  }, [channel, setValue]);
 
   return (
     <div>
@@ -165,7 +169,7 @@ export default function CreateChannelModal() {
             }}
             id='customized-dialog-title'
           >
-            Create Channel
+            Edit Channel
           </DialogTitle>
           <DialogContent
             sx={{
@@ -242,9 +246,9 @@ export default function CreateChannelModal() {
                           }}
                           {...field}
                         >
-                          <MenuItem value={0}>Text</MenuItem>
-                          <MenuItem value={1}>Audio</MenuItem>
-                          <MenuItem value={2}>Video</MenuItem>
+                          <StyledMenuItem value={0}>Text</StyledMenuItem>
+                          <StyledMenuItem value={1}>Audio</StyledMenuItem>
+                          <StyledMenuItem value={2}>Video</StyledMenuItem>
                         </Select>
                       </>
                     )}
@@ -258,10 +262,9 @@ export default function CreateChannelModal() {
                     sx={{
                       background: '#222',
                       textTransform: 'unset',
-                      // width: '150px',
                     }}
                   >
-                    Create
+                    Save
                   </Button>
                 </Stack>
               </form>

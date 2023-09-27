@@ -1,26 +1,29 @@
 import { Outlet } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import config from '../utilities/config';
 import axios from 'axios';
 import { Box, Stack } from '@mui/material';
 import ServerSidebar from '../forum/components/server/ServerSidebar';
+import { ForumContext } from '../contexts/ForumContext';
 
 export default function ServerIdLayout() {
   const [server, setServer] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+
+  const { setIsServerLoading } = useContext(ForumContext);
 
   const { id } = useParams();
 
   useEffect(() => {
     const fetchServer = async () => {
       try {
+        setIsServerLoading(true);
         const response = await axios.get(`${config.APP_BASE_URL}/server/${id}`);
         setServer(response.data);
-        setLoading(false);
       } catch (error) {
         console.log(error);
-        setLoading(false);
+      } finally {
+        setIsServerLoading(false);
       }
     };
 
@@ -32,14 +35,13 @@ export default function ServerIdLayout() {
       <Box
         sx={{
           overflow: 'hidden',
-          //   display: { xs: 'flex' },
           width: '250px',
           height: '100vh',
           flexDirection: 'column',
           position: 'fixed',
         }}
       >
-        <ServerSidebar serverId={id} />
+        <ServerSidebar serverId={id as string} />
       </Box>
       <Stack component={'main'} sx={{ pl: '250px' }}>
         <Outlet />

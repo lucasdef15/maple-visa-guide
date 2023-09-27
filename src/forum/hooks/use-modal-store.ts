@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import {
+  Channel,
   ChannelType,
   ServerWithMembersWithProfile as Server,
 } from '../../../types';
@@ -11,10 +12,13 @@ export type ModalType =
   | 'members'
   | 'createChannel'
   | 'leaveServer'
-  | 'deleteServer';
+  | 'deleteServer'
+  | 'deleteChannel'
+  | 'editChannel';
 
 interface ModalData {
   server?: Server;
+  channel?: Channel;
   channelType?: ChannelType;
 }
 

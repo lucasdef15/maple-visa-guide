@@ -4,7 +4,7 @@ import axios from 'axios';
 import config from '../../../utilities/config';
 import { useParams } from 'react-router-dom';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
-import { Box, Divider, Stack } from '@mui/material';
+import { Box, Divider, Skeleton, Stack } from '@mui/material';
 import ServerHeader from './ServerHeader';
 import ServerSearch from './ServerSearch';
 import { BsShieldFillCheck, BsShieldFillExclamation } from 'react-icons/bs';
@@ -33,7 +33,8 @@ const roleIconMap = {
 };
 
 export default function ServerSidebar({ serverId }: ServerSidebarProps) {
-  const { profile, servers } = useContext(ForumContext);
+  const { profile, servers, isServerLoading, setIsServerLoading } =
+    useContext(ForumContext);
 
   const { darkMode } = useContext(DarkModeContext);
 
@@ -44,14 +45,16 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
 
   useEffect(() => {
     const fetchServer = async () => {
-      setLoading(true);
       try {
+        setIsServerLoading(true);
+        setLoading(true);
         const response = await axios.get(`${config.APP_BASE_URL}/server/${id}`);
         setServer(response.data);
-        setLoading(false);
       } catch (error) {
         console.log(error);
+      } finally {
         setLoading(false);
+        setIsServerLoading(false);
       }
     };
 
@@ -152,76 +155,151 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
 
         <Divider sx={{ mb: 2, mt: 1 }} />
 
-        {!!textChannels?.length && (
-          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.15}>
-            <ServerSection
-              sectionType='channels'
-              channelType={ChannelType.TEXT}
-              role={role}
-              label={'Text Channels'}
-            />
-            {textChannels?.map((channel: Channel) => (
-              <ServerChannel
-                key={channel.id}
-                channel={channel}
-                role={role}
-                server={server}
+        {isServerLoading ? (
+          <>
+            <div>
+              <Skeleton
+                variant='text'
+                sx={{
+                  fontSize: '1.7rem',
+                  borderRadius: '5px',
+                  background: (theme) =>
+                    theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+                }}
+                width={225}
               />
-            ))}
-          </Stack>
-        )}
-        {!!audioChannels?.length && (
-          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
-            <ServerSection
-              sectionType='channels'
-              channelType={ChannelType.AUDIO}
-              role={role}
-              label={'Voice Channels'}
-            />
-            {audioChannels?.map((channel: Channel) => (
-              <ServerChannel
-                key={channel.id}
-                channel={channel}
-                role={role}
-                server={server}
+              <Skeleton
+                variant='text'
+                sx={{
+                  fontSize: '1.7rem',
+                  borderRadius: '5px',
+                  ml: 2,
+                  background: (theme) =>
+                    theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+                }}
+                width={210}
               />
-            ))}
-          </Stack>
-        )}
-        {!!videoChannels?.length && (
-          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
-            <ServerSection
-              sectionType='channels'
-              channelType={ChannelType.VIDEO}
-              role={role}
-              label={'Video Channels'}
-            />
-            {videoChannels?.map((channel: Channel) => (
-              <ServerChannel
-                key={channel.id}
-                channel={channel}
-                role={role}
-                server={server}
+              <Skeleton
+                variant='text'
+                sx={{
+                  fontSize: '1.7rem',
+                  borderRadius: '5px',
+                  ml: 2,
+                  background: (theme) =>
+                    theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+                }}
+                width={210}
               />
-            ))}
-          </Stack>
-        )}
-        {!!members?.length && (
-          <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
-            <ServerSection
-              sectionType='members'
-              role={role}
-              label={'Members'}
-              server={server?.data?.serverComp}
-            />
-            {members?.map((member: Member) => (
-              <ServerMember
-                key={member.id}
-                member={member}
-                server={server?.data?.serverComp}
+            </div>
+            <div>
+              <Skeleton
+                variant='text'
+                sx={{
+                  fontSize: '1.7rem',
+                  borderRadius: '5px',
+                  background: (theme) =>
+                    theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+                }}
+                width={225}
               />
-            ))}
-          </Stack>
+              <Skeleton
+                variant='text'
+                sx={{
+                  fontSize: '1.7rem',
+                  borderRadius: '5px',
+                  ml: 2,
+                  background: (theme) =>
+                    theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+                }}
+                width={210}
+              />
+              <Skeleton
+                variant='text'
+                sx={{
+                  fontSize: '1.7rem',
+                  borderRadius: '5px',
+                  ml: 2,
+                  background: (theme) =>
+                    theme.palette.mode === 'dark' ? '#ffffff4b' : '#22222228',
+                }}
+                width={210}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            {!!textChannels?.length && (
+              <Stack sx={{ mb: 2 }} useFlexGap spacing={0.15}>
+                <ServerSection
+                  sectionType='channels'
+                  channelType={ChannelType.TEXT}
+                  role={role}
+                  label={'Text Channels'}
+                />
+                {textChannels?.map((channel: Channel) => (
+                  <ServerChannel
+                    key={channel.id}
+                    channel={channel}
+                    role={role}
+                    server={server?.data?.serverComp}
+                  />
+                ))}
+              </Stack>
+            )}
+            {!!audioChannels?.length && (
+              <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
+                <ServerSection
+                  sectionType='channels'
+                  channelType={ChannelType.AUDIO}
+                  role={role}
+                  label={'Voice Channels'}
+                />
+                {audioChannels?.map((channel: Channel) => (
+                  <ServerChannel
+                    key={channel.id}
+                    channel={channel}
+                    role={role}
+                    server={server?.data?.serverComp}
+                  />
+                ))}
+              </Stack>
+            )}
+            {!!videoChannels?.length && (
+              <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
+                <ServerSection
+                  sectionType='channels'
+                  channelType={ChannelType.VIDEO}
+                  role={role}
+                  label={'Video Channels'}
+                />
+                {videoChannels?.map((channel: Channel) => (
+                  <ServerChannel
+                    key={channel.id}
+                    channel={channel}
+                    role={role}
+                    server={server?.data?.serverComp}
+                  />
+                ))}
+              </Stack>
+            )}
+            {!!members?.length && (
+              <Stack sx={{ mb: 2 }} useFlexGap spacing={0.5}>
+                <ServerSection
+                  sectionType='members'
+                  role={role}
+                  label={'Members'}
+                  server={server?.data?.serverComp}
+                />
+                {members?.map((member: Member) => (
+                  <ServerMember
+                    key={member.id}
+                    member={member}
+                    server={server?.data?.serverComp}
+                  />
+                ))}
+              </Stack>
+            )}
+          </>
         )}
       </Box>
     </Stack>

@@ -10,6 +10,8 @@ interface ForumContextValue {
   fetchServers: (
     setServers: React.Dispatch<React.SetStateAction<any>>
   ) => Promise<void>;
+  isServerLoading: boolean;
+  setIsServerLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ForumContext = createContext<ForumContextValue>({} as ForumContextValue);
@@ -17,6 +19,7 @@ const ForumContext = createContext<ForumContextValue>({} as ForumContextValue);
 const ForumProvider = ({ children }: any) => {
   const [servers, setServers] = useState<any>([]);
   const [profile, setProfile] = useState<any>({});
+  const [isServerLoading, setIsServerLoading] = useState<boolean>(false);
 
   const fetchServers = async (
     setServers: React.Dispatch<React.SetStateAction<any>>
@@ -50,6 +53,8 @@ const ForumProvider = ({ children }: any) => {
     fetchServers,
     profile,
     setProfile,
+    isServerLoading,
+    setIsServerLoading,
   };
 
   return (

@@ -18,7 +18,7 @@ interface ServerMembersProps {
 
 const roleIconMap = {
   [MemberRole.GUEST]: null,
-  [MemberRole.MODERATOR]: <BsShieldFillCheck style={{ color: '#4f46e5' }} />,
+  [MemberRole.MODERATOR]: <BsShieldFillCheck />,
   [MemberRole.ADMIN]: <BsShieldFillExclamation style={{ color: '#f43f5e' }} />,
 };
 
@@ -62,7 +62,15 @@ export default function ServerMember({ member, server }: ServerMembersProps) {
       >
         {member.profile.name}
       </Typography>
-      <Stack sx={{ ml: 'auto' }}>{icon}</Stack>
+      <Stack
+        sx={{
+          ml: 'auto',
+          color: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgb(129 140 248)' : '#4f46e5',
+        }}
+      >
+        {icon}
+      </Stack>
     </Button>
   );
 }
