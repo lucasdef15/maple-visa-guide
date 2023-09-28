@@ -114,9 +114,6 @@ export default function InitialModal() {
 
   return (
     <div>
-      <Button variant='outlined' onClick={handleClickOpen}>
-        Open dialog
-      </Button>
       <AnimatePresence>
         <BootstrapDialog aria-labelledby='customized-dialog-title' open={open}>
           <IconButton

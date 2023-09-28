@@ -31,7 +31,12 @@ export default function ServerIdLayout() {
   }, [id]);
 
   return (
-    <div>
+    <Stack
+      sx={{
+        width: '100%',
+        minHeight: '100vh',
+      }}
+    >
       <Box
         sx={{
           overflow: 'hidden',
@@ -43,9 +48,9 @@ export default function ServerIdLayout() {
       >
         <ServerSidebar serverId={id as string} />
       </Box>
-      <Stack component={'main'} sx={{ pl: '250px' }}>
+      <Stack component={'main'} sx={{ pl: { xs: '0', sm: '250px' } }}>
         <Outlet />
       </Stack>
-    </div>
+    </Stack>
   );
 }

@@ -12,7 +12,11 @@ const separatorStyle = {
   marginBlock: '1rem',
 };
 
-export default function NavigationSidebar() {
+interface NavigationSidebarProps {
+  mobile?: boolean;
+}
+
+export default function NavigationSidebar({ mobile }: NavigationSidebarProps) {
   const [servers, setServers] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,7 +40,7 @@ export default function NavigationSidebar() {
       sx={{
         background: (theme) =>
           theme.palette.mode === 'dark' ? '#1e1f22' : '#e3e5e8',
-        display: 'flex',
+        display: { xs: mobile ? 'flex' : 'none', sm: 'flex' },
         flexDirection: 'column',
         alignItems: 'center',
         color: '#fff',

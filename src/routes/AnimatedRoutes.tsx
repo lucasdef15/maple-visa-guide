@@ -14,8 +14,10 @@ const LazyDashboard = lazy(() => import('../pages/Dashboard'));
 const LazyPostPage = lazy(() => import('../pages/PostPage'));
 const LazyWrite = lazy(() => import('../pages/Write'));
 const LazyEdit = lazy(() => import('../pages/Edit'));
-const LazyServerPage = lazy(() => import('../pages/ServerPage'));
+const LazyServerPage = lazy(() => import('../pages/ServerIdPage'));
 const LazyInviteCodePage = lazy(() => import('../pages/InviteCodePage'));
+const LazyChannelsPage = lazy(() => import('../pages/ChannelsPage'));
+const LazyMemberIdPage = lazy(() => import('../pages/MemberIdPage'));
 
 // Layouts
 const LazyRootLayout = lazy(() => import('../layouts/RootLayout'));
@@ -140,6 +142,22 @@ export default function AnimatedRoutes() {
                     element={
                       <Suspense fallback={<Loader />}>
                         <LazyServerPage />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path='forum/servers/:id/channels/:channelId'
+                    element={
+                      <Suspense fallback={<Loader />}>
+                        <LazyChannelsPage />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path='forum/servers/:id/conversations/:memberId'
+                    element={
+                      <Suspense fallback={<Loader />}>
+                        <LazyMemberIdPage />
                       </Suspense>
                     }
                   />

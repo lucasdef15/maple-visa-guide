@@ -169,7 +169,7 @@ export default function EditChannelModal() {
             }}
             id='customized-dialog-title'
           >
-            Edit Channel
+            Edit Channel Bruno
           </DialogTitle>
           <DialogContent
             sx={{

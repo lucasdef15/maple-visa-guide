@@ -9,6 +9,7 @@ import Logo from '../../logo/Logo';
 import './MenbersStyle.css';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
 import { Stack } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -81,10 +82,15 @@ export default function MobileMenbersNavBar() {
     };
   }, [handleBodyClick]);
 
+  const location = useLocation();
+
   return (
     <MobileNav
       sx={{
-        display: { xs: 'flex', sm: 'none' },
+        display: {
+          xs: location.pathname.includes('forum') ? 'none' : 'flex',
+          sm: 'none',
+        },
         top: showHeader ? 0 : '-200px',
       }}
     >

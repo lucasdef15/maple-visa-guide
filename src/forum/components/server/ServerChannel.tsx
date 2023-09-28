@@ -12,7 +12,7 @@ import { Button, IconButton, Stack, Typography } from '@mui/material';
 import ActionTooltip from '../actionTooltip/ActionTooltip';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { useModal } from '../../hooks/use-modal-store';
+import { ModalType, useModal } from '../../hooks/use-modal-store';
 
 interface ServerChannelProps {
   channel: Channel;
@@ -44,16 +44,42 @@ export default function ServerChannel({
     return null;
   }
 
+  const onClick = () => {
+    navigate(`/membros/forum/servers/${params.id}/channels/${channel.id}`);
+  };
+
+  const onAction = (e: React.MouseEvent, action: ModalType) => {
+    e.stopPropagation();
+    onOpen(action, { channel, server });
+  };
+
+  console.log(params);
+
   return (
     <Button
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
       sx={{
         justifyContent: 'start',
         textTransform: 'unset',
         py: 0,
         height: '37px',
         borderRadius: '7px',
+        '&:hover': {
+          background: params.channelId
+            ? params.channelId === channel.id
+              ? (theme) =>
+                  theme.palette.mode === 'dark' ? '#ffffff3e' : '#22222222'
+              : ''
+            : '',
+        },
+        background: params.channelId
+          ? params.channelId === channel.id
+            ? (theme) =>
+                theme.palette.mode === 'dark' ? '#ffffff29' : '#22222218'
+            : ''
+          : '',
         color: (theme) => theme.palette.text.secondary,
       }}
       startIcon={<Icon />}
@@ -63,7 +89,11 @@ export default function ServerChannel({
         fontSize={'.95rem'}
         fontWeight={600}
       >
-        {channel.name}
+        {channel.name !== 'general' && role !== MemberRole.GUEST && isHovered
+          ? channel.name.length > 12
+            ? `${channel.name.slice(0, 12)}...`
+            : channel.name
+          : channel.name}
       </Typography>
       {channel.name !== 'general' && role !== MemberRole.GUEST && isHovered && (
         <motion.div
@@ -74,7 +104,7 @@ export default function ServerChannel({
         >
           <ActionTooltip title={'Edit'} placement={'top'}>
             <IconButton
-              onClick={() => onOpen('editChannel', { server, channel })}
+              onClick={(e) => onAction(e, 'editChannel')}
               sx={{ width: '35px', height: '35px' }}
             >
               <BiEdit />
@@ -82,7 +112,7 @@ export default function ServerChannel({
           </ActionTooltip>
           <ActionTooltip title={'Delete'} placement={'top'}>
             <IconButton
-              onClick={() => onOpen('deleteChannel', { server, channel })}
+              onClick={(e) => onAction(e, 'deleteChannel')}
               sx={{ width: '35px', height: '35px' }}
             >
               <BiTrash />

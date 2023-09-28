@@ -8,8 +8,6 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Stack, Typography } from '@mui/material';
 import UserAvatar from '../avatars/UserAvatar';
-import { useContext } from 'react';
-import { DarkModeContext } from '../../../contexts/DarkModeContext';
 
 interface ServerMembersProps {
   member: Member & { profile: Profile };
@@ -22,19 +20,22 @@ const roleIconMap = {
   [MemberRole.ADMIN]: <BsShieldFillExclamation style={{ color: '#f43f5e' }} />,
 };
 
-export default function ServerMember({ member, server }: ServerMembersProps) {
+export default function ServerMember({ member }: ServerMembersProps) {
   const params = useParams();
   const navigate = useNavigate();
-
-  const { darkMode } = useContext(DarkModeContext);
 
   const icon =
     roleIconMap[
       MemberRole[member.role as unknown as number] as unknown as MemberRole
     ];
 
+  const onClick = () => {
+    navigate(`/membros/forum/servers/${params.id}/conversations/${member?.id}`);
+  };
+
   return (
     <Button
+      onClick={onClick}
       sx={{
         textTransform: 'unset',
         justifyContent: 'start',
@@ -42,10 +43,19 @@ export default function ServerMember({ member, server }: ServerMembersProps) {
         color: (theme) => theme.palette.text.secondary,
         borderRadius: '10px',
         '&:hover': {
-          background: darkMode
-            ? 'hsla(0, 0%, 100%, 0.027)'
-            : 'hsla(0, 0%, 13%, 0.05)',
+          background: params.memberId
+            ? params.memberId === member.id
+              ? (theme) =>
+                  theme.palette.mode === 'dark' ? '#ffffff3e' : '#22222222'
+              : ''
+            : '',
         },
+        background: params.memberId
+          ? params.memberId === member.id
+            ? (theme) =>
+                theme.palette.mode === 'dark' ? '#ffffff29' : '#22222218'
+            : ''
+          : '',
         '& svg': {
           fontSize: '1.2rem',
         },

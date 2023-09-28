@@ -16,9 +16,6 @@ import ServerSection from './ServerSection';
 import ServerChannel from './ServerChannel';
 import ServerMember from './ServerMember';
 
-interface ServerSidebarProps {
-  serverId: string;
-}
 
 const iconMap = {
   [ChannelType.TEXT]: <BiHash />,
@@ -32,7 +29,11 @@ const roleIconMap = {
   [MemberRole.ADMIN]: <BsShieldFillExclamation style={{ color: '#f43f5e' }} />,
 };
 
-export default function ServerSidebar({ serverId }: ServerSidebarProps) {
+interface ServerSidebarProps {
+  mobile?: boolean;
+}
+
+export default function ServerSidebar({ mobile }: ServerSidebarProps) {
   const { profile, servers, isServerLoading, setIsServerLoading } =
     useContext(ForumContext);
 
@@ -83,6 +84,7 @@ export default function ServerSidebar({ serverId }: ServerSidebarProps) {
       direction={'column'}
       sx={{
         width: '100%',
+        display: { xs: mobile ? 'flex' : 'none', sm: 'flex' },
         height: '100%',
         color: darkMode ? '#fff' : '',
         background: darkMode ? '#2B2D31' : '#F2F3F5',
