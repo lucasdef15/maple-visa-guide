@@ -41,6 +41,7 @@ export default function MenbersLayout() {
           <Stack
             sx={{
               width: '100%',
+
               marginLeft: {
                 xs: '',
                 sm: openMenu ? '275px' : 'calc(76px)',
@@ -50,7 +51,9 @@ export default function MenbersLayout() {
             }}
             direction={'row'}
           >
-            <NavigationSidebar />
+            <Stack sx={{ display: { xs: 'none', sm: 'flex' } }}>
+              <NavigationSidebar />
+            </Stack>
             <Outlet />
           </Stack>
         ) : (

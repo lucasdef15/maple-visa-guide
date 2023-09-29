@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import config from '../utilities/config';
 import { Stack } from '@mui/material';
@@ -36,6 +36,7 @@ export default function ChannelsPage() {
     fetchChannel();
     fetchMember();
   }, [params?.channelId, params?.id]);
+
 
   return (
     <Stack

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { memo, useCallback, useContext, useEffect, useState } from 'react';
 import { ForumContext } from '../../../contexts/ForumContext';
 import axios from 'axios';
 import config from '../../../utilities/config';
@@ -15,7 +15,7 @@ import { Channel, ChannelType, Member, MemberRole } from '../../../../types';
 import ServerSection from './ServerSection';
 import ServerChannel from './ServerChannel';
 import ServerMember from './ServerMember';
-
+import _ from 'lodash';
 
 const iconMap = {
   [ChannelType.TEXT]: <BiHash />,
@@ -29,11 +29,7 @@ const roleIconMap = {
   [MemberRole.ADMIN]: <BsShieldFillExclamation style={{ color: '#f43f5e' }} />,
 };
 
-interface ServerSidebarProps {
-  mobile?: boolean;
-}
-
-export default function ServerSidebar({ mobile }: ServerSidebarProps) {
+const ServerSidebar = () => {
   const { profile, servers, isServerLoading, setIsServerLoading } =
     useContext(ForumContext);
 
@@ -44,23 +40,23 @@ export default function ServerSidebar({ mobile }: ServerSidebarProps) {
 
   const { id } = useParams();
 
-  useEffect(() => {
-    const fetchServer = async () => {
-      try {
-        setIsServerLoading(true);
-        setLoading(true);
-        const response = await axios.get(`${config.APP_BASE_URL}/server/${id}`);
-        setServer(response.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-        setIsServerLoading(false);
-      }
-    };
-
-    fetchServer();
+  const fetchServer = useCallback(async () => {
+    try {
+      setIsServerLoading(true);
+      setLoading(true);
+      const response = await axios.get(`${config.APP_BASE_URL}/server/${id}`);
+      setServer(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setIsServerLoading(false);
+    }
   }, [id, servers]);
+
+  useEffect(() => {
+    fetchServer();
+  }, [fetchServer]);
 
   const textChannels = server?.data?.serverComp?.channels?.filter(
     (channel: any) => channel.type === 'TEXT'
@@ -84,7 +80,6 @@ export default function ServerSidebar({ mobile }: ServerSidebarProps) {
       direction={'column'}
       sx={{
         width: '100%',
-        display: { xs: mobile ? 'flex' : 'none', sm: 'flex' },
         height: '100%',
         color: darkMode ? '#fff' : '',
         background: darkMode ? '#2B2D31' : '#F2F3F5',
@@ -306,4 +301,10 @@ export default function ServerSidebar({ mobile }: ServerSidebarProps) {
       </Box>
     </Stack>
   );
-}
+};
+
+const ServerSidebarMemo = memo(ServerSidebar, (prevProps, nextProps) => {
+  return _.isEqual(prevProps, nextProps);
+});
+
+export default ServerSidebarMemo;

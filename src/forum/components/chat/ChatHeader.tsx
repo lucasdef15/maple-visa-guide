@@ -7,7 +7,9 @@ import Toolbar from '@mui/material/Toolbar';
 import MobileToggle from '../toggles/MobileToggle';
 import NavigationSidebar from '../sidebar/NavigationSidebar';
 import ServerSidebar from '../server/ServerSidebar';
-import { useState } from 'react';
+import { memo, useState } from 'react';
+import _ from 'lodash';
+import UserAvatar from '../avatars/UserAvatar';
 
 interface ChatHeaderProps {
   serverId: string | undefined;
@@ -16,14 +18,9 @@ interface ChatHeaderProps {
   imageUrl?: string | undefined;
 }
 
-const drawerWidth = 280;
+const drawerWidth = 335;
 
-export default function ChatHeader({
-  serverId,
-  name,
-  type,
-  imageUrl,
-}: ChatHeaderProps) {
+const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -33,6 +30,7 @@ export default function ChatHeader({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position='static' color='secondary'>
@@ -53,18 +51,21 @@ export default function ChatHeader({
               }}
             >
               <BiHash />
-              <Typography
-                fontSize={'1.5rem'}
-                fontWeight={600}
-                variant='h6'
-                component='div'
-                color={(theme) => theme.palette.common.white}
-                sx={{ flexGrow: 1 }}
-              >
-                {name}
-              </Typography>
             </Stack>
           )}
+          {type === 'conversation' && (
+            <UserAvatar src={imageUrl} name={name} className={{ mr: 2 }} />
+          )}
+          <Typography
+            fontSize={'1.5rem'}
+            fontWeight={600}
+            variant='h6'
+            component='div'
+            color={(theme) => theme.palette.common.white}
+            sx={{ flexGrow: 1 }}
+          >
+            {name}
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -84,10 +85,16 @@ export default function ChatHeader({
         }}
       >
         <Stack sx={{ width: '72px' }}>
-          <NavigationSidebar mobile={true} />
+          <NavigationSidebar />
         </Stack>
-        <ServerSidebar mobile={true} />
+        <ServerSidebar />
       </Drawer>
     </Box>
   );
-}
+};
+
+const ChatHeaderMemo = memo(ChatHeader, (prevProps, nextProps) => {
+  return _.isEqual(prevProps, nextProps);
+});
+
+export default ChatHeaderMemo;

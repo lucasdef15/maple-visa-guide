@@ -53,8 +53,6 @@ export default function ServerChannel({
     onOpen(action, { channel, server });
   };
 
-  console.log(params);
-
   return (
     <Button
       onMouseEnter={() => setIsHovered(true)}
@@ -104,6 +102,7 @@ export default function ServerChannel({
         >
           <ActionTooltip title={'Edit'} placement={'top'}>
             <IconButton
+              component={'span'}
               onClick={(e) => onAction(e, 'editChannel')}
               sx={{ width: '35px', height: '35px' }}
             >
@@ -112,6 +111,7 @@ export default function ServerChannel({
           </ActionTooltip>
           <ActionTooltip title={'Delete'} placement={'top'}>
             <IconButton
+              component={'span'}
               onClick={(e) => onAction(e, 'deleteChannel')}
               sx={{ width: '35px', height: '35px' }}
             >

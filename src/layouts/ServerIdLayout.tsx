@@ -40,13 +40,14 @@ export default function ServerIdLayout() {
       <Box
         sx={{
           overflow: 'hidden',
+          display: { xs: 'none', sm: 'flex' },
           width: '250px',
           height: '100vh',
           flexDirection: 'column',
           position: 'fixed',
         }}
       >
-        <ServerSidebar serverId={id as string} />
+        <ServerSidebar />
       </Box>
       <Stack component={'main'} sx={{ pl: { xs: '0', sm: '250px' } }}>
         <Outlet />
