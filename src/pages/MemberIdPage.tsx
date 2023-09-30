@@ -3,11 +3,16 @@ import { useCallback, useEffect, useState } from 'react';
 import config from '../utilities/config';
 import { useParams } from 'react-router-dom';
 import qs from 'query-string';
-import { Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import ChatHeaderMemo from '../forum/components/chat/ChatHeader';
+import io from 'socket.io-client';
+
+// const socket = io('http://localhost:8080/');
 
 export default function MemberIdPage() {
   const [data, setData] = useState<any>(null);
+  const [message, setMessage] = useState('');
+  const [receivedMessage, setReceivedMessage] = useState<any>('');
 
   const params = useParams();
 
@@ -31,7 +36,19 @@ export default function MemberIdPage() {
     fetchServer();
   }, [fetchServer]);
 
-  console.log(data?.members?.otherMember?.profile?.name);
+  // socket.on('connect', () => {
+  //   console.log(socket.id);
+  // });
+
+  // const sendMessage = () => {
+  //   socket.emit('send_message', { message });
+  // };
+
+  // useEffect(() => {
+  //   socket.on('receive_message', (data) => {
+  //     setReceivedMessage(data.message);
+  //   });
+  // }, [socket]);
 
   return (
     <Stack
@@ -46,6 +63,13 @@ export default function MemberIdPage() {
         serverId={params?.id}
         type={'conversation'}
       />
+      <Stack sx={{ mt: 5 }} direction={'row'}>
+        <input type='text' onChange={(e) => setMessage(e.target.value)} />
+        {/* <Button onClick={sendMessage}>send</Button> */}
+      </Stack>
+      <Stack sx={{ mt: 5 }} direction={'row'}>
+        {receivedMessage}
+      </Stack>
     </Stack>
   );
 }

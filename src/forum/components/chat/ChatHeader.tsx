@@ -10,6 +10,7 @@ import ServerSidebar from '../server/ServerSidebar';
 import { memo, useState } from 'react';
 import _ from 'lodash';
 import UserAvatar from '../avatars/UserAvatar';
+import SocketIndicator from '../badges/SocketIndicator';
 
 interface ChatHeaderProps {
   serverId: string | undefined;
@@ -66,6 +67,9 @@ const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
           >
             {name}
           </Typography>
+          <div>
+            <SocketIndicator />
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
