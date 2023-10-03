@@ -152,7 +152,6 @@ body{
     overflow-x: visible;
     color: #01244a;
     background-color: #F7F7F7;
-    /* color: #00b3b3 */
 }
 a{
   text-decoration: none;
@@ -192,6 +191,10 @@ ul, ol{
 ::-webkit-scrollbar-thumb {
   background: hsla(0, 0%, 0%, 0.39);
   border-radius: 15px;
+}
+.teste{
+  color: rgba(63, 63, 70, 0.7);
+  transform: translateY(-50%);
 }
 @media (max-width: 750px) {
   .DesktopMenbersNavBar{

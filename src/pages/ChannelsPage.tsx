@@ -5,6 +5,7 @@ import config from '../utilities/config';
 import { Stack } from '@mui/material';
 import ChatHeader from '../forum/components/chat/ChatHeader';
 import { Channel, Member } from '../../types';
+import ChatInput from '../forum/components/chat/ChatInput';
 
 export default function ChannelsPage() {
   const [channel, setChannel] = useState<Channel | null>(null);
@@ -37,7 +38,6 @@ export default function ChannelsPage() {
     fetchMember();
   }, [params?.channelId, params?.id]);
 
-
   return (
     <Stack
       sx={{
@@ -51,6 +51,18 @@ export default function ChannelsPage() {
         name={channel?.name}
         serverId={channel?.serverId}
         type='channel'
+      />
+      <Stack flex={1} sx={{ background: '#1212121d' }}>
+        Future Messages
+      </Stack>
+      <ChatInput
+        name={channel?.name as string}
+        type='channel'
+        apiUrl={`${config.APP_BASE_URL}/socket/messages`}
+        query={{
+          channelId: channel?.id,
+          serverId: channel?.serverId,
+        }}
       />
     </Stack>
   );

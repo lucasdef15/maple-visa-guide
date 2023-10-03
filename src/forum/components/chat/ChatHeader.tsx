@@ -33,7 +33,7 @@ const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position='static' color='secondary'>
         <Toolbar>
           <MobileToggle open={open} handleClick={handleClick} />

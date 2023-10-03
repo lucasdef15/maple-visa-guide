@@ -68,11 +68,11 @@ const ServerSidebar = () => {
     (channel: any) => channel.type === 'VIDEO'
   );
   const members = server?.data?.serverComp.members.filter(
-    (member: any) => member.profileId !== profile.data.profile.id
+    (member: any) => member.profileId !== profile?.data?.profile?.id
   );
 
   const role = server?.data?.serverComp.members.find(
-    (member: any) => member.profileId === profile.data.profile.id
+    (member: any) => member.profileId === profile?.data?.profile?.id
   )?.role;
 
   return (
@@ -138,10 +138,10 @@ const ServerSidebar = () => {
                 type: 'member',
                 data: members?.map((member: Member) => ({
                   id: member.id,
-                  name: member.profile.name,
+                  name: member?.profile.name,
                   icon: roleIconMap[
                     MemberRole[
-                      member.role as unknown as number
+                      member?.role as unknown as number
                     ] as unknown as MemberRole
                   ],
                 })),
