@@ -9,6 +9,7 @@ import { DarkModeProvider } from './contexts/DarkModeContext.tsx';
 import { PostsDataProvider } from './contexts/PostsContext.tsx';
 import { ForumProvider } from './contexts/ForumContext.tsx';
 import { SocketProvider } from './contexts/SocketProvider.tsx';
+import { QueryProvider } from './forum/components/providers/QueryProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -18,7 +19,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <ForumProvider>
             <DarkModeProvider>
               <SocketProvider>
-                <App />
+                <QueryProvider>
+                  <App />
+                </QueryProvider>
               </SocketProvider>
             </DarkModeProvider>
           </ForumProvider>

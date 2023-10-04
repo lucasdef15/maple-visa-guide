@@ -1,17 +1,13 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { FormControl, IconButton, Paper, TextField } from '@mui/material';
+import { FormControl, IconButton, Paper } from '@mui/material';
 import { CgMathPlus } from 'react-icons/cg';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import { BsEmojiSmile } from 'react-icons/bs';
 import axios from 'axios';
 import qs from 'query-string';
 import { useModal } from '../../hooks/use-modal-store';
+import EmojiPicker from '../emojiPicker/EmojiPicker';
 
 interface ChatInputProps {
   apiUrl: string;
@@ -33,7 +29,7 @@ export default function ChatInput({
   type,
 }: ChatInputProps) {
   const { onOpen } = useModal();
-  const { control, handleSubmit, formState } = useForm({
+  const { control, handleSubmit, formState, reset } = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: '',
@@ -47,7 +43,7 @@ export default function ChatInput({
       const url = qs.stringifyUrl({
         url: apiUrl,
       });
-
+      reset();
       await axios.post(url, {
         ...values,
         serverId: query.serverId,
@@ -104,23 +100,27 @@ export default function ChatInput({
           name='content'
           control={control}
           render={({ field }) => (
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              autoFocus
-              margin='dense'
-              disabled={isLoading}
-              placeholder={`Message ${
-                type === 'conversation' ? name : '#' + name
-              }`}
-              id='content'
-              type='text'
-              {...field}
-            />
+            <>
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                autoFocus
+                margin='dense'
+                disabled={isLoading}
+                placeholder={`Message ${
+                  type === 'conversation' ? name : '#' + name
+                }`}
+                id='content'
+                type='text'
+                {...field}
+              />
+              <EmojiPicker
+                onChange={(emoji: string) =>
+                  field.onChange(`${field.value} ${emoji}`)
+                }
+              />
+            </>
           )}
         />
-        <IconButton>
-          <BsEmojiSmile />
-        </IconButton>
       </Paper>
     </FormControl>
   );

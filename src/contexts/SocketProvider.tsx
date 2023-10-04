@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { useContext, createContext, useEffect, useState } from 'react';
 import { io as ClientIO } from 'socket.io-client';
 
 type SocketContextType = {
@@ -10,6 +10,11 @@ const SocketContext = createContext<SocketContextType>({
   socket: null,
   isConnected: false,
 });
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useSocket = () => {
+  return useContext(SocketContext);
+};
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState(null);

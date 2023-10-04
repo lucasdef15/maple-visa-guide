@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import config from '../utilities/config';
 import { Stack } from '@mui/material';
 import ChatHeader from '../forum/components/chat/ChatHeader';
 import { Channel, Member } from '../../types';
 import ChatInput from '../forum/components/chat/ChatInput';
+import ChatMessages from '../forum/components/chat/ChatMessages';
 
 export default function ChannelsPage() {
   const [channel, setChannel] = useState<Channel | null>(null);
@@ -52,9 +53,20 @@ export default function ChannelsPage() {
         serverId={channel?.serverId}
         type='channel'
       />
-      <Stack flex={1} sx={{ background: '#1212121d' }}>
-        Future Messages
-      </Stack>
+      <ChatMessages
+        member={member as Member}
+        name={channel?.name as string}
+        chatId={channel?.id as string}
+        type='channel'
+        apiUrl={`${config.APP_BASE_URL}/socket/messages`}
+        socketUrl={`${config.APP_BASE_URL}/socket/messages`}
+        socketQuery={{
+          channelId: channel?.id as string,
+          serverId: channel?.serverId as string,
+        }}
+        paramKey='channelId'
+        paramValue={channel?.id as string}
+      />
       <ChatInput
         name={channel?.name as string}
         type='channel'
