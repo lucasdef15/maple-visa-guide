@@ -8,7 +8,7 @@ interface ChatWelcomeProps {
 
 export default function ChatWelcome({ name, type }: ChatWelcomeProps) {
   return (
-    <Stack sx={{ px: 3 }}>
+    <Stack sx={{ px: 3, py: 4 }}>
       {type === 'channel' && (
         <Stack
           justifyContent={'center'}

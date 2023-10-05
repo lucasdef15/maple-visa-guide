@@ -115,8 +115,6 @@ export default function MessageFileModal() {
     }
   };
 
-  console.log(file);
-
   return (
     <div>
       <AnimatePresence>

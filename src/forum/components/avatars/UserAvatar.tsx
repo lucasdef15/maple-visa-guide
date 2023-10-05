@@ -12,7 +12,7 @@ export default function UserAvatar({ src, className, name }: UserAvatarProps) {
 
   return (
     <Avatar alt={name} src={src ? base64ImageData : ''} sx={className}>
-      {src ? '' : name?.slice(0, 1)}
+      {src ? '' : name?.slice(0, 1).toLocaleUpperCase()}
     </Avatar>
   );
 }

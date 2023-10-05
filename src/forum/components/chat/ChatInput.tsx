@@ -65,7 +65,7 @@ export default function ChatInput({
           display: 'flex',
           alignItems: 'center',
           borderRadius: '5px',
-          margin: '25px 20px',
+          margin: '15px 20px',
           color: (theme) =>
             theme.palette.mode === 'dark'
               ? 'rgb(228 228 231)'

@@ -3,6 +3,10 @@ import { Member } from '../../../../types';
 import ChatWelcome from './ChatWelcome';
 import { useChatQuery } from '../../hooks/use-chat-query';
 import { Fragment } from 'react';
+import ChatItem from './ChatItem';
+import { format } from 'date-fns';
+
+const DATE_FORMAT = 'd MMM yyy, HH:mm';
 
 interface ChatMessagesProps {
   name: string;
@@ -48,7 +52,23 @@ export default function ChatMessages({
         {data?.pages?.map((group, index) => (
           <Fragment key={index}>
             {group?.items?.map((message: any) => (
-              <div key={message?.id}>{message?.content}</div>
+              <ChatItem
+                key={message.id}
+                id={message.id}
+                currentMember={member}
+                member={message.member}
+                content={message.content}
+                imageB64={message.imageB64}
+                userImage={message.member.profile.imageUrl}
+                fileName={message.fileName}
+                fileData={message.fileData}
+                fileType={message.fileType}
+                deleted={message.deleted}
+                timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
+                isUpdated={message.updatedAt !== message.createdAt}
+                socketUrl={socketUrl}
+                socketQuery={socketQuery}
+              />
             ))}
           </Fragment>
         ))}

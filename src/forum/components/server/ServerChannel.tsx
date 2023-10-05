@@ -95,8 +95,7 @@ export default function ServerChannel({
       </Typography>
       {channel.name !== 'general' && role !== MemberRole.GUEST && isHovered && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.2 }}
           style={{ marginLeft: 'auto' }}
         >
