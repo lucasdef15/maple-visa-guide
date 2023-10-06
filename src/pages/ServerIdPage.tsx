@@ -4,17 +4,18 @@ import { useParams } from 'react-router-dom';
 import { ServerWithMembersWithProfile as Server } from '../../types';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
+import { Box, LinearProgress } from '@mui/material';
 
 export default function ServerPage() {
   const [server, setServer] = useState<Server | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const params = useParams();
 
   useEffect(() => {
     const fetchServer = async () => {
       try {
-        setLoading(true);
         const response = await axios.get(
           `${config.APP_BASE_URL}/server/${params?.id}`
         );
@@ -29,8 +30,31 @@ export default function ServerPage() {
     fetchServer();
   }, [params?.id]);
 
+  useEffect(() => {
+    if (loading) {
+      const timer = setInterval(() => {
+        setProgress((oldProgress) => {
+          if (oldProgress === 100) {
+            clearInterval(timer);
+            return 100;
+          }
+          const diff = Math.random() * 10;
+          return Math.min(oldProgress + diff, 100);
+        });
+      }, 500);
+
+      return () => {
+        clearInterval(timer);
+      };
+    }
+  }, [loading]);
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Box sx={{ width: '100%' }}>
+        <LinearProgress variant='determinate' value={progress} />
+      </Box>
+    );
   } else if (!loading) {
     const initialChannel = server?.channels?.find(
       (channel) => channel.name === 'general'
@@ -43,8 +67,4 @@ export default function ServerPage() {
       );
     }
   }
-
-  
-
-  
 }

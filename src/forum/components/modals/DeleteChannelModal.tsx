@@ -28,8 +28,12 @@ export default function DeleteChannelModal() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { darkMode } = useContext(DarkModeContext);
-  const { setIsServerLoading, fetchServers, setServers } =
-    useContext(ForumContext);
+  const {
+    setRerenderServerSideBar,
+    rerenderServerSideBar,
+    fetchServers,
+    setServers,
+  } = useContext(ForumContext);
 
   const { isOpen, onClose, type, data } = useModal();
 
@@ -40,7 +44,6 @@ export default function DeleteChannelModal() {
   const onLeaveServer = async () => {
     try {
       setIsLoading(true);
-      setIsServerLoading(true);
       const url = qs.stringifyUrl({
         url: `${config.APP_BASE_URL}/channels/${channel?.id}`,
         query: {
@@ -50,6 +53,7 @@ export default function DeleteChannelModal() {
 
       await axios.delete(url);
       await fetchServers(setServers);
+      setRerenderServerSideBar(!rerenderServerSideBar);
       onClose();
     } catch (error) {
       console.log(error);

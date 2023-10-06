@@ -21,10 +21,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
+import { useModal } from '../../hooks/use-modal-store';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface ChatItemprops {
   id: string;
@@ -44,7 +42,6 @@ interface ChatItemprops {
     type: string;
     data: any;
   };
-  fileName: string;
   fileType: string;
 }
 
@@ -75,16 +72,26 @@ export default function ChatItem({
   socketQuery,
   socketUrl,
   fileData,
-  fileName,
   fileType,
 }: ChatItemprops) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [isMassageHovered, setIsMassageHovered] = useState(false);
+  const { onOpen } = useModal();
 
-  const isAdmin = currentMember.role === 'ADMIN';
-  const isModerator = currentMember.role === 'MODERATOR';
-  const isOwner = currentMember.id === member.id;
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) return;
+
+    navigate(
+      `/membros/forum/servers/${params?.id}/conversations/${member?.id}`
+    );
+  };
+
+  const isAdmin = currentMember?.role === 'ADMIN';
+  const isModerator = currentMember?.role === 'MODERATOR';
+  const isOwner = currentMember?.id === member?.id;
   const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner);
   const canEditMessage = !deleted && isOwner && !fileData;
   const isPDF = fileType === 'pdf';
@@ -101,7 +108,7 @@ export default function ChatItem({
     form.reset({
       content: content,
     });
-  }, [content]);
+  }, [content, form]);
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
@@ -150,6 +157,9 @@ export default function ChatItem({
       });
 
       await axios.patch(url, values);
+
+      form.reset();
+      setIsEditing(false);
     } catch (error) {
       console.log(error);
     }
@@ -165,7 +175,7 @@ export default function ChatItem({
       onMouseLeave={() => setIsMassageHovered(false)}
     >
       <Stack direction={'row'} alignItems={'start'} sx={{ my: 2, pl: '20px' }}>
-        <Stack sx={{ cursor: 'pointer' }}>
+        <Stack onClick={onMemberClick} sx={{ cursor: 'pointer' }}>
           <UserAvatar src={userImage} name={member?.profile?.name} />
         </Stack>
         <Stack
@@ -174,7 +184,12 @@ export default function ChatItem({
           sx={{ ml: 1, width: '100%' }}
         >
           <Stack direction={'row'} spacing={1}>
-            <Stack direction={'row'} alignItems={'center'} spacing={1}>
+            <Stack
+              onClick={onMemberClick}
+              direction={'row'}
+              alignItems={'center'}
+              spacing={1}
+            >
               <Typography
                 fontWeight={600}
                 fontSize={16}
@@ -184,8 +199,8 @@ export default function ChatItem({
               >
                 {member.profile.name}
               </Typography>
-              <ActionTooltip title={member.role} placement='bottom'>
-                <div>{roleIconMap[member.role]}</div>
+              <ActionTooltip title={member?.role} placement='bottom'>
+                <div>{roleIconMap[member?.role]}</div>
               </ActionTooltip>
             </Stack>
             <Typography
@@ -261,7 +276,7 @@ export default function ChatItem({
             <Typography
               sx={{
                 fontSize: deleted ? '.85rem' : '1rem',
-                color: deleted ? '(theme) => theme.palette.text.secondary' : '',
+                color: deleted ? (theme) => theme.palette.text.secondary : '',
                 fontStyle: deleted ? 'italic' : '',
               }}
             >
@@ -270,7 +285,7 @@ export default function ChatItem({
                 <Typography
                   component={'span'}
                   color={(theme) => theme.palette.text.secondary}
-                  sx={{ fontSize: '.8rem', mx: 2 }}
+                  sx={{ fontSize: '.8rem', mx: 1 }}
                 >
                   (edited)
                 </Typography>
@@ -372,7 +387,12 @@ export default function ChatItem({
             <ActionTooltip title={'Delete'} placement={'top'}>
               <IconButton
                 component={'span'}
-                onClick={() => setIsDeleting(true)}
+                onClick={() =>
+                  onOpen('deleteMessage', {
+                    apiUrl: `${socketUrl}/${id}`,
+                    query: socketQuery,
+                  })
+                }
                 sx={{ width: '35px', height: '35px' }}
               >
                 <BiTrash />

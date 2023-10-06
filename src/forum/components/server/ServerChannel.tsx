@@ -11,8 +11,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button, IconButton, Stack, Typography } from '@mui/material';
 import ActionTooltip from '../actionTooltip/ActionTooltip';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { ModalType, useModal } from '../../hooks/use-modal-store';
+import { ForumContext } from '../../../contexts/ForumContext';
 
 interface ServerChannelProps {
   channel: Channel;
@@ -32,6 +33,7 @@ export default function ServerChannel({
   role,
 }: ServerChannelProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const { setIsChannelLoading } = useContext(ForumContext);
 
   const { onOpen } = useModal();
   const params = useParams();
@@ -45,6 +47,7 @@ export default function ServerChannel({
   }
 
   const onClick = () => {
+    setIsChannelLoading(true);
     navigate(`/membros/forum/servers/${params.id}/channels/${channel.id}`);
   };
 

@@ -93,8 +93,12 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
 export default function EditChannelModal() {
   const { isOpen, onClose, type, data } = useModal();
-  const { setServers, fetchServers, setIsServerLoading } =
-    useContext(ForumContext);
+  const {
+    setServers,
+    fetchServers,
+    setRerenderServerSideBar,
+    rerenderServerSideBar,
+  } = useContext(ForumContext);
 
   const isModalOpen = isOpen && type === 'editChannel';
   const { channel, server } = data;
@@ -121,7 +125,6 @@ export default function EditChannelModal() {
     };
 
     try {
-      setIsServerLoading(true);
       const url = qs.stringifyUrl({
         url: `${config.APP_BASE_URL}/channels/${channel?.id}`,
         query: {
@@ -130,6 +133,7 @@ export default function EditChannelModal() {
       });
       await axios.patch(url, updatedValues);
       await fetchServers(setServers);
+      setRerenderServerSideBar(!rerenderServerSideBar);
       reset();
       onClose();
     } catch (error) {

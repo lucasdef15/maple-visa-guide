@@ -1,10 +1,11 @@
 import { Stack, Box, Skeleton } from '@mui/material';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import NavigationAction from './NavigationAction';
 import NavigationItem from './NavigationItem';
 import config from '../../../utilities/config';
 import axios from 'axios';
 import _ from 'lodash';
+import { ForumContext } from '../../../contexts/ForumContext';
 
 const separatorStyle = {
   borderBottom: '2px solid #99999944',
@@ -16,22 +17,23 @@ const separatorStyle = {
 const NavigationSidebar = () => {
   const [servers, setServers] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const fetchServers = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`${config.APP_BASE_URL}/server`);
-      setServers(response.data.servers);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const { isNavigationSidebarLoading, rerenderServerSideBar } =
+    useContext(ForumContext);
 
   useEffect(() => {
+    const fetchServers = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${config.APP_BASE_URL}/server`);
+        setServers(response.data.servers);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     fetchServers();
-  }, [fetchServers]);
+  }, [isNavigationSidebarLoading, rerenderServerSideBar]);
 
   return (
     <Stack

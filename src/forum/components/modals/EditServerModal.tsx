@@ -50,20 +50,24 @@ export default function EditServerModal() {
   const [file, setfile] = useState<FileProps | string | null>(null);
 
   const { isOpen, onClose, type, data } = useModal();
-  const { setServers, fetchServers } = useContext(ForumContext);
+  const {
+    setServers,
+    fetchServers,
+    rerenderServerSideBar,
+    setRerenderServerSideBar,
+  } = useContext(ForumContext);
 
   const { server } = data;
 
   const isModalOpen = isOpen && type === 'editServer';
 
-  const { control, handleSubmit, formState, register, setValue, reset } =
-    useForm({
-      resolver: zodResolver(formSchema),
-      defaultValues: {
-        name: '',
-        image: file,
-      },
-    });
+  const { control, handleSubmit, formState, register, setValue } = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      image: file,
+    },
+  });
 
   useEffect(() => {
     if (server) {
@@ -113,9 +117,8 @@ export default function EditServerModal() {
         configHeader
       );
       await fetchServers(setServers);
-      reset();
+      setRerenderServerSideBar(!rerenderServerSideBar);
       onClose();
-      setfile(null);
     } catch (error) {
       console.error(error);
     }

@@ -12,6 +12,12 @@ interface ForumContextValue {
   ) => Promise<void>;
   isServerLoading: boolean;
   setIsServerLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isNavigationSidebarLoading: boolean;
+  setIsNavigationSidebarLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  rerenderServerSideBar: boolean;
+  setRerenderServerSideBar: React.Dispatch<React.SetStateAction<boolean>>;
+  isChannelLoading: boolean;
+  setIsChannelLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ForumContext = createContext<ForumContextValue>({} as ForumContextValue);
@@ -20,6 +26,11 @@ const ForumProvider = ({ children }: any) => {
   const [servers, setServers] = useState<any>([]);
   const [profile, setProfile] = useState<any>({});
   const [isServerLoading, setIsServerLoading] = useState<boolean>(false);
+  const [isNavigationSidebarLoading, setIsNavigationSidebarLoading] =
+    useState<boolean>(true);
+  const [rerenderServerSideBar, setRerenderServerSideBar] =
+    useState<boolean>(true);
+  const [isChannelLoading, setIsChannelLoading] = useState<boolean>(false);
 
   const fetchServers = async (
     setServers: React.Dispatch<React.SetStateAction<any>>
@@ -55,6 +66,12 @@ const ForumProvider = ({ children }: any) => {
     setProfile,
     isServerLoading,
     setIsServerLoading,
+    isNavigationSidebarLoading,
+    setIsNavigationSidebarLoading,
+    rerenderServerSideBar,
+    setRerenderServerSideBar,
+    isChannelLoading,
+    setIsChannelLoading,
   };
 
   return (

@@ -43,9 +43,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function CreateServerModal() {
   const [file, setfile] = useState<any>(null);
-
   const { isOpen, onClose, type } = useModal();
-  const { setServers, fetchServers } = useContext(ForumContext);
+  const {
+    setServers,
+    fetchServers,
+    setIsNavigationSidebarLoading,
+    isNavigationSidebarLoading,
+  } = useContext(ForumContext);
 
   const isModalOpen = isOpen && type === 'createServer';
 
@@ -113,6 +117,7 @@ export default function CreateServerModal() {
       reset();
       onClose();
       setfile(null);
+      setIsNavigationSidebarLoading(!isNavigationSidebarLoading);
     } catch (error) {
       console.error(error);
     }

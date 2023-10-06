@@ -50,3 +50,17 @@ export interface UserProfile {
   updatedAt: string;
   userId: string;
 }
+
+export interface Message {
+  id: string;
+  content: string;
+  imageB64: string | null;
+  fileName: string | null;
+  fileData: Buffer | null;
+  fileType: string | null;
+  memberId: string;
+  channelId: string;
+  deleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}

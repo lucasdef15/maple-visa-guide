@@ -36,19 +36,6 @@ export default function MemberIdPage() {
     fetchServer();
   }, [fetchServer]);
 
-  // socket.on('connect', () => {
-  //   console.log(socket.id);
-  // });
-
-  // const sendMessage = () => {
-  //   socket.emit('send_message', { message });
-  // };
-
-  // useEffect(() => {
-  //   socket.on('receive_message', (data) => {
-  //     setReceivedMessage(data.message);
-  //   });
-  // }, [socket]);
 
   return (
     <Stack

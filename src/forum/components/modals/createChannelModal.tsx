@@ -84,8 +84,13 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
 export default function CreateChannelModal() {
   const { isOpen, onClose, type, data } = useModal();
-  const { setServers, fetchServers, setIsServerLoading } =
-    useContext(ForumContext);
+  const {
+    setServers,
+    fetchServers,
+    setIsServerLoading,
+    setRerenderServerSideBar,
+    rerenderServerSideBar,
+  } = useContext(ForumContext);
 
   const isModalOpen = isOpen && type === 'createChannel';
   const { channelType } = data;
@@ -125,10 +130,9 @@ export default function CreateChannelModal() {
       await fetchServers(setServers);
       reset();
       onClose();
+      setRerenderServerSideBar(!rerenderServerSideBar);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsServerLoading(false);
     }
   };
 

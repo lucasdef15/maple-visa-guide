@@ -1,4 +1,4 @@
-import { memo, useCallback, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { ForumContext } from '../../../contexts/ForumContext';
 import axios from 'axios';
 import config from '../../../utilities/config';
@@ -30,9 +30,7 @@ const roleIconMap = {
 };
 
 const ServerSidebar = () => {
-  const { profile, servers, isServerLoading, setIsServerLoading } =
-    useContext(ForumContext);
-
+  const { profile, rerenderServerSideBar } = useContext(ForumContext);
   const { darkMode } = useContext(DarkModeContext);
 
   const [server, setServer] = useState<any>(null);
@@ -40,23 +38,20 @@ const ServerSidebar = () => {
 
   const { id } = useParams();
 
-  const fetchServer = useCallback(async () => {
-    try {
-      setIsServerLoading(true);
-      setLoading(true);
-      const response = await axios.get(`${config.APP_BASE_URL}/server/${id}`);
-      setServer(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-      setIsServerLoading(false);
-    }
-  }, [id, servers]);
-
   useEffect(() => {
+    const fetchServer = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${config.APP_BASE_URL}/server/${id}`);
+        setServer(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchServer();
-  }, [fetchServer]);
+  }, [id, rerenderServerSideBar]);
 
   const textChannels = server?.data?.serverComp?.channels?.filter(
     (channel: any) => channel.type === 'TEXT'
@@ -152,7 +147,7 @@ const ServerSidebar = () => {
 
         <Divider sx={{ mb: 2, mt: 1 }} />
 
-        {isServerLoading ? (
+        {loading ? (
           <>
             <div>
               <Skeleton

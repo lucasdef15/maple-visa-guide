@@ -8,10 +8,8 @@ import { useModal } from '../../hooks/use-modal-store';
 import { styled } from '@mui/material/styles';
 import { useContext, useState } from 'react';
 import axios from 'axios';
-import config from '../../../utilities/config';
+import qs from 'query-string';
 import { DarkModeContext } from '../../../contexts/DarkModeContext';
-import { ForumContext } from '../../../contexts/ForumContext';
-import { useNavigate } from 'react-router-dom';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -24,27 +22,27 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function DeleteServerModal() {
+export default function DeleteMessageModal() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { darkMode } = useContext(DarkModeContext);
-  const { setIsNavigationSidebarLoading, isNavigationSidebarLoading } =
-    useContext(ForumContext);
-  const navigate = useNavigate();
 
   const { isOpen, onClose, type, data } = useModal();
 
-  const { server } = data;
+  const { apiUrl, query } = data;
 
-  const isModalOpen = isOpen && type === 'deleteServer';
+  const isModalOpen = isOpen && type === 'deleteMessage';
 
   const onLeaveServer = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`${config.APP_BASE_URL}/server/${server?.id}`);
+      const url = qs.stringifyUrl({
+        url: (apiUrl as string) || '',
+        query: query,
+      });
+
+      await axios.delete(url);
       onClose();
-      navigate('/membros/forum');
-      setIsNavigationSidebarLoading(!isNavigationSidebarLoading);
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,21 +75,13 @@ export default function DeleteServerModal() {
             }}
             id='customized-dialog-title'
           >
-            Delete Server
+            Delete Message
           </DialogTitle>
           <DialogContent sx={{ mb: 2.5, width: '100%' }}>
             <DialogContentText sx={{ textAlign: 'center' }}>
-              Are you sure you want to this?
+              Are you sure you want to do this?
               <br />
-              <span
-                style={{
-                  color: darkMode ? 'rgb(129 140 248)' : 'rgb(79 70 229)',
-                  fontWeight: 'bold',
-                }}
-              >
-                {server?.name}
-              </span>{' '}
-              will be permanently deleted.
+              The message will be permanently deleted.
             </DialogContentText>
             <Stack
               direction={'row'}
