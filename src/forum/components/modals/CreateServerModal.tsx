@@ -4,14 +4,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
-import { FormControl, Stack, Typography, Button } from '@mui/material';
+import { FormControl, Stack, Typography, Button, Box } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDropzone } from 'react-dropzone';
 import { BsFillFileEarmarkImageFill } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
-import { BiSolidCloudUpload } from 'react-icons/bi';
+import { BiSolidCloudUpload, BiSolidFileDoc } from 'react-icons/bi';
 import { styled } from '@mui/material/styles';
 import { motion, AnimatePresence } from 'framer-motion';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,6 +20,8 @@ import axios from 'axios';
 import config from '../../../utilities/config';
 import { useModal } from '../../hooks/use-modal-store';
 import { ForumContext } from '../../../contexts/ForumContext';
+import { FaFilePdf } from 'react-icons/fa';
+import { DarkModeContext } from '../../../contexts/DarkModeContext';
 
 const formSchema = z.object({
   name: z.string().min(1, 'Server name is required.'),
@@ -91,6 +93,7 @@ export default function CreateServerModal() {
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { darkMode } = useContext(DarkModeContext);
 
   const isLoading = formState.isSubmitting;
 
@@ -188,8 +191,8 @@ export default function CreateServerModal() {
                             onClick={handleDeleteServerImg}
                             sx={{
                               position: 'absolute',
-                              right: -5,
-                              top: 15,
+                              right: file.type.includes('image') ? -5 : 0,
+                              top: file.type.includes('image') ? 15 : 2,
                               background: 'tomato',
                               color: 'white',
                               '& svg': {
@@ -203,20 +206,125 @@ export default function CreateServerModal() {
                           >
                             <DeleteIcon />
                           </IconButton>
-                          <motion.img
-                            src={file.preview}
-                            alt=''
-                            style={{
-                              marginTop: '15px',
-                              width: '100px',
-                              height: '100px',
-                              borderRadius: '50%',
-                              objectFit: 'cover',
-                            }}
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.5 }}
-                          />
+                          {file.type === 'application/pdf' ? (
+                            <>
+                              <Stack
+                                direction={'column'}
+                                justifyContent={'center'}
+                                alignItems={'center'}
+                                sx={{
+                                  width: '100px',
+                                  height: '100px',
+                                  background: '#1212121c',
+                                  borderRadius: '50%',
+                                  fontSize: '3rem',
+                                  mb: 3,
+                                }}
+                              >
+                                <FaFilePdf />
+                              </Stack>
+                              <Stack
+                                direction={'row'}
+                                justifyContent={'center'}
+                                alignItems={'center'}
+                                sx={{
+                                  position: 'absolute',
+                                  bottom: 0,
+                                  left: '50%',
+                                  transform: 'translateX(-50%)',
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    whiteSpace: 'nowrap',
+                                    paddingRight: '7px',
+                                  }}
+                                >
+                                  File name:
+                                </span>
+
+                                <Box
+                                  sx={{
+                                    color: (theme) =>
+                                      theme.palette.mode === 'dark'
+                                        ? '#7979da'
+                                        : '#5252ff',
+                                    whiteSpace: 'nowrap',
+                                    fontSize: '.9rem',
+                                  }}
+                                >
+                                  {file.name}
+                                </Box>
+                              </Stack>
+                            </>
+                          ) : file.type !== 'application/pdf' &&
+                            !file.type.includes('image') ? (
+                            <>
+                              <Stack
+                                direction={'column'}
+                                justifyContent={'center'}
+                                alignItems={'center'}
+                                sx={{
+                                  width: '100px',
+                                  height: '100px',
+                                  background: '#1212121c',
+                                  borderRadius: '50%',
+                                  fontSize: '3rem',
+                                  mb: 3,
+                                }}
+                              >
+                                <BiSolidFileDoc />
+                              </Stack>
+                              <Stack
+                                direction={'row'}
+                                justifyContent={'center'}
+                                alignItems={'center'}
+                                sx={{
+                                  position: 'absolute',
+                                  bottom: 0,
+                                  left: '50%',
+                                  transform: 'translateX(-50%)',
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    whiteSpace: 'nowrap',
+                                    paddingRight: '7px',
+                                  }}
+                                >
+                                  File name:
+                                </span>
+
+                                <Box
+                                  sx={{
+                                    color: (theme) =>
+                                      theme.palette.mode === 'dark'
+                                        ? '#7979da'
+                                        : '#5252ff',
+                                    whiteSpace: 'nowrap',
+                                    fontSize: '.9rem',
+                                  }}
+                                >
+                                  {file.name}
+                                </Box>
+                              </Stack>
+                            </>
+                          ) : (
+                            <motion.img
+                              src={file.preview}
+                              alt=''
+                              style={{
+                                marginTop: '15px',
+                                width: '100px',
+                                height: '100px',
+                                borderRadius: '50%',
+                                objectFit: 'cover',
+                              }}
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.5 }}
+                            />
+                          )}
                         </Stack>
                       )}
                     </motion.div>
@@ -237,8 +345,12 @@ export default function CreateServerModal() {
                         transition: 'all 250ms linear',
                         backgroundImage: `${
                           isDragActive
-                            ? `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%23444C727B' stroke-width='4' stroke-dasharray='10%2c 11' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");border-radius: 15px;`
-                            : `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%2322222275' stroke-width='4' stroke-dasharray='10%2c 11' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");border-radius: 15px;`
+                            ? darkMode
+                              ? `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%23FFFFFF2B' stroke-width='4' stroke-dasharray='10%2c 11' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");border-radius: 15px;`
+                              : `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%23444C727B' stroke-width='4' stroke-dasharray='10%2c 11' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");border-radius: 15px;`
+                            : darkMode
+                            ? `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%237979DAFF' stroke-width='4' stroke-dasharray='10%2c 11' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");border-radius: 15px;`
+                            : `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%235252FFFF' stroke-width='4' stroke-dasharray='10%2c 11' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");border-radius: 15px;`
                         }`,
                         '& .draganddrop': {
                           width: '100%',
@@ -262,7 +374,13 @@ export default function CreateServerModal() {
                               width: '40px',
                               height: '40px',
                               transition: 'color 250ms linear',
-                              color: isDragActive ? '#444c727b' : '#000088',
+                              color: isDragActive
+                                ? darkMode
+                                  ? '#FFFFFF61'
+                                  : '#444c727b'
+                                : darkMode
+                                ? '#7979da'
+                                : '#5252ff',
                             },
                           }}
                           justifyContent={'center'}
@@ -272,18 +390,40 @@ export default function CreateServerModal() {
                         </Stack>
                         <Typography
                           variant='h5'
-                          color={isDragActive ? '#444c727b' : 'primary'}
+                          color={
+                            isDragActive
+                              ? darkMode
+                                ? '#FFFFFF61'
+                                : '#444c727b'
+                              : (theme) => theme.palette.text.secondary
+                          }
                           fontWeight={'bold'}
                           fontSize={19}
                         >
                           Server Image
                         </Typography>
                         {isDragActive ? (
-                          <Typography sx={{ color: '#222222ab' }}>
+                          <Typography
+                            sx={{
+                              color: (theme) =>
+                                theme.palette.mode === 'dark'
+                                  ? '#7979da'
+                                  : '#222222ab',
+
+                              fontWeight: '800',
+                            }}
+                          >
                             Drop the file here...
                           </Typography>
                         ) : (
-                          <Typography sx={{ color: '#222222ab' }}>
+                          <Typography
+                            sx={{
+                              color: (theme) =>
+                                theme.palette.mode === 'dark'
+                                  ? '#7979da'
+                                  : '#5252ff',
+                            }}
+                          >
                             Drag and drop some files here, click to select files
                           </Typography>
                         )}
@@ -296,8 +436,20 @@ export default function CreateServerModal() {
                               textTransform: 'unset',
                               width: '125px',
                               mt: 2,
-                              color: isDragActive ? '#444c727b' : '',
-                              borderColor: isDragActive ? '#444c727b' : '',
+                              color: isDragActive
+                                ? darkMode
+                                  ? '#FFFFFF61'
+                                  : '#444c727b'
+                                : darkMode
+                                ? '#7979da'
+                                : '#5252ff',
+                              borderColor: isDragActive
+                                ? darkMode
+                                  ? '#FFFFFF61'
+                                  : '#444c727b'
+                                : darkMode
+                                ? '#7979da'
+                                : '#5252ff',
                             }}
                           >
                             Upload
@@ -329,7 +481,6 @@ export default function CreateServerModal() {
                     </motion.div>
                   </Stack>
                 )}
-
                 <Controller
                   name='name'
                   control={control}

@@ -44,11 +44,19 @@ export default function ChatInput({
         url: apiUrl,
       });
       reset();
-      await axios.post(url, {
-        ...values,
-        serverId: query.serverId,
-        channelId: query.channelId,
-      });
+      if (query.serverId) {
+        await axios.post(url, {
+          ...values,
+          serverId: query.serverId,
+          channelId: query.channelId,
+        });
+      } else if (query.conversationId) {
+        await axios.post(url, {
+          ...values,
+          conversationId: query.conversationId,
+        });
+      }
+      
     } catch (error) {
       console.log(error);
     }

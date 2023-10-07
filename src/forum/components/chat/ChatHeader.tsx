@@ -1,4 +1,4 @@
-import { AppBar, Drawer, Stack, Typography } from '@mui/material';
+import { AppBar, Drawer, Skeleton, Stack, Typography } from '@mui/material';
 import { BiHash } from 'react-icons/bi';
 import { AiOutlineAudio } from 'react-icons/ai';
 import { LuVideo } from 'react-icons/lu';
@@ -7,10 +7,11 @@ import Toolbar from '@mui/material/Toolbar';
 import MobileToggle from '../toggles/MobileToggle';
 import NavigationSidebar from '../sidebar/NavigationSidebar';
 import ServerSidebar from '../server/ServerSidebar';
-import { memo, useState } from 'react';
+import { memo, useContext, useState } from 'react';
 import _ from 'lodash';
 import UserAvatar from '../avatars/UserAvatar';
 import SocketIndicator from '../badges/SocketIndicator';
+import { ForumContext } from '../../../contexts/ForumContext';
 
 interface ChatHeaderProps {
   serverId: string | undefined;
@@ -24,6 +25,8 @@ const drawerWidth = 335;
 const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const { isChannelLoading } = useContext(ForumContext);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -57,19 +60,33 @@ const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
           {type === 'conversation' && (
             <UserAvatar src={imageUrl} name={name} className={{ mr: 2 }} />
           )}
-          <Typography
-            fontSize={'1.5rem'}
-            fontWeight={600}
-            variant='h6'
-            component='div'
-            color={(theme) => theme.palette.common.white}
-            sx={{ flexGrow: 1 }}
-          >
-            {name}
-          </Typography>
-          <div>
+          {isChannelLoading ? (
+            <Skeleton
+              variant='text'
+              sx={{
+                fontSize: '1.5rem',
+                borderRadius: '5px',
+                background: (theme) =>
+                  theme.palette.mode === 'dark' ? '#ffffff4b' : '#ffffff75',
+              }}
+              width={210}
+            />
+          ) : (
+            <Typography
+              fontSize={'1.5rem'}
+              fontWeight={600}
+              variant='h6'
+              component='div'
+              color={(theme) => theme.palette.common.white}
+              sx={{ flexGrow: 1 }}
+            >
+              {name}
+            </Typography>
+          )}
+
+          <Stack sx={{ ml: 'auto' }}>
             <SocketIndicator />
-          </div>
+          </Stack>
         </Toolbar>
       </AppBar>
       <Drawer

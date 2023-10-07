@@ -169,7 +169,12 @@ export default function ChatItem({
     <Stack
       sx={{
         position: 'relative',
-        '&:hover': { background: 'rgba(34, 34, 34, 0.048)' },
+        '&:hover': {
+          background: (theme) =>
+            theme.palette.mode === 'dark'
+              ? 'rgba(253, 253, 253, 0.048)'
+              : 'rgba(34, 34, 34, 0.048)',
+        },
       }}
       onMouseEnter={() => setIsMassageHovered(true)}
       onMouseLeave={() => setIsMassageHovered(false)}
@@ -193,6 +198,7 @@ export default function ChatItem({
               <Typography
                 fontWeight={600}
                 fontSize={16}
+                color={(theme) => (theme.palette.mode === 'dark' ? '#fff' : '')}
                 sx={{
                   '&:hover': { textDecoration: 'underline', cursor: 'pointer' },
                 }}
@@ -276,7 +282,9 @@ export default function ChatItem({
             <Typography
               sx={{
                 fontSize: deleted ? '.85rem' : '1rem',
-                color: deleted ? (theme) => theme.palette.text.secondary : '',
+                color: deleted
+                  ? (theme) => theme.palette.text.secondary
+                  : (theme) => (theme.palette.mode === 'dark' ? '#fff' : ''),
                 fontStyle: deleted ? 'italic' : '',
               }}
             >

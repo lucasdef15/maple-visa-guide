@@ -1,12 +1,20 @@
-import { Box, LinearProgress, Stack } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { Member } from '../../../../types';
 import ChatWelcome from './ChatWelcome';
 import { useChatQuery } from '../../hooks/use-chat-query';
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useRef, ElementRef } from 'react';
 import ChatItem from './ChatItem';
 import { format } from 'date-fns';
 import { useChatSocket } from '../../hooks/use-chat-socket';
 import { ForumContext } from '../../../contexts/ForumContext';
+import { useChatScroll } from '../../hooks/use-chat-scoll';
+import { LuServerCrash } from 'react-icons/lu';
 
 const DATE_FORMAT = 'd MMM yyy, HH:mm';
 
@@ -31,61 +39,112 @@ export default function ChatMessages({
   socketQuery,
   paramKey,
   paramValue,
+
   type,
 }: ChatMessagesProps) {
-  const [progress, setProgress] = useState(0);
-
   const bearerToken = localStorage.getItem('token')!;
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update`;
 
-  const { isChannelLoading, setIsChannelLoading } = useContext(ForumContext);
+  const chatRef = useRef<ElementRef<'div'>>(null);
+  const bottomRef = useRef<ElementRef<'div'>>(null);
+
+  const { setIsChannelLoading, isChannelLoading } = useContext(ForumContext);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({ queryKey, apiUrl, paramKey, paramValue, bearerToken });
-
   useChatSocket({ queryKey, addKey, updateKey });
+  useChatScroll({
+    chatRef,
+    bottomRef,
+    loadMore: fetchNextPage,
+    shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
+    count: data?.pages?.[0]?.items?.length ?? 0,
+  });
 
   useEffect(() => {
+    setIsChannelLoading(true);
     if (status === 'loading') {
-      const timer = setInterval(() => {
-        setProgress((oldProgress) => {
-          if (oldProgress === 100) {
-            clearInterval(timer);
-            return 100;
-          }
-          const diff = Math.random() * 10;
-          return Math.min(oldProgress + diff, 100);
-        });
-      }, 500);
-
-      return () => {
-        clearInterval(timer);
-      };
+      setIsChannelLoading(true);
     }
-  }, [status]);
+    if (status === 'success') {
+      setIsChannelLoading(false);
+    }
+  }, [status, data, setIsChannelLoading]);
 
   if (status === 'loading') {
     return (
-      <Box sx={{ width: '100%', minHeight: 'calc(100vh - 64px - 90px)' }}>
-        <LinearProgress variant='determinate' value={progress} />
-      </Box>
+      <Stack
+        direction={'column'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        sx={{
+          width: '100%',
+          minHeight: 'calc(100vh - 64px - 90px)',
+        }}
+      >
+        <CircularProgress size={25} thickness={2} />
+      </Stack>
     );
   }
 
   if (status === 'error') {
-    return <div>Server crash</div>;
+    return (
+      <Stack
+        direction={'column'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        spacing={2}
+        sx={{
+          textAlign: 'center',
+          minHeight: 'calc(100vh - 64px - 90px)',
+          fontSize: '2rem',
+        }}
+      >
+        <LuServerCrash />
+        <Typography color={(theme) => theme.palette.text.secondary}>
+          Somenthing went wrong!
+        </Typography>
+      </Stack>
+    );
   }
 
   return (
     <Stack
+      ref={chatRef}
       flex={1}
       sx={{ py: 4, overflowY: 'auto', maxHeight: 'calc(100vh - 90px - 64px)' }}
     >
-      <Box flex={1} />
-      <ChatWelcome type={type} name={name} />
-      <Stack direction={'column-reverse'} sx={{ mt: 'auto' }}>
+      {!hasNextPage && <Box flex={1} />}
+      {!hasNextPage && (
+        <ChatWelcome
+          type={type}
+          name={name}
+          isChannelLoading={isChannelLoading}
+        />
+      )}
+      {hasNextPage && (
+        <Stack>
+          {isFetchingNextPage ? (
+            <Box
+              sx={{
+                width: '100%',
+                justifyContent: 'center',
+                display: 'flex',
+                py: 1,
+              }}
+            >
+              <CircularProgress size={25} thickness={2} />
+            </Box>
+          ) : (
+            <Button onClick={() => fetchNextPage()} sx={{ borderRadius: 0 }}>
+              Load previus message
+            </Button>
+          )}
+        </Stack>
+      )}
+      <Stack flex={1} direction={'column-reverse'} sx={{ mt: 'auto' }}>
         {data?.pages?.map((group, index) => (
           <Fragment key={index}>
             {group?.items?.map((message: any) => (
@@ -109,6 +168,7 @@ export default function ChatMessages({
           </Fragment>
         ))}
       </Stack>
+      <div ref={bottomRef} />
     </Stack>
   );
 }

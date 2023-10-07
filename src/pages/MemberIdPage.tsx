@@ -3,11 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import config from '../utilities/config';
 import { useParams } from 'react-router-dom';
 import qs from 'query-string';
-import { Button, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import ChatHeaderMemo from '../forum/components/chat/ChatHeader';
-import io from 'socket.io-client';
-
-// const socket = io('http://localhost:8080/');
+import ChatMessages from '../forum/components/chat/ChatMessages';
+import ChatInput from '../forum/components/chat/ChatInput';
 
 export default function MemberIdPage() {
   const [data, setData] = useState<any>(null);
@@ -36,7 +35,6 @@ export default function MemberIdPage() {
     fetchServer();
   }, [fetchServer]);
 
-
   return (
     <Stack
       sx={{
@@ -50,13 +48,27 @@ export default function MemberIdPage() {
         serverId={params?.id}
         type={'conversation'}
       />
-      <Stack sx={{ mt: 5 }} direction={'row'}>
-        <input type='text' onChange={(e) => setMessage(e.target.value)} />
-        {/* <Button onClick={sendMessage}>send</Button> */}
-      </Stack>
-      <Stack sx={{ mt: 5 }} direction={'row'}>
-        {receivedMessage}
-      </Stack>
+      <ChatMessages
+        member={data?.churrentMember}
+        name={data?.members?.otherMember?.profile?.name}
+        chatId={data?.conversation?.id}
+        type={'conversation'}
+        apiUrl={`${config.APP_BASE_URL}/socket/direct-messages`}
+        socketUrl={`${config.APP_BASE_URL}/socket/direct-messages`}
+        socketQuery={{
+          conversationId: data?.conversation?.id as string,
+        }}
+        paramKey='conversationId'
+        paramValue={data?.conversation?.id as string}
+      />
+      <ChatInput
+        name={data?.members?.otherMember?.profile?.name}
+        type={'conversation'}
+        apiUrl={`${config.APP_BASE_URL}/socket/direct-messages`}
+        query={{
+          conversationId: data?.conversation?.id as string,
+        }}
+      />
     </Stack>
   );
 }

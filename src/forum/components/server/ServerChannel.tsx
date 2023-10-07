@@ -47,7 +47,7 @@ export default function ServerChannel({
   }
 
   const onClick = () => {
-    setIsChannelLoading(true);
+     setIsChannelLoading(true);
     navigate(`/membros/forum/servers/${params.id}/channels/${channel.id}`);
   };
 

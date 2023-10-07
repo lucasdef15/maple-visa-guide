@@ -1,12 +1,17 @@
-import { Stack, Typography } from '@mui/material';
+import { Skeleton, Stack, Typography } from '@mui/material';
 import { BiHash } from 'react-icons/bi';
 
 interface ChatWelcomeProps {
   name: string;
   type: 'channel' | 'conversation';
+  isChannelLoading: boolean;
 }
 
-export default function ChatWelcome({ name, type }: ChatWelcomeProps) {
+export default function ChatWelcome({
+  name,
+  type,
+  isChannelLoading,
+}: ChatWelcomeProps) {
   return (
     <Stack sx={{ px: 3, py: 4 }}>
       {type === 'channel' && (
@@ -28,17 +33,31 @@ export default function ChatWelcome({ name, type }: ChatWelcomeProps) {
           <BiHash />
         </Stack>
       )}
-      <Typography
-        fontWeight={'bold'}
-        color={(theme) =>
-          theme.palette.mode === 'dark' ? '#fff' : 'rgb(63 63 70)'
-        }
-        fontSize={25}
-        sx={{ width: 'fit-content', marginTop: 1.5 }}
-      >
-        {type === 'channel' ? 'Welcome to #' : ''}
-        {name}
-      </Typography>
+      {isChannelLoading ? (
+        <Skeleton
+          variant='text'
+          sx={{
+            fontSize: '2.6rem',
+            borderRadius: '5px',
+            background: (theme) =>
+              theme.palette.mode === 'dark' ? '#ffffff4b' : '#0000004e',
+          }}
+          width={510}
+        />
+      ) : (
+        <Typography
+          fontWeight={'bold'}
+          color={(theme) =>
+            theme.palette.mode === 'dark' ? '#fff' : 'rgb(63 63 70)'
+          }
+          fontSize={25}
+          sx={{ width: 'fit-content', marginTop: 1.5 }}
+        >
+          {type === 'channel' ? 'Welcome to #' : ''}
+          {name}
+        </Typography>
+      )}
+
       <Typography
         color={(theme) => theme.palette.text.secondary}
         fontSize={16}
