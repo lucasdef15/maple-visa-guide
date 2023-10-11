@@ -19,10 +19,15 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+  const isProduction: boolean = false;
 
   useEffect(() => {
     const socketInstance = ClientIO(
-      'https://maple-visa-guide-server.onrender.com',
+      `${
+        isProduction
+          ? 'https://maple-visa-guide-server.onrender.com'
+          : 'http://localhost:8080'
+      }`,
       {
         path: '/api/socket/io',
         addTrailingSlash: false,

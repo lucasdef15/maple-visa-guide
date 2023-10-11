@@ -1,34 +1,17 @@
 import BadgeAvatars from '../../BadgeAvatars';
 import { Stack, Typography } from '@mui/material';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
-import AccountMenu from '../menu/AccountMenu';
-import { motion } from 'framer-motion';
 import { useContext } from 'react';
 import { UserContext } from '../../../../contexts/UserContext';
 
-const styledUserInfo = {
-  backgroundColor: '#23262D',
-  padding: '1rem',
-  minHeight: '96px',
-};
-
-const menu = {
-  '& svg': {
-    cursor: 'pointer',
-    color: '#fff',
-  },
-};
-
-export default function HeaderMenu({ openMenu, setOpenMenu }: any) {
+export default function HeaderMenu({ openMenu }: any) {
   const { user } = useContext(UserContext);
 
   return (
     <Stack
-      sx={styledUserInfo}
       direction='row'
-      justifyContent='space-between'
       alignItems='center'
-      spacing={2}
+      spacing={3}
+      sx={{ width: '100%', px: 1 }}
     >
       <BadgeAvatars />
       {openMenu && (
@@ -48,19 +31,6 @@ export default function HeaderMenu({ openMenu, setOpenMenu }: any) {
           </Typography>
         </Stack>
       )}
-      <Stack alignItems={'center'} justifyContent={'center'} sx={menu}>
-        {openMenu && <AccountMenu />}
-        <motion.div
-          onClick={() => setOpenMenu(!openMenu)}
-          animate={{
-            rotate: openMenu ? 0 : 180,
-            x: openMenu ? 0 : '-45px',
-            y: openMenu ? 0 : 'calc(100vh - 110px)',
-          }}
-        >
-          <AiOutlineArrowLeft />
-        </motion.div>
-      </Stack>
     </Stack>
   );
 }

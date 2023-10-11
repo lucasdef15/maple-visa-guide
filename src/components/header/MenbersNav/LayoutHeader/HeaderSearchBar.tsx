@@ -54,10 +54,6 @@ export default function HeaderSearchBar() {
     <Stack
       sx={{
         width: '100%',
-        padding: { xs: '0 1rem', sm: '0 2rem' },
-        paddingRight: { xs: '1rem', sm: '2.6rem' },
-        height: '45%',
-        marginBlock: { xs: '120px', sm: '0' },
       }}
       alignItems={'center'}
     >
@@ -70,7 +66,6 @@ export default function HeaderSearchBar() {
           marginTop: '2rem',
           width: '100%',
           maxWidth: '1700px',
-          // maxHeight: '50px',
         }}
       >
         <Stack

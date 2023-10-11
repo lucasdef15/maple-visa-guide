@@ -2,8 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Stack, TextField } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { CircularProgress, Stack, TextField } from '@mui/material';
 import signupSVG from '/assets/svgs/signup.svg';
 import loginSVG from '/assets/svgs/login.svg';
 import axios from 'axios';
@@ -11,16 +10,6 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import config from '../../utilities/config';
-import Loader from '../loaders/Loader';
-
-const StyledInput = styled(TextField)(() => ({
-  '& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input': {
-    padding: '12px 14px',
-  },
-  '& .css-1wph9ax-MuiFormLabel-root-MuiInputLabel-root': {
-    top: '-3px',
-  },
-}));
 
 const style = {
   position: 'absolute',
@@ -82,9 +71,9 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
     setNameError('');
     setEmailError('');
     setPasswordError('');
-    setLoading(true);
     if (text === 'Signup' || text === 'Ver Mais' || text === 'Começar Agora') {
       try {
+        setLoading(true);
         const { data: signUpData } = await axios.post(
           `${config.APP_BASE_URL}/auth/signup`,
           {
@@ -94,21 +83,28 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
           }
         );
         response = signUpData;
-        setLoading(false);
       } catch (error) {
-        setLoading(false);
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     } else {
-      const { data: logInData } = await axios.post(
-        `${config.APP_BASE_URL}/auth/login`,
-        {
-          email,
-          password,
-        }
-      );
-      setLoading(false);
-      response = logInData;
+      try {
+        setLoading(true);
+        const { data: logInData } = await axios.post(
+          `${config.APP_BASE_URL}/auth/login`,
+          {
+            email,
+            password,
+          }
+        );
+
+        response = logInData;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     }
     //check each error
     if (response.errors.length) {
@@ -197,7 +193,13 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
             sx={{ width: '100%', height: '100%' }}
           >
             {loading ? (
-              <Loader />
+              <Stack
+                justifyContent={'center'}
+                alignItems={'center'}
+                sx={{ width: '100%', height: '100%' }}
+              >
+                <CircularProgress size={30} thickness={3} />
+              </Stack>
             ) : (
               <Stack
                 flexDirection='column'
@@ -234,35 +236,60 @@ export default function ModalComponent({ text, variant, color }: ModalProps) {
                 <Stack
                   id='modal-modal-description'
                   sx={{ mt: 5, width: '80%' }}
-                  spacing={3}
+                  spacing={2}
                 >
                   {text === 'Login' ? (
                     ''
                   ) : (
-                    <StyledInput
+                    <TextField
                       error={nameError ? true : false}
                       helperText={nameError ? nameError : ''}
                       label='Nome'
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       type='text'
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      inputProps={{
+                        sx: {
+                          padding: '10px 14px',
+                        },
+                      }}
                     />
                   )}
-                  <StyledInput
+                  <TextField
                     error={emailError ? true : false}
                     helperText={emailError ? emailError : ''}
                     label='E-Mail'
                     type='email'
+                    autoComplete='current-email'
                     value={email}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      sx: {
+                        padding: '10px 14px',
+                      },
+                    }}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <StyledInput
+                  <TextField
                     error={passwordError ? true : false}
                     helperText={passwordError ? passwordError : ''}
                     label='Senha'
                     type='password'
                     autoComplete='current-password'
                     value={password}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      sx: {
+                        padding: '10px 14px',
+                      },
+                    }}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Stack>

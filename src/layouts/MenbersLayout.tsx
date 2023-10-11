@@ -1,53 +1,60 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import MenbersNav from '../components/header/MenbersNav/MenbersNav';
 import { Stack } from '@mui/material';
-import LayoutHeader from '../components/header/MenbersNav/LayoutHeader/LayoutHeader';
-import MainContext from '../contexts/MainContext';
-import { useContext } from 'react';
+import { useState } from 'react';
 import ScrollToTop from '../components/scroll/ScrollToTop';
-import { DarkModeContext } from '../contexts/DarkModeContext';
 import MobileMenbersNavBar from '../components/header/MobileMenbersNav.tsx/MobileMenbersNavBar';
 import NavigationSidebar from '../forum/components/sidebar/NavigationSidebar';
 import ModalProvider from '../forum/components/providers/ModalProvider';
+import { styled } from '@mui/material/styles';
+import MembersAppbar from '../components/header/MenbersNav/HeaderMenu/MembersAppbar';
+import MembersDrawer from '../components/header/MenbersNav/drawer/MembersDrawer';
+import { DrawerHeader } from '../components/header/MenbersNav/drawer/MembersDrawer';
+
+export const DRAWER_WIDTH = 275;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+}));
 
 export default function MenbersLayout() {
-  const { openMenu } = useContext(MainContext);
+  const [open, setOpen] = useState(false);
 
-  const { darkMode } = useContext(DarkModeContext);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   const location = useLocation();
 
-  const styledLayout = {
-    zIndex: -1,
-    position: 'relative',
-    minHeight: '100vh',
-    background: darkMode ? '#111' : 'unset',
-  };
-
-  const styledContainer = {
-    width: '100%',
-    marginLeft: { xs: '', sm: openMenu ? '275px' : '76px' },
-    zIndex: -1,
-    position: 'relative',
-  };
   return (
     <>
       <ScrollToTop />
-      <Stack sx={styledLayout} direction='row'>
+      <Stack direction='row'>
         <ModalProvider />
-        <MenbersNav />
+        <MembersAppbar open={open} handleDrawerOpen={handleDrawerOpen} />
+        <MembersDrawer open={open} handleDrawerClose={handleDrawerClose} />
         <MobileMenbersNavBar />
         {location.pathname.includes('forum') ? (
           <Stack
             sx={{
               width: '100%',
-
-              marginLeft: {
-                xs: '',
-                sm: openMenu ? '275px' : 'calc(76px)',
-              },
-              zIndex: -1,
-              position: 'relative',
             }}
             direction={'row'}
           >
@@ -57,10 +64,10 @@ export default function MenbersLayout() {
             <Outlet />
           </Stack>
         ) : (
-          <Stack sx={styledContainer}>
-            <LayoutHeader />
+          <Main open={open}>
+            <DrawerHeader />
             <Outlet />
-          </Stack>
+          </Main>
         )}
       </Stack>
     </>

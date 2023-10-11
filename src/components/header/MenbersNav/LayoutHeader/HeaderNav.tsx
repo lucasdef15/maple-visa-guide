@@ -9,7 +9,6 @@ import axios from 'axios';
 import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 import config from '../../../../utilities/config';
 import { Category } from '../../../menu/OptionsMenu';
-import MainContext from '../../../../contexts/MainContext';
 
 export interface PostProps {
   author: {
@@ -35,7 +34,7 @@ interface LoadedCats {
   subsubcat: string | null;
 }
 
-export default function HeaderNav() {
+export default function HeaderNav({ open }: any) {
   const location = useLocation();
 
   const [postData, setPostData] = useState<PostProps>({} as PostProps);
@@ -45,17 +44,6 @@ export default function HeaderNav() {
 
   const { isAdmin } = useContext(UserContext);
   const { darkMode } = useContext(DarkModeContext);
-  const { openMenu } = useContext(MainContext);
-
-  const headerStyle = {
-    background: darkMode ? '#222' : '#ecececdd',
-    width: '100%',
-    paddingInline: { xs: '1rem', lg: '0' },
-    maxWidth: '1700px',
-    '& .logo': {
-      width: '115px',
-    },
-  };
 
   const fullUrl = window.location.href;
   const parsedUrl = new URL(fullUrl);
@@ -160,71 +148,54 @@ export default function HeaderNav() {
 
   return (
     <Stack
-      component={'header'}
-      sx={{
-        width: '100%',
-        paddingBlock: '1rem',
-        paddingInline: '2rem',
-        paddingRight: '3rem',
-        background: darkMode ? '#222' : '#ecececdd',
-        boxShadow: '1px 1px 10px rgba(0, 0, 0, 0.103)',
-        display: { xs: 'none', sm: 'flex' },
-      }}
+      direction={'row'}
+      justifyContent={'space-between'}
       alignItems={'center'}
-      justifyContent={'center'}
+      sx={{ width: '100%' }}
+      useFlexGap
+      spacing={3}
     >
-      <Stack
-        sx={headerStyle}
-        direction={{ sm: openMenu ? 'column' : 'row', lg: 'row' }}
-        justifyContent={'space-between'}
-        alignItems={{ sm: openMenu ? 'start' : 'center', lg: 'center' }}
-        useFlexGap
-        spacing={3}
-      >
-        <Stack>
-          <Typography
-            component={'h2'}
-            sx={{
-              fontSize: '28px',
-              fontweight: 'bold',
-              color: darkMode ? '#fff' : '',
-            }}
-          >
-            {breadcrumbs}
-          </Typography>
-          <Typography
-            color={'text.secondary'}
-            sx={{ fontSize: '15px', fontweight: 'light' }}
-          >
-            Explore nossas postagens mais recentes e mantenha-se atualizado!
-          </Typography>
-        </Stack>
-        <Stack
-          direction={'row'}
-          spacing={{ xs: 2, md: 3.5 }}
-          alignSelf={'end'}
-          alignItems={'center'}
+      <Stack>
+        <Typography
+          component={'h2'}
+          sx={{
+            fontSize: '25px',
+            fontweight: '600',
+            color: darkMode ? '#fff' : '',
+            px: open ? 0 : 1,
+          }}
         >
-          {isAdmin && (
-            <Link to={'guias/write'}>
-              <Button
-                variant='contained'
-                endIcon={<RiBookletFill />}
-                sx={{
-                  background: '#44b700',
-                  py: '.5rem',
-                  '&:hover': { background: 'limegreen' },
-                  whiteSpace: 'nowrap',
-                  color: '#fff',
-                }}
-              >
-                New post
-              </Button>
-            </Link>
-          )}
-          <span className='logo'>
-            <Logo color={darkMode ? '#fff' : '#222'} />
-          </span>
+          {breadcrumbs}
+        </Typography>
+      </Stack>
+      <Stack
+        direction={'row'}
+        spacing={{ xs: 2, md: 3.5 }}
+        alignSelf={'end'}
+        alignItems={'center'}
+      >
+        {isAdmin && (
+          <Link to={'guias/write'}>
+            <Button
+              size='small'
+              variant='contained'
+              endIcon={<RiBookletFill />}
+              sx={{
+                background: '#494949f2',
+                p: '.3rem .7rem',
+                '&:hover': { background: '#646464' },
+                whiteSpace: 'nowrap',
+                textTransform: 'unset',
+                color: '#fff',
+                fontSize: '.9rem',
+              }}
+            >
+              New Post
+            </Button>
+          </Link>
+        )}
+        <Stack sx={{ '& svg': { width: '115px' } }}>
+          <Logo color={'#fff'} />
         </Stack>
       </Stack>
     </Stack>

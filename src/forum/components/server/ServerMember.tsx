@@ -12,6 +12,7 @@ import UserAvatar from '../avatars/UserAvatar';
 interface ServerMembersProps {
   member: Member & { profile: Profile };
   server: Server;
+  currentMember: Profile;
 }
 
 const roleIconMap = {
@@ -20,7 +21,10 @@ const roleIconMap = {
   [MemberRole.ADMIN]: <BsShieldFillExclamation style={{ color: '#f43f5e' }} />,
 };
 
-export default function ServerMember({ member }: ServerMembersProps) {
+export default function ServerMember({
+  member,
+  currentMember,
+}: ServerMembersProps) {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -30,6 +34,7 @@ export default function ServerMember({ member }: ServerMembersProps) {
     ];
 
   const onClick = () => {
+    console.log(currentMember);
     navigate(`/membros/forum/servers/${params.id}/conversations/${member?.id}`);
   };
 

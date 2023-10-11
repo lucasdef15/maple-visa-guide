@@ -42,11 +42,11 @@ export default function EmojiPicker({ onChange }: EmojiPickerProps) {
         }}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'left',
         }}
         transformOrigin={{
           vertical: 'bottom',
-          horizontal: 'right',
+          horizontal: 'left',
         }}
       >
         <Picker

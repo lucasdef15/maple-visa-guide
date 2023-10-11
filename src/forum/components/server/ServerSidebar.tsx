@@ -62,12 +62,12 @@ const ServerSidebar = () => {
   const videoChannels = server?.data?.serverComp?.channels?.filter(
     (channel: any) => channel.type === 'VIDEO'
   );
-  const members = server?.data?.serverComp.members.filter(
-    (member: any) => member.profileId !== profile?.data?.profile?.id
+  const members = server?.data?.serverComp?.members?.filter(
+    (member: any) => member?.profileId !== profile?.data?.profile?.id
   );
 
-  const role = server?.data?.serverComp.members.find(
-    (member: any) => member.profileId === profile?.data?.profile?.id
+  const role = server?.data?.serverComp?.members?.find(
+    (member: any) => member?.profileId === profile?.data?.profile?.id
   )?.role;
 
   return (
@@ -287,6 +287,7 @@ const ServerSidebar = () => {
                     key={member.id}
                     member={member}
                     server={server?.data?.serverComp}
+                    currentMember={profile}
                   />
                 ))}
               </Stack>
