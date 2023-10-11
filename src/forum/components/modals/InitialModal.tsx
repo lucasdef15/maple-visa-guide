@@ -84,9 +84,6 @@ export default function InitialModal() {
 
   const isLoading = formState.isSubmitting;
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
   };

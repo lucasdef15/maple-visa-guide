@@ -25,9 +25,13 @@ export default function SetupPage() {
     return <Navigate to={`/membros/forum/servers/${data.data.server.id}`} />;
   }
 
-  return (
-    <>
-      <InitialModal />
-    </>
-  );
+  if (!data?.data?.server) {
+    return (
+      <>
+        <InitialModal />
+      </>
+    );
+  }
+
+  
 }

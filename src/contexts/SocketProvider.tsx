@@ -21,10 +21,13 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = ClientIO('http://localhost:8080', {
-      path: '/api/socket/io',
-      addTrailingSlash: false,
-    });
+    const socketInstance = ClientIO(
+      'https://maple-visa-guide-server.onrender.com',
+      {
+        path: '/api/socket/io',
+        addTrailingSlash: false,
+      }
+    );
 
     socketInstance.on('connect', () => {
       setIsConnected(true);

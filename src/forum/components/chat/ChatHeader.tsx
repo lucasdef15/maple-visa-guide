@@ -1,7 +1,5 @@
 import { AppBar, Drawer, Skeleton, Stack, Typography } from '@mui/material';
 import { BiHash } from 'react-icons/bi';
-import { AiOutlineAudio } from 'react-icons/ai';
-import { LuVideo } from 'react-icons/lu';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import MobileToggle from '../toggles/MobileToggle';
@@ -14,15 +12,21 @@ import SocketIndicator from '../badges/SocketIndicator';
 import { ForumContext } from '../../../contexts/ForumContext';
 
 interface ChatHeaderProps {
-  serverId: string | undefined;
+  serverId?: string | undefined;
   name: string | undefined;
   type: 'channel' | 'conversation';
   imageUrl?: string | undefined;
+  isConversationLoading?: boolean;
 }
 
 const drawerWidth = 335;
 
-const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
+const ChatHeader = ({
+  name,
+  type,
+  imageUrl,
+  isConversationLoading,
+}: ChatHeaderProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -60,7 +64,7 @@ const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
           {type === 'conversation' && (
             <UserAvatar src={imageUrl} name={name} className={{ mr: 2 }} />
           )}
-          {isChannelLoading ? (
+          {isChannelLoading || isConversationLoading ? (
             <Skeleton
               variant='text'
               sx={{

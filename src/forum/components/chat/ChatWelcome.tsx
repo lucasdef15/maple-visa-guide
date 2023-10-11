@@ -5,12 +5,14 @@ interface ChatWelcomeProps {
   name: string;
   type: 'channel' | 'conversation';
   isChannelLoading: boolean;
+  isConversationLoading?: boolean;
 }
 
 export default function ChatWelcome({
   name,
   type,
   isChannelLoading,
+  isConversationLoading,
 }: ChatWelcomeProps) {
   return (
     <Stack sx={{ px: 3, py: 4 }}>
@@ -33,7 +35,7 @@ export default function ChatWelcome({
           <BiHash />
         </Stack>
       )}
-      {isChannelLoading ? (
+      {isChannelLoading || isConversationLoading ? (
         <Skeleton
           variant='text'
           sx={{
@@ -54,7 +56,7 @@ export default function ChatWelcome({
           sx={{ width: 'fit-content', marginTop: 1.5 }}
         >
           {type === 'channel' ? 'Welcome to #' : ''}
-          {name}
+          {name ? name : ''}
         </Typography>
       )}
 
@@ -64,8 +66,8 @@ export default function ChatWelcome({
         sx={{ width: 'fit-content', marginTop: 1.5 }}
       >
         {type === 'channel'
-          ? `This is the start of the #${name} channel.`
-          : `This is the start of your conversation with ${name}`}
+          ? `This is the start of the #${name ? name : ''} channel.`
+          : `This is the start of your conversation with ${name ? name : ''}`}
       </Typography>
     </Stack>
   );

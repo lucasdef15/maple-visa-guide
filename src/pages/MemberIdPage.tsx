@@ -10,13 +10,13 @@ import ChatInput from '../forum/components/chat/ChatInput';
 
 export default function MemberIdPage() {
   const [data, setData] = useState<any>(null);
-  const [message, setMessage] = useState('');
-  const [receivedMessage, setReceivedMessage] = useState<any>('');
+  const [isConversationLoading, setIsConversationLoading] = useState(false);
 
   const params = useParams();
 
   const fetchServer = useCallback(async () => {
     try {
+      setIsConversationLoading(true);
       const url = qs.stringifyUrl({
         url: `${config.APP_BASE_URL}/conversations/`,
         query: {
@@ -26,8 +26,10 @@ export default function MemberIdPage() {
       });
       const response = await axios.get(url);
       setData(response.data);
+      setIsConversationLoading(false);
     } catch (error) {
       console.log(error);
+      setIsConversationLoading(false);
     }
   }, [params?.id, params?.memberId]);
 
@@ -40,6 +42,8 @@ export default function MemberIdPage() {
       sx={{
         background: (theme) =>
           theme.palette.mode === 'dark' ? '#313338' : '#fff',
+        width: '100%',
+        minHeight: '100vh',
       }}
     >
       <ChatHeaderMemo
@@ -47,9 +51,10 @@ export default function MemberIdPage() {
         name={data?.members?.otherMember?.profile?.name}
         serverId={params?.id}
         type={'conversation'}
+        isConversationLoading={isConversationLoading}
       />
       <ChatMessages
-        member={data?.churrentMember}
+        member={data?.currentMember}
         name={data?.members?.otherMember?.profile?.name}
         chatId={data?.conversation?.id}
         type={'conversation'}
@@ -60,6 +65,7 @@ export default function MemberIdPage() {
         }}
         paramKey='conversationId'
         paramValue={data?.conversation?.id as string}
+        isConversationLoading={isConversationLoading}
       />
       <ChatInput
         name={data?.members?.otherMember?.profile?.name}

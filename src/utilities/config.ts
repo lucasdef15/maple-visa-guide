@@ -1,5 +1,5 @@
 const config = {
-  APP_BASE_URL: 'http://localhost:8080/mapleapi',
+  APP_BASE_URL: 'https://maple-visa-guide-server.onrender.com/mapleapi',
 };
 
 export default config;

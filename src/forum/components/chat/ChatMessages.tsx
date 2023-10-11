@@ -28,6 +28,7 @@ interface ChatMessagesProps {
   paramKey: 'channelId' | 'conversationId';
   paramValue: string;
   type: 'channel' | 'conversation';
+  isConversationLoading?: boolean;
 }
 
 export default function ChatMessages({
@@ -39,7 +40,7 @@ export default function ChatMessages({
   socketQuery,
   paramKey,
   paramValue,
-
+  isConversationLoading,
   type,
 }: ChatMessagesProps) {
   const bearerToken = localStorage.getItem('token')!;
@@ -114,7 +115,11 @@ export default function ChatMessages({
     <Stack
       ref={chatRef}
       flex={1}
-      sx={{ py: 4, overflowY: 'auto', maxHeight: 'calc(100vh - 90px - 64px)' }}
+      sx={{
+        py: 4,
+        overflowY: 'auto',
+        maxHeight: 'calc(100vh - 90px - 64px)',
+      }}
     >
       {!hasNextPage && <Box flex={1} />}
       {!hasNextPage && (
@@ -122,6 +127,7 @@ export default function ChatMessages({
           type={type}
           name={name}
           isChannelLoading={isChannelLoading}
+          isConversationLoading={isConversationLoading}
         />
       )}
       {hasNextPage && (
