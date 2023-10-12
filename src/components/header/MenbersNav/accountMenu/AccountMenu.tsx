@@ -6,9 +6,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { UserContext } from '../../../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
+import BadgeAvatars from '../../BadgeAvatars';
+import ActionTooltip from '../../../../forum/components/actionTooltip/ActionTooltip';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -32,18 +33,20 @@ export default function AccountMenu() {
 
   return (
     <React.Fragment>
-      <IconButton
-        aria-label='more'
-        id='long-button'
-        aria-controls={open ? 'long-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup='true'
-        onClick={handleClick}
-        className='signinBtn'
-        sx={{ color: '#fff' }}
-      >
-        <MoreVertIcon />
-      </IconButton>
+      <ActionTooltip title='User Settings' placement='right'>
+        <IconButton
+          aria-label='more'
+          id='long-button'
+          aria-controls={open ? 'long-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
+          aria-haspopup='true'
+          onClick={handleClick}
+          className='signinBtn'
+          sx={{ color: '#fff' }}
+        >
+          <BadgeAvatars />
+        </IconButton>
+      </ActionTooltip>
       <Menu
         anchorEl={anchorEl}
         id='account-menu'
@@ -68,7 +71,7 @@ export default function AccountMenu() {
               display: 'block',
               position: 'absolute',
               top: 0,
-              right: 14,
+              right: 110,
               width: 10,
               height: 10,
               bgcolor: 'background.paper',
@@ -77,8 +80,8 @@ export default function AccountMenu() {
             },
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
       >
         <MenuItem onClick={handleClose}>
           <Avatar /> Profile

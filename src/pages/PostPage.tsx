@@ -28,6 +28,14 @@ const styledContent = {
       borderRadius: '15px',
     },
   },
+  '& .content': {
+    '& img': {
+      maxWidth: '100%',
+    },
+    '& p': {
+      mb: 1,
+    },
+  },
 };
 
 const styledAuthorInfo = {
@@ -124,9 +132,9 @@ export default function PostPage() {
       direction={'row'}
       justifyContent={'center'}
       sx={{
-        width: { xs: '100%', sm: 'calc(100% - 1rem)' },
+        width: { xs: '100%' },
         color: darkMode ? '#fff' : '',
-        pt: { xs: '110px', sm: '0.8rem' },
+        pt: { xs: '110px', sm: '0' },
       }}
     >
       <Stack
@@ -134,7 +142,7 @@ export default function PostPage() {
         useFlexGap
         spacing={'3vw'}
         sx={{
-          margin: { xs: '0', sm: '2rem', lg: '3rem' },
+          // margin: { xs: '0', sm: '2rem', lg: '3rem' },
           width: '100%',
           maxWidth: '1700px',
           p: '1rem',

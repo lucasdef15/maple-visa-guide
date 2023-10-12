@@ -19,7 +19,7 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  const isProduction: boolean = false;
+  const isProduction: boolean = true;
 
   useEffect(() => {
     const socketInstance = ClientIO(
@@ -46,7 +46,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       socketInstance.disconnect();
     };
-  }, []);
+  }, [isProduction]);
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>

@@ -1,4 +1,4 @@
-const isProduction: boolean = false;
+const isProduction: boolean = true;
 
 const config = {
   APP_BASE_URL: `${

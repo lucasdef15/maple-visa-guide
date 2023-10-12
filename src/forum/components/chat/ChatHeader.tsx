@@ -10,6 +10,7 @@ import _ from 'lodash';
 import UserAvatar from '../avatars/UserAvatar';
 import SocketIndicator from '../badges/SocketIndicator';
 import { ForumContext } from '../../../contexts/ForumContext';
+import Logo from '../../../components/logo/Logo';
 
 interface ChatHeaderProps {
   serverId?: string | undefined;
@@ -88,8 +89,18 @@ const ChatHeader = ({
             </Typography>
           )}
 
-          <Stack sx={{ ml: 'auto' }}>
+          <Stack
+            direction={'row'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            useFlexGap
+            spacing={3}
+            sx={{ ml: 'auto' }}
+          >
             <SocketIndicator />
+            <Stack sx={{ '& svg': { width: '115px' } }}>
+              <Logo color={'#fff'} />
+            </Stack>
           </Stack>
         </Toolbar>
       </AppBar>

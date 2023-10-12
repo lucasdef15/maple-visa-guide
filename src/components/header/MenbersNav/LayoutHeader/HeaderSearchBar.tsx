@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import OptionsMenu from '../../../menu/OptionsMenu';
 import { useContext } from 'react';
 import PostsContext from '../../../../contexts/PostsContext';
-import DispLayMenu from '../menu/DisplayMenu';
+import DispLayMenu from '../accountMenu/DisplayMenu';
 import { DarkModeContext } from '../../../../contexts/DarkModeContext';
 
 const Search = styled('div')(({ theme }) => ({

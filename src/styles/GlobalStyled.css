@@ -180,17 +180,16 @@ ul, ol{
 .css-edmh20-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
   border-radius: 10px !important;
 }
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 10px
 }
 ::-webkit-scrollbar-track {
-  /* background: hsla(0, 0%, 0%, 0.3); */
   border-radius: 15px;
 }
 ::-webkit-scrollbar-thumb {
   background: hsla(0, 0%, 0%, 0.39);
   border-radius: 15px;
-}
+} */
 .teste{
   color: rgba(63, 63, 70, 0.7);
   transform: translateY(-50%);

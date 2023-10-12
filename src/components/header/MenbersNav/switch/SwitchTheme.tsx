@@ -3,6 +3,7 @@ import Switch from '@mui/material/Switch';
 import { Typography, Stack } from '@mui/material';
 import { useContext } from 'react';
 import { DarkModeContext } from '../../../../contexts/DarkModeContext';
+import ActionTooltip from '../../../../forum/components/actionTooltip/ActionTooltip';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 61,
@@ -59,19 +60,21 @@ export default function SwitchTheme({ openMenu }: any) {
   };
 
   return (
-    <Stack
-      direction='row'
-      alignItems={'center'}
-      justifyContent={'center'}
-      sx={{ color: '#fff' }}
-    >
-      {openMenu && <Typography>Light</Typography>}
-      <MaterialUISwitch
-        sx={{ m: 1 }}
-        onChange={handleDarkModeToggle}
-        checked={darkMode}
-      />
-      {openMenu && <Typography>Dark</Typography>}
-    </Stack>
+    <ActionTooltip title={openMenu ? '' : 'Toggle mode'} placement='right'>
+      <Stack
+        direction='row'
+        alignItems={'center'}
+        justifyContent={'center'}
+        sx={{ color: '#fff' }}
+      >
+        {openMenu && <Typography>Light</Typography>}
+        <MaterialUISwitch
+          sx={{ m: 1 }}
+          onChange={handleDarkModeToggle}
+          checked={darkMode}
+        />
+        {openMenu && <Typography>Dark</Typography>}
+      </Stack>
+    </ActionTooltip>
   );
 }

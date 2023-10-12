@@ -1,19 +1,25 @@
-import BadgeAvatars from '../../BadgeAvatars';
 import { Stack, Typography } from '@mui/material';
 import { useContext } from 'react';
 import { UserContext } from '../../../../contexts/UserContext';
+import AccountMenu from '../accountMenu/AccountMenu';
 
-export default function HeaderMenu({ openMenu }: any) {
+interface HeaderMenuProps {
+  openMenu: boolean;
+  isForum?: boolean;
+}
+
+export default function HeaderMenu({ openMenu }: HeaderMenuProps) {
   const { user } = useContext(UserContext);
 
   return (
     <Stack
       direction='row'
       alignItems='center'
-      spacing={3}
-      sx={{ width: '100%', px: 1 }}
+      justifyContent={openMenu ? 'start' : 'center'}
+      spacing={2}
+      sx={{ width: '100%' }}
     >
-      <BadgeAvatars />
+      <AccountMenu />
       {openMenu && (
         <Stack>
           <Typography sx={{ fontSize: '1rem' }}>{user?.data?.name}</Typography>

@@ -9,7 +9,12 @@ export default function SocketIndicator() {
     return (
       <Chip
         label='Fallback: Polling every 1s'
-        sx={{ background: 'rgb(202 138 4)', color: '#fff' }}
+        sx={{
+          background: 'rgb(202 138 4)',
+          color: '#fff',
+          fontSize: '.7rem',
+          height: '1.4rem',
+        }}
       />
     );
   }
@@ -17,7 +22,12 @@ export default function SocketIndicator() {
   return (
     <Chip
       label='Live: Real-time updates'
-      sx={{ background: 'rgb(5 150 105)', color: '#fff' }}
+      sx={{
+        background: 'rgb(5 150 105)',
+        color: '#fff',
+        fontSize: '.7rem',
+        height: '1.4rem',
+      }}
     />
   );
 }

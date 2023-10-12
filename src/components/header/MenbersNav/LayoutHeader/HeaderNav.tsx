@@ -181,9 +181,13 @@ export default function HeaderNav({ open }: any) {
               variant='contained'
               endIcon={<RiBookletFill />}
               sx={{
-                background: '#494949f2',
+                background: (theme) =>
+                  theme.palette.mode === 'dark' ? '#222f3e' : '#ff0000ca',
                 p: '.3rem .7rem',
-                '&:hover': { background: '#646464' },
+                '&:hover': {
+                  background: (theme) =>
+                    theme.palette.mode === 'dark' ? '#4b688a' : '#ff0000',
+                },
                 whiteSpace: 'nowrap',
                 textTransform: 'unset',
                 color: '#fff',

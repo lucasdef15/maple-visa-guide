@@ -2,7 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Stack } from '@mui/material';
 import { useState } from 'react';
 import ScrollToTop from '../components/scroll/ScrollToTop';
-import MobileMenbersNavBar from '../components/header/MobileMenbersNav.tsx/MobileMenbersNavBar';
+// import MobileMenbersNavBar from '../components/header/MobileMenbersNav.tsx/MobileMenbersNavBar';
 import NavigationSidebar from '../forum/components/sidebar/NavigationSidebar';
 import ModalProvider from '../forum/components/providers/ModalProvider';
 import { styled } from '@mui/material/styles';
@@ -46,15 +46,16 @@ export default function MenbersLayout() {
   return (
     <>
       <ScrollToTop />
-      <Stack direction='row'>
+      <Stack direction='row' sx={{ position: 'relative', zIndex: '-1' }}>
         <ModalProvider />
-        <MembersAppbar open={open} handleDrawerOpen={handleDrawerOpen} />
         <MembersDrawer open={open} handleDrawerClose={handleDrawerClose} />
-        <MobileMenbersNavBar />
+        {/* <MobileMenbersNavBar /> */}
         {location.pathname.includes('forum') ? (
           <Stack
             sx={{
               width: '100%',
+              position: 'relative',
+              zIndex: '-1',
             }}
             direction={'row'}
           >
@@ -64,10 +65,13 @@ export default function MenbersLayout() {
             <Outlet />
           </Stack>
         ) : (
-          <Main open={open}>
-            <DrawerHeader />
-            <Outlet />
-          </Main>
+          <>
+            <MembersAppbar open={open} handleDrawerOpen={handleDrawerOpen} />
+            <Main open={open} sx={{ position: 'relative', zIndex: '-1' }}>
+              <DrawerHeader />
+              <Outlet />
+            </Main>
+          </>
         )}
       </Stack>
     </>

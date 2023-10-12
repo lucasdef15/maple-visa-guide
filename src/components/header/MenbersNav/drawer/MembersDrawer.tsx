@@ -15,6 +15,7 @@ import DrawerListItem from './DrawerListItem';
 import SwitchTheme from '../switch/SwitchTheme';
 import HeaderMenu from '../HeaderMenu/HeaderMenu';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 interface MembersDrawerProps {
   open: boolean;
@@ -23,7 +24,7 @@ interface MembersDrawerProps {
 
 const exitAnimation = {
   opacity: 0,
-  x: -50, // Adjust the exit motion as desired
+  x: -50,
 };
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -79,6 +80,7 @@ export default function MembersDrawer({
 }: MembersDrawerProps) {
   const theme = useTheme();
 
+  const location = useLocation();
   return (
     <Drawer
       variant='permanent'
@@ -103,22 +105,40 @@ export default function MembersDrawer({
             </motion.div>
           )}
         </AnimatePresence>
-        <IconButton
-          onClick={handleDrawerClose}
-          sx={{
-            color: 'inherit',
-            transition: 'background 150ms',
-            '&:hover': {
-              background: '#23262D',
-            },
-          }}
-        >
-          {theme.direction === 'rtl' ? (
-            <ChevronRightIcon />
-          ) : (
-            <ChevronLeftIcon />
-          )}
-        </IconButton>
+        {location.pathname.includes('forum') ? (
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={exitAnimation}
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <HeaderMenu openMenu={open} isForum={true} />
+          </motion.div>
+        ) : (
+          <IconButton
+            onClick={handleDrawerClose}
+            sx={{
+              color: 'inherit',
+              transition: 'background 150ms',
+              p: 1,
+              '&:hover': {
+                background: '#23262D',
+              },
+            }}
+          >
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        )}
       </DrawerHeader>
       <Divider sx={{ background: '#ffffff29' }} />
       <Stack
@@ -128,7 +148,7 @@ export default function MembersDrawer({
       >
         <List>
           <AnimatePresence>
-            {!open && (
+            {!open && !location.pathname.includes('forum') && (
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -139,12 +159,14 @@ export default function MembersDrawer({
               </motion.div>
             )}
           </AnimatePresence>
+
           <DrawerListItem
             text='Dashboard'
             open={open}
             icon={<BiSolidDashboard />}
             to='/membros/dashboard'
           />
+
           <DrawerListItem
             text='Guias'
             open={open}
@@ -158,7 +180,7 @@ export default function MembersDrawer({
             to='/membros/forum'
           />
           <DrawerListItem
-            text='Inicial'
+            text='Inicio'
             open={open}
             icon={<AiFillHome />}
             to='/'

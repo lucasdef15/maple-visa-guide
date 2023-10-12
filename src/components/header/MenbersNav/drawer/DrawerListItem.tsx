@@ -5,6 +5,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import ActionTooltip from '../../../../forum/components/actionTooltip/ActionTooltip';
 
 interface DrawerListItemProps {
   text: string;
@@ -21,37 +22,39 @@ export default function DrawerListItem({
 }: DrawerListItemProps) {
   const navigate = useNavigate();
   return (
-    <ListItem
-      disablePadding
-      sx={{
-        display: 'block',
-        transition: 'background 150ms',
-        '&:hover': {
-          background: '#23262D',
-        },
-      }}
-    >
-      <ListItemButton
-        onClick={() => navigate(to)}
+    <ActionTooltip title={open ? '' : text} placement='right'>
+      <ListItem
+        disablePadding
         sx={{
-          minHeight: 48,
-          justifyContent: open ? 'initial' : 'center',
-          px: 2.5,
+          display: 'block',
+          transition: 'background 150ms',
+          '&:hover': {
+            background: '#23262D',
+          },
         }}
       >
-        <ListItemIcon
+        <ListItemButton
+          onClick={() => navigate(to)}
           sx={{
-            minWidth: 0,
-            mr: open ? 3 : 'auto',
-            justifyContent: 'center',
-            fontSize: '1.3rem',
-            color: 'inherit',
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
           }}
         >
-          {icon}
-        </ListItemIcon>
-        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-      </ListItemButton>
-    </ListItem>
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+              fontSize: '1.3rem',
+              color: 'inherit',
+            }}
+          >
+            {icon}
+          </ListItemIcon>
+          <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+        </ListItemButton>
+      </ListItem>
+    </ActionTooltip>
   );
 }
